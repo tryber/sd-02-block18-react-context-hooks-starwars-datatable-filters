@@ -6,7 +6,7 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
 
 ## O que deverá ser desenvolvido
 
-Você vai refatorar um projeto em React desenvolvido no módulo 16, [Starwars Datatable Filters](https://github.com/tryber/sd-02-block18-react-context-hooks-starwars-datatable-filters), substituindo React por **Context API e Hooks** para controlar estado.
+Você vai refatorar um projeto em React desenvolvido no módulo 16, [Starwars Datatable Filters](https://github.com/tryber/sd-02-block16-react-redux-starwars-datatable-filters), substituindo Redux por **Context API e Hooks** para controlar estado.
 
 Você também adicionará testes a sua aplicação antes de refatorá-la, de forma a garantir o mesmo comportamento após a transição de Redux para **Context API e Hooks**.
 
@@ -151,7 +151,7 @@ Cada requisito mostra em seu exemplo somente os campos do estado relacionados à
 ### ANTES DE COMEÇAR A DESENVOLVER:
 
 1. Clone o repositório
-  * `git clone git@github.com:tryber/sd-02-block18-react-context-hooks-starwars-datatable-filters`.
+  * `git clone git@github.com:tryber/sd-02-block18-react-context-hooks-starwars-datatable-filters.git`.
   * Entre na pasta do repositório que você acabou de clonar:
     * `sd-02-block18-react-context-hooks-starwars-datatable-filters`
 
