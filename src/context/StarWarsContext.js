@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import callFetchPlanets from '../services/swAPI';
+// import callFetchPlanets from '../services/swAPI';
 
 const StarWarsContext = createContext();
 
@@ -14,6 +14,10 @@ const StarWarsProvider = ({ children }) => {
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
 
+  const changeFetch = (bool) => {
+    setIsFetching(bool);
+  };
+
   const requestPlanetsSuccess = (dataJson) => {
     setData(dataJson.results);
     setIsFetching(false);
@@ -23,15 +27,6 @@ const StarWarsProvider = ({ children }) => {
     setError(errorMsg);
     setIsFetching(false);
   };
-
-  // const fetchPlanets = () => {
-  //   setIsFetching(true);
-  //   callFetchPlanets()
-  //     .then(
-  //       (dataJson) => requestPlanetsSuccess(dataJson),
-  //       (errorMsg) => requestPlanetsFailure(error.message),
-  //     );
-  // };
 
   const removeFilter = (columns) => {
     const onlyNumeric = filters.slice(1);
@@ -51,31 +46,14 @@ const StarWarsProvider = ({ children }) => {
     </button>
   );
 
-  const tableHead = () => (
-    <thead>
-      <tr>
-        {
-          Object.keys(data[0] || []).map((header) => ((header !== 'residents')
-            ? (
-              <th className="tableHeader" key={header}>
-                {header.substring(0, 1).toUpperCase()
-                  .concat(header.substring(1)).replace('_', ' ')}
-              </th>
-            )
-            : null))
-        }
-      </tr>
-    </thead>
-  );
-
-  useEffect(() => {
-    setIsFetching(true);
-    callFetchPlanets()
-      .then(
-        (dataJson) => requestPlanetsSuccess(dataJson),
-        (errorJson) => requestPlanetsFailure(errorJson.message),
-      );
-  }, []);
+  // useEffect(() => {
+  //   setIsFetching(true);
+  //   callFetchPlanets()
+  //     .then(
+  //       (dataJson) => requestPlanetsSuccess(dataJson),
+  //       (errorJson) => requestPlanetsFailure(errorJson.message),
+  //     );
+  // }, []);
 
   const filterTable = () => {
     const onlyNumeric = filters.slice(1);
@@ -223,10 +201,12 @@ const StarWarsProvider = ({ children }) => {
     column,
     comparison,
     value,
-    fetchPlanets,
+    changeFetch,
     filterButton,
-    tableHead,
+    // tableHead,
     tableData,
+    requestPlanetsSuccess,
+    requestPlanetsFailure,
     selectColumn,
     selectComparison,
     inputValue,

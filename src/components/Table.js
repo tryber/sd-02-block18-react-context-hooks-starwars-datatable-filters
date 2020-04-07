@@ -1,8 +1,9 @@
-import React, { /* Component, */ useContext } from 'react';
+import React, { /* Component, */useEffect, useContext } from 'react';
 /* import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPlanets } from '../actions'; */
 import { StarWarsContext } from '../context/StarWarsContext';
+import callFetchPlanets from '../services/swAPI';
 import './Table.css';
 
 const Table = () => {
@@ -12,8 +13,36 @@ const Table = () => {
   } */
 
   const {
-    isFetching, tableHead, tableData, error,
+    isFetching, data, tableData, error,
+    changeFetch, requestPlanetsSuccess, requestPlanetsFailure,
   } = useContext(StarWarsContext);
+
+  useEffect(() => {
+    changeFetch(true);
+    callFetchPlanets()
+      .then(
+        (dataJson) => requestPlanetsSuccess(dataJson),
+        (errorJson) => requestPlanetsFailure(errorJson.message),
+      );
+  }, []);
+
+  const tableHead = () => (
+    <thead>
+      <tr>
+        {
+          Object.keys(data[0] || []).map((header) => ((header !== 'residents')
+            ? (
+              <th className="tableHeader" key={header}>
+                {header.substring(0, 1).toUpperCase()
+                  .concat(header.substring(1)).replace('_', ' ')}
+              </th>
+            )
+            : null))
+        }
+      </tr>
+    </thead>
+  );
+
   if (isFetching) return <div><h1 className="title">Loading...</h1></div>;
   return (
     <div>

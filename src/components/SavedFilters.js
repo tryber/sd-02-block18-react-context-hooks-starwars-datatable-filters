@@ -26,7 +26,7 @@ const SavedFilters = () => {
   );
 };
 
-/* 
+/*
 const mapStateToProps = ({
   allFilters: {
     filters,
