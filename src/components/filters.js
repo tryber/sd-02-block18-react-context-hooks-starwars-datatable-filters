@@ -2,18 +2,16 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Filters() {
-  // const { selectors } = useContext(StarWarsContext);
-  const selectors = ['coluna', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-  console.log(selectors);
+  const { selectors } = useContext(StarWarsContext);
   const comparisonvalues = ['-', 'Maior que', 'Menor que', 'ou Igual a'];
   return (
     <div>
       <div>Escolha o filtro: </div>
       <select onChange={() => console.log('trocou o selector')}>
-        {selectors.map((coluna) => (<option value={coluna}>{coluna}</option>))}
+        {selectors.map((column) => (<option key={column} value={column}>{column}</option>))}
       </select>
       <select onChange={() => console.log('trocou o selector maior q')}>
-        {comparisonvalues.map((valueComp) => (<option>{valueComp}</option>))}
+        {comparisonvalues.map((valueComp) => (<option key={valueComp}>{valueComp}</option>))}
       </select>
       <input
         type="number"
