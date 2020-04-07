@@ -1,6 +1,17 @@
 import React, { useState, useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
+const renderFilterSelected = (num, onExcludeFilter) => (
+  <div key={num.column}>
+    <span>{`${num.column} `}</span>
+    <span>{`${num.comparison} `}</span>
+    <span>{`${num.value} `}</span>
+    <button value={num.column} onClick={(e) => onExcludeFilter(e.target.value)} type="button">
+      X
+    </button>
+  </div>
+);
+
 const NumericFilter = () => {
   const [selectColumn, setSelectColumn] = useState(['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const comparisonArray = ['maior que', 'menor que', 'igual a'];
@@ -36,15 +47,7 @@ const NumericFilter = () => {
       </div>
       <div>
         {(filters[0].numericValues) && filters.map(({ numericValues: num }) => (
-          <div key={num.column}>
-            <span>{`${num.column} `}</span>
-            <span>{`${num.comparison} `}</span>
-            <span>{`${num.value} `}</span>
-            <button value={num.column} onClick={(e) => onExcludeFilter(e.target.value)} type="button">
-              X
-            </button>
-          </div>
-        ))}
+          renderFilterSelected(num, onExcludeFilter)))}
       </div>
     </div>
   );
