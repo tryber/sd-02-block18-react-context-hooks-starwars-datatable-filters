@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 import '../styles/tableContent.css';
 
-function Table({ data }) {
+function Table() {
+  const { data } = useContext(StarWarsContext);
+
+  // useEffect(() => {
+  //   const planets = !filteredWord ? data
+  //     : data.filter((planet) => planet.name.toLowerCase().includes(filteredWord.toLowerCase()));
+
+  // }, [filteredWord]);
+
   const headerTable = Object.keys(data[0]);
+
   return (
     <table>
       <thead>

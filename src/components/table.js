@@ -3,7 +3,9 @@ import StarWarsContext from '../context/StarWarsContext';
 import TableContent from './tableContent';
 
 function Table() {
-  const { fetchPlanets, data, isLoading } = useContext(StarWarsContext);
+  const {
+    fetchPlanets, data, isLoading,
+  } = useContext(StarWarsContext);
 
   useEffect(() => {
     fetchPlanets();
