@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Proptype from 'prop-types';
 import getPlanets from '../services/planetsApi';
 import starWarsContext from './StarWarsContext';
 
@@ -7,7 +8,6 @@ const Provider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState([{ name: '' }]);
-
 
   const fetchSucess = ({ results }) => {
     setData(results);
@@ -36,10 +36,13 @@ const Provider = ({ children }) => {
     filterName,
     filters,
   };
-
   return (
     <starWarsContext.Provider value={context}>{children}</starWarsContext.Provider>
   );
 };
 
 export default Provider;
+
+Provider.proptype = {
+  children: Proptype.instanceOf(Object),
+}.isRequired;
