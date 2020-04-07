@@ -24,14 +24,14 @@ const StarWarsProvider = ({ children }) => {
     setIsFetching(false);
   };
 
-  const fetchPlanets = () => {
-    setIsFetching(true);
-    callFetchPlanets()
-      .then(
-        (dataJson) => requestPlanetsSuccess(dataJson),
-        (error) => requestPlanetsFailure(error.message),
-      );
-  };
+  // const fetchPlanets = () => {
+  //   setIsFetching(true);
+  //   callFetchPlanets()
+  //     .then(
+  //       (dataJson) => requestPlanetsSuccess(dataJson),
+  //       (errorMsg) => requestPlanetsFailure(error.message),
+  //     );
+  // };
 
   const removeFilter = (columns) => {
     const onlyNumeric = filters.slice(1);
@@ -73,7 +73,7 @@ const StarWarsProvider = ({ children }) => {
     callFetchPlanets()
       .then(
         (dataJson) => requestPlanetsSuccess(dataJson),
-        (error) => requestPlanetsFailure(error.message),
+        (errorJson) => requestPlanetsFailure(errorJson.message),
       );
   }, []);
 
