@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-// import callFetchPlanets from '../services/swAPI';
+import callFetchPlanets from '../services/swAPI';
 
 const StarWarsContext = createContext();
 
@@ -27,6 +27,15 @@ const StarWarsProvider = ({ children }) => {
     setError(errorMsg);
     setIsFetching(false);
   };
+
+  useEffect(() => {
+    changeFetch(true);
+    callFetchPlanets()
+      .then(
+        (dataJson) => requestPlanetsSuccess(dataJson),
+        (errorJson) => requestPlanetsFailure(errorJson.message),
+      );
+  }, []);
 
   const removeFilter = (columns) => {
     const onlyNumeric = filters.slice(1);
@@ -58,10 +67,8 @@ const StarWarsProvider = ({ children }) => {
   const filterTable = () => {
     const onlyNumeric = filters.slice(1);
     let dataF = data;
-    onlyNumeric.forEach((item, idx) => {
-      console.log('item', idx, item);
+    onlyNumeric.forEach((item) => {
       const { numericValues: num } = item;
-      console.log('l79-dataF-antes', dataF);
       switch (num.comparison) {
         case 'maior que':
           dataF = dataF.filter((planet) => planet[num.column] > parseInt(num.value, 10));
@@ -76,7 +83,6 @@ const StarWarsProvider = ({ children }) => {
           return dataF;
       }
     });
-    console.log('l79-dataF-depois', dataF);
     return dataF;
   };
 
