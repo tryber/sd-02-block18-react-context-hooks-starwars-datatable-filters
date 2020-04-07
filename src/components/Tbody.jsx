@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import starWarsContext from '../context/StarWarsContext';
 
 const Tbody = () => {
-  const { data, filters } = useContext(starWarsContext);
-  const filtredPlanets = data.filter(({ name }) => name.match(new RegExp(filters[0].name, 'i')));
+  const { filtredPlanets = [] } = useContext(starWarsContext);
   return (
     <tbody>
       {filtredPlanets.map((planet) => (
