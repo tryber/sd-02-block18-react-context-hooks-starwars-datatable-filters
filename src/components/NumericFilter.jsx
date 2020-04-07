@@ -14,7 +14,7 @@ const renderFilterSelected = (num, onExcludeFilter) => (
 
 const renderColumnSelected = (selectColumn, setColumn) => (
   <select onChange={({ target }) => setColumn(target.value)}>
-    <option value=""> </option>
+    <option value="" />
     {selectColumn
       .map((columnFilters) => <option key={columnFilters}>{columnFilters}</option>)}
   </select>
@@ -23,14 +23,16 @@ const renderColumnSelected = (selectColumn, setColumn) => (
 const renderComparisonSelected = (comparisonArray, setComparison) => (
   (
     <select onChange={({ target }) => setComparison(target.value)}>
-      <option value=""> </option>
+      <option value="" />
       {comparisonArray.map((comp) => <option key={comp} value={comp}>{comp}</option>)}
     </select>
   )
 );
 
-const renderInput = (setValue) => (<input type="number" onChange={({ target }) => setValue(target.value)} />);
-const renderButtonFilter = (onAddFilter) => (<button type="button" onClick={onAddFilter}>Filtrar</button>);
+const renderInput = (setValue) => (
+  <input type="number" onChange={({ target }) => setValue(target.value)} />);
+const renderButtonFilter = (onAddFilter) => (
+  <button type="button" onClick={onAddFilter}>Filtrar</button>);
 
 const NumericFilter = () => {
   const [selectColumn, setSelectColumn] = useState(['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
