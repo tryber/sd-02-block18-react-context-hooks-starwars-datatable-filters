@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
+import propTypes from 'prop-types';
 import callFetchPlanets from '../services/swAPI';
 
 const StarWarsContext = createContext();
@@ -14,10 +15,6 @@ const StarWarsProvider = ({ children }) => {
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
 
-  const changeFetch = (bool) => {
-    setIsFetching(bool);
-  };
-
   const requestPlanetsSuccess = (dataJson) => {
     setData(dataJson.results);
     setIsFetching(false);
@@ -27,15 +24,6 @@ const StarWarsProvider = ({ children }) => {
     setError(errorMsg);
     setIsFetching(false);
   };
-
-  useEffect(() => {
-    changeFetch(true);
-    callFetchPlanets()
-      .then(
-        (dataJson) => requestPlanetsSuccess(dataJson),
-        (errorJson) => requestPlanetsFailure(errorJson.message),
-      );
-  }, []);
 
   const removeFilter = (columns) => {
     const onlyNumeric = filters.slice(1);
@@ -55,14 +43,14 @@ const StarWarsProvider = ({ children }) => {
     </button>
   );
 
-  // useEffect(() => {
-  //   setIsFetching(true);
-  //   callFetchPlanets()
-  //     .then(
-  //       (dataJson) => requestPlanetsSuccess(dataJson),
-  //       (errorJson) => requestPlanetsFailure(errorJson.message),
-  //     );
-  // }, []);
+  useEffect(() => {
+    setIsFetching(true);
+    callFetchPlanets()
+      .then(
+        (dataJson) => requestPlanetsSuccess(dataJson),
+        (errorJson) => requestPlanetsFailure(errorJson.message),
+      );
+  }, []);
 
   const filterTable = () => {
     const onlyNumeric = filters.slice(1);
@@ -84,6 +72,22 @@ const StarWarsProvider = ({ children }) => {
       }
     });
     return dataF;
+  };
+
+  const tableHead = () => {
+    const prettyHeader = Object.keys(data[0] || []).filter((header) => ((header !== 'residents')));
+    return (
+      <thead>
+        <tr>
+          {prettyHeader.map((header) => (
+            <th className="tableHeader" key={header}>
+              {header.substring(0, 1).toUpperCase()
+                .concat(header.substring(1)).replace('_', ' ')}
+            </th>
+          ))}
+        </tr>
+      </thead>
+    );
   };
 
   const tableData = () => {
@@ -173,12 +177,12 @@ const StarWarsProvider = ({ children }) => {
   };
 
   const buttonFilter = () => {
-    let off = false;
-    if (column === '' || comparison === '' || value === '') off = true;
+    let isDisabled = 0;
+    isDisabled = (column === '' || comparison === '' || value === '');
     return (
       <button
         type="button"
-        disabled={off}
+        disabled={(isDisabled)}
         onClick={() => createFilter()}
       >
         Fazer busca
@@ -186,17 +190,18 @@ const StarWarsProvider = ({ children }) => {
     );
   };
 
-  const renderNumValues = () => {
-    if (columnsSelect.length === 0) return <div>Não sobraram filtros para utilizar!</div>;
-    return (
-      <div className="flexy-number-filters">
-        {selectColumn()}
-        {selectComparison()}
-        {inputValue()}
-        {buttonFilter()}
-      </div>
-    );
-  };
+  const renderNumValues = () => (
+    (columnsSelect.length === 0)
+      ? <div>Não sobraram filtros para utilizar!</div>
+      : (
+        <div className="flexy-number-filters">
+          {selectColumn()}
+          {selectComparison()}
+          {inputValue()}
+          {buttonFilter()}
+        </div>
+      )
+  );
 
   const context = {
     isFetching,
@@ -207,9 +212,8 @@ const StarWarsProvider = ({ children }) => {
     column,
     comparison,
     value,
-    changeFetch,
     filterButton,
-    // tableHead,
+    tableHead,
     tableData,
     requestPlanetsSuccess,
     requestPlanetsFailure,
@@ -226,6 +230,10 @@ const StarWarsProvider = ({ children }) => {
       {children}
     </StarWarsContext.Provider>
   );
+};
+
+StarWarsProvider.propTypes = {
+  children: propTypes.node.isRequired,
 };
 
 export { StarWarsContext, StarWarsProvider };
