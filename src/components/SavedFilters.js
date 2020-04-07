@@ -26,24 +26,4 @@ const SavedFilters = () => {
   );
 };
 
-/*
-const mapStateToProps = ({
-  allFilters: {
-    filters,
-    columnsSelect,
-  },
-}) => ({
-  filters,
-  columnsSelect,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  passingRemoveFilter: (column) => dispatch(removeFilter(column)),
-});
-
-SavedFilters.propTypes = {
-  passingRemoveFilter: PropTypes.func.isRequired,
-  filters: PropTypes.instanceOf(Array).isRequired,
-}; */
-
 export default SavedFilters;
