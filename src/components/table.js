@@ -1,12 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import TableContent from './tableContent';
 
 function Table() {
-  const { initial } = useContext(StarWarsContext);
+  const { fetchPlanets, data, isLoading } = useContext(StarWarsContext);
+
+  useEffect(() => {
+    fetchPlanets();
+  }, []);
+
   return (
     <div>
-      <div>Table</div>
-      <div>{initial}</div>
+      {isLoading && <p>Loading...</p>}
+      {!isLoading && <TableContent data={data} />}
     </div>
   );
 }
