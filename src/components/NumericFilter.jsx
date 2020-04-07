@@ -12,6 +12,26 @@ const renderFilterSelected = (num, onExcludeFilter) => (
   </div>
 );
 
+const renderColumnSelected = (selectColumn, setColumn) => (
+  <select onChange={({ target }) => setColumn(target.value)}>
+    <option value=""> </option>
+    {selectColumn
+      .map((columnFilters) => <option key={columnFilters}>{columnFilters}</option>)}
+  </select>
+);
+
+const renderComparisonSelected = (comparisonArray, setComparison) => (
+  (
+    <select onChange={({ target }) => setComparison(target.value)}>
+      <option value=""> </option>
+      {comparisonArray.map((comp) => <option key={comp} value={comp}>{comp}</option>)}
+    </select>
+  )
+);
+
+const renderInput = (setValue) => (<input type="number" onChange={({ target }) => setValue(target.value)} />);
+const renderButtonFilter = (onAddFilter) => (<button type="button" onClick={onAddFilter}>Filtrar</button>);
+
 const NumericFilter = () => {
   const [selectColumn, setSelectColumn] = useState(['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const comparisonArray = ['maior que', 'menor que', 'igual a'];
@@ -19,31 +39,23 @@ const NumericFilter = () => {
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
   const { addFilter, filters, excludeFilter } = useContext(StarWarsContext);
+
   const onAddFilter = () => {
     setSelectColumn(selectColumn.filter((col) => col !== column));
     addFilter(column, comparison, value); setColumn(''); setComparison(''); setValue('');
   };
+
   const onExcludeFilter = (param) => {
     setSelectColumn([...selectColumn, param]); excludeFilter(param);
   };
+
   return (
     <div>
       <div>
-        <select onChange={({ target }) => setColumn(target.value)}>
-          <option value=""> </option>
-          {selectColumn
-            .map((columnFilters) => <option key={columnFilters}>{columnFilters}</option>)}
-        </select>
-        {column && (
-          <select onChange={({ target }) => setComparison(target.value)}>
-            <option value=""> </option>
-            {comparisonArray.map((comp) => <option key={comp} value={comp}>{comp}</option>)}
-          </select>
-        )}
-        {column && comparison
-          && <input type="number" onChange={({ target }) => setValue(target.value)} />}
-        {column && comparison && value
-          && <button type="button" onClick={() => onAddFilter()}>Filtrar</button>}
+        {renderColumnSelected(selectColumn, setColumn)}
+        {column && renderComparisonSelected(comparisonArray, setComparison)}
+        {comparison && renderInput(setValue)}
+        {value && renderButtonFilter(onAddFilter)}
       </div>
       <div>
         {(filters[0].numericValues) && filters.map(({ numericValues: num }) => (
