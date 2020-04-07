@@ -6,7 +6,12 @@ const renderFilterSelected = (num, onExcludeFilter) => (
     <span>{`${num.column} `}</span>
     <span>{`${num.comparison} `}</span>
     <span>{`${num.value} `}</span>
-    <button data-testid="removeFilter" value={num.column} onClick={(e) => onExcludeFilter(e.target.value)} type="button">
+    <button
+      data-testid="removeFilter"
+      value={num.column}
+      onClick={(e) => onExcludeFilter(e.target.value)}
+      type="button"
+    >
       X
     </button>
   </div>

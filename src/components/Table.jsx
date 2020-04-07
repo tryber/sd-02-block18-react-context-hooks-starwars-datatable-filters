@@ -14,7 +14,11 @@ const Table = () => {
     || (
       <div>
         <h1>Starwars Planets</h1>
-        <input data-testid="input-name" type="text" onChange={({ target: { value } }) => filterName(value)} />
+        <input
+          data-testid="input-name"
+          type="text"
+          onChange={({ target: { value } }) => filterName(value)}
+        />
         <NumericFilter />
         <table border="1px">
           <Thead />
