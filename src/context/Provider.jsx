@@ -5,11 +5,12 @@ import starWarsContext from './StarWarsContext';
 const Provider = ({ children }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
-  const [planets, setPlanets] = useState([]);
+  const [data, setData] = useState([]);
+  const [filters, setFilters] = useState([{ name: '' }]);
 
 
   const fetchSucess = ({ results }) => {
-    setPlanets(results);
+    setData(results);
     setIsFetching(true);
   };
 
@@ -23,11 +24,17 @@ const Provider = ({ children }) => {
       .then(fetchSucess, fetchFail);
   };
 
+  const filterName = (name) => {
+    setFilters([{ name }]);
+  };
+
   const context = {
     fetchPlanets,
     isFetching,
     error,
-    planets,
+    data,
+    filterName,
+    filters,
   };
 
   return (
