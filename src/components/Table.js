@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import fetchPlanets from '../services/fetchPlanets';
+import React, { useContext } from 'react';
+import SWAPIProvider from '../context/SWAPIContext';
 
 // function useFetchPlanets() {
 //   const [state, setState] = useState(true);
@@ -42,15 +42,7 @@ function renderTableBody(planets) {
 }
 
 const Table = () => {
-  const [isFetching, setIsFetching] = useState(true);
-  const [planets, setPlanets] = useState([]);
-
-  useEffect(() => {
-    fetchPlanets().then((results) => {
-      setPlanets(results);
-      setIsFetching(false);
-    });
-  }, []);
+  const { isFetching, planets } = useContext(SWAPIProvider);
 
   return (
     <div>
