@@ -7,7 +7,22 @@ const StarWarsProvider = ({ children }) => {
   const [selectors, setSelectors] = useState(initialSelectors);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [filteredWord, setFilteredWord] = useState();
+  const initialFilters = {
+    filters: [
+      {
+        name: '',
+      },
+      {
+        numericValues: {
+          column: 'coluna',
+          comparison: '-',
+          valueComparison: 0,
+        },
+      },
+    ],
+  };
+
+  const [filters, setFilters] = useState(initialFilters);
 
   const fetchPlanetsComplete = ({ results }) => {
     setData(results);
@@ -24,12 +39,12 @@ const StarWarsProvider = ({ children }) => {
     data,
     fetchPlanets,
     isLoading,
-    setFilteredWord,
-    filteredWord,
+    filters,
+    setFilters,
   };
 
   return (
-    <StarWarsContext.Provider value={context}>{children}</StarWarsContext.Provider>
+    <StarWarsContext.Provider value={context} > {children}</StarWarsContext.Provider >
   );
 };
 

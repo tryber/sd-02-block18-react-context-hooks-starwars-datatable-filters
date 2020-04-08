@@ -1,8 +1,23 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function Inputs() {
-  const { setFilteredWord } = useContext(StarWarsContext);
+  const { setFilters } = useContext(StarWarsContext);
+
+  const setFilteredWord = (word) => {
+    console.log(word);
+    setFilters((prevFilter) => {
+      return {
+        ...prevFilter,
+        filters: prevFilter.filters.map((elem, index) => {
+          if (index === 0) {
+            return { ...elem, name: word };
+          }
+          return elem;
+        }),
+      };
+    });
+  };
 
   return (
     <div>

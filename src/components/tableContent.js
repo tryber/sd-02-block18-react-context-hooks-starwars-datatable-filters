@@ -3,13 +3,10 @@ import StarWarsContext from '../context/StarWarsContext';
 import '../styles/tableContent.css';
 
 function Table() {
-  const { data } = useContext(StarWarsContext);
+  const { data, filters } = useContext(StarWarsContext);
 
-  // useEffect(() => {
-  //   const planets = !filteredWord ? data
-  //     : data.filter((planet) => planet.name.toLowerCase().includes(filteredWord.toLowerCase()));
-
-  // }, [filteredWord]);
+  useEffect(() => {
+  }, [filters]);
 
   const headerTable = Object.keys(data[0]);
 
