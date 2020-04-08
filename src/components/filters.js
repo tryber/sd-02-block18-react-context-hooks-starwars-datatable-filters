@@ -33,7 +33,6 @@ function Filters() {
         type="number"
         onChange={(e) => setFilteredSelector(e, 'valueComparison', setFilters)}
       />
-      <button type="button" onClick={() => alert('button')}>Filtrar</button>
     </div>
   );
 }

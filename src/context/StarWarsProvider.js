@@ -5,7 +5,7 @@ import StarWarsContext from './StarWarsContext';
 
 const StarWarsProvider = ({ children }) => {
   const initialSelectors = ['coluna', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-  const [selectors] = useState(initialSelectors);
+  const [selectors, setSelectors] = useState(initialSelectors);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const initialFilters = {
@@ -37,6 +37,7 @@ const StarWarsProvider = ({ children }) => {
 
   const context = {
     selectors,
+    setSelectors,
     data,
     fetchPlanets,
     isLoading,
