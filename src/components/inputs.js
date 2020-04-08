@@ -5,7 +5,6 @@ function Inputs() {
   const { setFilters } = useContext(StarWarsContext);
 
   const setFilteredWord = (word) => {
-    console.log(word);
     setFilters((prevFilter) => {
       return {
         ...prevFilter,

@@ -6,7 +6,6 @@ function Filters() {
   const comparisonvalues = ['-', 'Maior que', 'Menor que', 'ou Igual a'];
 
   const setFilteredSelector = (e, part) => {
-    console.log(e.target.value);
     const { value } = e.target;
     setFilters((prevState) => {
       return {
