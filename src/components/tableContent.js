@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import filterFunction from '../functions/filterfunction';
 import '../styles/tableContent.css';
 
 function Table() {
@@ -10,6 +11,7 @@ function Table() {
 
   const headerTable = Object.keys(data[0]);
   console.log('rerender');
+  const planets = filterFunction(data, filters);
   return (
     <table>
       <thead>
@@ -20,7 +22,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet) => (
+        {planets.map((planet) => (
           <tr key={`${planet} ${Math.random()}`}>
             {Object.keys(planet).map((chave) => (
               chave !== 'residents' ? <td key={planet[chave]}>{planet[chave]}</td> : null
