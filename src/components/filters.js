@@ -18,20 +18,22 @@ const setFilteredSelector = (e, part, setFilters) => {
 };
 
 function Filters() {
-  const { selectors, setFilters } = useContext(StarWarsContext);
+  const { selectors, setFilters, filters } = useContext(StarWarsContext);
   const comparisonvalues = ['-', 'Maior que', 'Menor que', 'ou Igual a'];
+  const { column, comparison, valueComparison } = filters.filters[1].numericValues;
   return (
     <div>
       <div>Escolha o filtro: </div>
-      <select onChange={(e) => setFilteredSelector(e, 'column', setFilters)}>
-        {selectors.map((column) => (<option key={column} value={column}>{column}</option>))}
+      <select value={column} onChange={(e) => setFilteredSelector(e, 'column', setFilters)}>
+        {selectors.map((col) => (<option key={col} value={col}>{col}</option>))}
       </select>
-      <select onChange={(e) => setFilteredSelector(e, 'comparison', setFilters)}>
+      <select value={comparison} onChange={(e) => setFilteredSelector(e, 'comparison', setFilters)}>
         {comparisonvalues.map((valueComp) => (<option key={valueComp}>{valueComp}</option>))}
       </select>
       <input
         type="number"
         onChange={(e) => setFilteredSelector(e, 'valueComparison', setFilters)}
+        value={valueComparison}
       />
     </div>
   );

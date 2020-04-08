@@ -46,7 +46,7 @@ const StarWarsProvider = ({ children }) => {
   };
 
   return (
-    <StarWarsContext.Provider value={context} > {children}</StarWarsContext.Provider >
+    <StarWarsContext.Provider value={context}> {children}</StarWarsContext.Provider>
   );
 };
 

@@ -15,8 +15,8 @@ function App() {
         <Title />
         <Inputs />
         <Filters />
-        <ListFilters />
         <FilterButton />
+        <ListFilters />
         <Table />
       </Provider>
     </div>
