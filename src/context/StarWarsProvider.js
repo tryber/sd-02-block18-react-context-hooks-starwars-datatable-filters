@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import swAPI from '../services/SWAPI';
 import StarWarsContext from './StarWarsContext';
 
 const StarWarsProvider = ({ children }) => {
   const initialSelectors = ['coluna', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-  const [selectors, setSelectors] = useState(initialSelectors);
+  const [selectors] = useState(initialSelectors);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const initialFilters = {
@@ -49,3 +50,7 @@ const StarWarsProvider = ({ children }) => {
 };
 
 export default StarWarsProvider;
+
+StarWarsProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

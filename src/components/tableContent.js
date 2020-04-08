@@ -21,7 +21,7 @@ function Table() {
       </thead>
       <tbody>
         {data.map((planet) => (
-          <tr>
+          <tr key={`${planet} ${Math.random()}`}>
             {Object.keys(planet).map((chave) => (
               chave !== 'residents' ? <td key={planet[chave]}>{planet[chave]}</td> : null
             ))}
