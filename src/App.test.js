@@ -4,6 +4,6 @@ import App from './App';
 
 test('renders learn react link', () => {
   const { getByText } = render(<App />);
-  const title = getByText(/Star/i);
+  const title = getByText(/Pesquisar/i);
   expect(title).toBeInTheDocument();
 });
