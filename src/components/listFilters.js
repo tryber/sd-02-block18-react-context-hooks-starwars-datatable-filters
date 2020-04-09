@@ -13,23 +13,20 @@ const deleteFilter = (e, setSelectors, setFilters) => {
 };
 
 const renderFiltersActive = (filters, setSelectors, setFilters) => {
-  const arrFilter = [...filters];
-  arrFilter.splice(0, 2);
+  filters.splice(0, 2);
   return (
     <div className="active-filters-container">
-      {arrFilter.map((filtro, index) => (
+      {filters.map((filtro, index) => (
         <div key={filtro.numericValues.column} className="active-filters">
           <div>
-            <div className="btn-container">
-              <button
-                type="button"
-                onClick={(e) => deleteFilter(e, setSelectors, setFilters)}
-                id={index + 2}
-                value={filtro.numericValues.column}
-              >
-                X
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={(e) => deleteFilter(e, setSelectors, setFilters)}
+              id={index + 2}
+              value={filtro.numericValues.column}
+            >
+              X
+            </button>
             <div className="filter-description-container">
               <div className="filter-description">
                 {filtro.numericValues.column}
