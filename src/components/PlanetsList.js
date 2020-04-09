@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 
-import ApiContext from '../contexts/ApiContext';
-import useFilter from '../customHooks/useFilter';
+import FilterContext from '../contexts/FilterContext';
 
 import './PlanetsList.css';
 
@@ -26,8 +25,8 @@ const TableTBody = (planets) => (
 );
 
 const PlanetsList = () => {
-  const { planets } = useContext(ApiContext);
-  const { filterPlanets } = useFilter(planets);
+  const { filterPlanets } = useContext(FilterContext);
+
   return (
     <table className="darkTable">
       {TableTHead(filterPlanets)}

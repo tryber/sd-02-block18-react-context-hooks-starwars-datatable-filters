@@ -1,15 +1,29 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect } from 'react';
 
-import ApiContext from '../contexts/ApiContext';
-import planetsMock from '../__mocks__/dataMock';
+const useFilter = (planets) => {
+  const [name, setName] = useState('');
+  const [filterPlanets, setFilterPlanets] = useState([]);
 
-const useFilter = () => {
-  const { planets, error } = useContext(ApiContext) || { planets: [] };
-  console.log(error);
-  const [filterPlanets, setFilterPlanets] = useState((error) ? planetsMock : planets);
+  useEffect(() => {
+    setFilterPlanets(planets);
+  }, [planets]);
 
   return {
+    setName,
+    setFilterPlanets,
     filterPlanets,
+    filters: [
+      {
+        name,
+      },
+      {
+        numeric_values: {
+          column: '',
+          population: '',
+          comparison: '',
+        },
+      },
+    ],
   };
 };
 
