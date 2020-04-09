@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import '../styles/filterButton.css';
 
 const addNewFilter = (column, comparison, valueComparison, setFilters, setSelectors) => {
   setSelectors((prevSelectors) => [
@@ -48,6 +49,7 @@ function FilterButton() {
       <button
         type="button"
         onClick={() => addFilter(filters, setFilters, setSelectors)}
+        className="filter-btn"
       >
         Filtrar
       </button>

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import '../styles/listFilters.css';
 
 const deleteFilter = (e, setSelectors, setFilters) => {
   const { id, value } = e.target;
@@ -15,26 +16,32 @@ const renderFiltersActive = (filters, setSelectors, setFilters) => {
   const arrFilter = [...filters];
   arrFilter.splice(0, 2);
   return (
-    <div className="filtros">
+    <div className="active-filters-container">
       {arrFilter.map((filtro, index) => (
-        <div key={filtro.numericValues.column} className="mini-filtros">
-          <p>
-            Filtro:{filtro.numericValues.column}
-          </p>
-          <p>
-            Comparador: {filtro.numericValues.comparison}
-          </p>
-          <p>
-            Valor: {filtro.numericValues.valueComparison}
-          </p>
-          <button
-            type="button"
-            onClick={(e) => deleteFilter(e, setSelectors, setFilters)}
-            id={index + 2}
-            value={filtro.numericValues.column}
-          >
-            X
-          </button>
+        <div key={filtro.numericValues.column} className="active-filters">
+          <div>
+            <div className="btn-container">
+              <button
+                type="button"
+                onClick={(e) => deleteFilter(e, setSelectors, setFilters)}
+                id={index + 2}
+                value={filtro.numericValues.column}
+              >
+                X
+              </button>
+            </div>
+            <div className="filter-description-container">
+              <div className="filter-description">
+                {filtro.numericValues.column}
+              </div>
+              <div className="filter-description">
+                {filtro.numericValues.comparison}
+              </div>
+              <div className="filter-description">
+                {filtro.numericValues.valueComparison}
+              </div>
+            </div>
+          </div>
         </div>
       ))}
     </div>

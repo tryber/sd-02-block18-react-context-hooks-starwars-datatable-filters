@@ -1,0 +1,13 @@
+.input-container {
+  padding: 10px;
+}
+
+.input-container .input-title {
+  font-size: 1.5em;
+  margin: 10px;
+}
+
+.input-container .input-name {
+  font-size: 1.25em;
+  padding: 10px;
+}

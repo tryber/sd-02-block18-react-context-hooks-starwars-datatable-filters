@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import '../styles/inputs.css';
 
 function Inputs() {
   const { setFilters } = useContext(StarWarsContext);
@@ -17,14 +18,13 @@ function Inputs() {
   };
 
   return (
-    <div>
-      <div>
-        Digite a palavra:
-        <input
-          placeholder="Procurar planeta"
-          onChange={(e) => setFilteredWord(e.target.value)}
-        />
-      </div>
+    <div className="input-container">
+      <div className="input-title">Pesquisar</div>
+      <input
+        className="input-name"
+        placeholder="Procurar planeta"
+        onChange={(e) => setFilteredWord(e.target.value)}
+      />
     </div>
   );
 }

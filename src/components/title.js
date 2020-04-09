@@ -1,11 +1,8 @@
 import React from 'react';
+import starWarsLogo from '../img/SWAPI.png';
 
 function Title() {
-  return (
-    <div>
-      <h1>Star Wars API</h1>
-    </div>
-  );
+  return <img src={starWarsLogo} className="title-SWAPI" alt="SWAPI" />;
 }
 
 export default Title;

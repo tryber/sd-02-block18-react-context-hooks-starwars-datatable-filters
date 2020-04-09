@@ -1,0 +1,8 @@
+div .filter-btn {
+  font-size: 1.5em;
+  opacity: 0.6;
+}
+
+div .filter-btn:hover {
+  opacity: 1;
+}

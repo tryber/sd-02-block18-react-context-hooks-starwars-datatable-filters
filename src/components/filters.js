@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import '../styles/filters.css';
 
 const setFilteredSelector = (e, part, setFilters) => {
   const { value } = e.target;
@@ -22,15 +23,16 @@ function Filters() {
   const comparisonvalues = ['-', 'Maior que', 'Menor que', 'ou Igual a'];
   const { column, comparison, valueComparison } = filters.filters[1].numericValues;
   return (
-    <div>
-      <div>Escolha o filtro: </div>
-      <select value={column} onChange={(e) => setFilteredSelector(e, 'column', setFilters)}>
+    <div className="filters-container">
+      <div className="filters-title">Escolha o filtro: </div>
+      <select className="select-filter" value={column} onChange={(e) => setFilteredSelector(e, 'column', setFilters)}>
         {selectors.map((col) => (<option key={col} value={col}>{col}</option>))}
       </select>
-      <select value={comparison} onChange={(e) => setFilteredSelector(e, 'comparison', setFilters)}>
+      <select className="select-filter" value={comparison} onChange={(e) => setFilteredSelector(e, 'comparison', setFilters)}>
         {comparisonvalues.map((valueComp) => (<option key={valueComp}>{valueComp}</option>))}
       </select>
       <input
+        className="input-filter"
         type="number"
         onChange={(e) => setFilteredSelector(e, 'valueComparison', setFilters)}
         value={valueComparison}

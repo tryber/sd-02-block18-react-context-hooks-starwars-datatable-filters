@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react';
+import ReactLoading from 'react-loading';
 import StarWarsContext from '../context/StarWarsContext';
 import TableContent from './tableContent';
+import '../styles/table.css';
 
 function Table() {
   const {
@@ -12,8 +14,8 @@ function Table() {
   }, []);
 
   return (
-    <div>
-      {isLoading && <p>Loading...</p>}
+    <div className="table-container">
+      {isLoading && <ReactLoading type="spin" color="yellow" height={150} />}
       {!isLoading && <TableContent data={data} />}
     </div>
   );

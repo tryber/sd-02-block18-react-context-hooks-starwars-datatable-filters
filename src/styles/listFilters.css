@@ -1,0 +1,38 @@
+.active-filters-container {
+  display: flex;
+  margin: 10px;
+  padding: 0px 50px;
+}
+
+.active-filters-container .active-filters {
+  align-items: center;
+  border: 1px solid rgb(117, 111, 111);
+  display: flex;
+  height: 75px;
+  justify-content:space-around;
+  flex-direction: column;
+  font-size: 1.15em;
+  margin: 20px;
+  width: 17%;
+}
+
+.active-filters .filter-description {
+  margin: 0px 5px;
+}
+
+.active-filters-container .active-filters button {
+  background-color: transparent;
+  border: none;
+  color: yellow;
+}
+
+.filter-description-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-container {
+  text-align: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
