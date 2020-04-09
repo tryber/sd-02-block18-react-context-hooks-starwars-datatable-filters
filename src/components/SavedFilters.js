@@ -12,7 +12,10 @@ const SavedFilters = () => {
         const { column, comparison, value } = filter.numericValues;
         return (
           <div className="saved-filters-container" key={column}>
-            <p className="saved-filters-title">
+            <p
+              data-testid={`saved-filters-title-${column}`}
+              className="saved-filters-title"
+            >
               {column.substring(0, 1).toUpperCase()
                 .concat(column.substring(1)).replace('_', ' ')}
             </p>

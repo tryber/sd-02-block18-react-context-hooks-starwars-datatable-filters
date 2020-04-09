@@ -10,6 +10,7 @@ const Filters = () => {
       <span>Digite o nome do planeta: </span>
       <input
         type="text"
+        data-testid="boxName"
         placeholder="Digite aqui"
         onChange={(e) => nameFilter(e.target.value)}
         value={name}

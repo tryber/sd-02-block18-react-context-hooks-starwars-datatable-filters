@@ -37,6 +37,7 @@ const StarWarsProvider = ({ children }) => {
   const filterButton = (columns) => (
     <button
       type="button"
+      data-testid={`saved-filters-button-${columns}`}
       onClick={() => removeFilter(columns)}
     >
       Apagar filtro
@@ -64,10 +65,8 @@ const StarWarsProvider = ({ children }) => {
         case 'menor que':
           dataF = dataF.filter((planet) => planet[num.column] < parseInt(num.value, 10));
           return dataF;
-        case 'igual a':
-          dataF = dataF.filter((planet) => planet[num.column] === num.value);
-          return dataF;
         default:
+          dataF = dataF.filter((planet) => planet[num.column] === num.value);
           return dataF;
       }
     });
@@ -117,6 +116,7 @@ const StarWarsProvider = ({ children }) => {
     <div>
       <select
         onChange={(e) => setColumn(e.target.value)}
+        data-testid="boxColumn"
         name="column"
         value={column}
       >
@@ -134,6 +134,7 @@ const StarWarsProvider = ({ children }) => {
     <div>
       <select
         onChange={(e) => setComparison(e.target.value)}
+        data-testid="boxComparison"
         name="comparison"
         value={comparison}
       >
@@ -148,9 +149,10 @@ const StarWarsProvider = ({ children }) => {
   const inputValue = () => (
     <div>
       <input
+        onChange={(e) => setValue(e.target.value)}
+        data-testid="boxValue"
         type="number"
         placeholder="Digite aqui"
-        onChange={(e) => setValue(e.target.value)}
         name="value"
         value={value}
       />
@@ -181,9 +183,10 @@ const StarWarsProvider = ({ children }) => {
     isDisabled = (column === '' || comparison === '' || value === '');
     return (
       <button
+        onClick={() => createFilter()}
+        data-testid="buttonFilter"
         type="button"
         disabled={(isDisabled)}
-        onClick={() => createFilter()}
       >
         Fazer busca
       </button>
@@ -192,7 +195,7 @@ const StarWarsProvider = ({ children }) => {
 
   const renderNumValues = () => (
     (columnsSelect.length === 0)
-      ? <div>Não sobraram filtros para utilizar!</div>
+      ? <div data-testid="noFilter">Não sobraram filtros para utilizar!</div>
       : (
         <div className="flexy-number-filters">
           {selectColumn()}
