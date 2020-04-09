@@ -4,7 +4,7 @@ import PropTypes, { object } from 'prop-types';
 export const PlanetsDBContext = createContext();
 
 export default function PlanetsDBProvider({ children }) {
-  const [planetsData, setPlanetsData] = React.useState([]);
+  const [planetsData, setPlanetsData] = React.useState({ data: [] });
 
   const store = {
     data: [planetsData, setPlanetsData],

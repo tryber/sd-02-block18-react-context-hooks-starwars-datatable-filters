@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
 export default function SWAPI() {
-  const { data } = useContext(PlanetsDBContext);
+  const { data: [planetsData, setPlanetsData] } = useContext(PlanetsDBContext);
 
   useEffect(() => {
-    const URL = 'https://cors-anywhere.herokuapp.com/https://swapi.co/api/planets/';
+    const fetchPlanets = async () => {
+      const URL = 'https://cors-anywhere.herokuapp.com/https://swapi.co/api/planets/';
 
-    fetch(URL)
-      .then((response) => response.json())
-      .then(({ results }) => data.setPlanetsData(results.flat()));
-  }, [data.planetsData]);
+      const data = await fetch(URL)
+        .then((response) => response.json())
+        .then(({ results }) => results.flat());
+      setPlanetsData(data);
+    };
+    fetchPlanets();
+  }, []);
 }
 
 SWAPI.propTypes = {
