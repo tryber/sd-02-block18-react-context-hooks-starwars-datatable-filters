@@ -15,7 +15,7 @@ function Table() {
 
   return (
     <div className="table-container">
-      {isLoading && <ReactLoading type="spin" color="yellow" height={150} />}
+      {isLoading && <div className="loading-container"><ReactLoading type="spin" color="yellow" height={150} /></div>}
       {!isLoading && <TableContent data={data} />}
     </div>
   );

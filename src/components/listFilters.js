@@ -25,9 +25,7 @@ const renderFiltersActive = (filters, setSelectors, setFilters) => {
               onClick={(e) => deleteFilter(e, setSelectors, setFilters)}
               id={index + 2}
               value={filtro.numericValues.column}
-            >
-              X
-            </button>
+            > X </button>
             <div className="filter-description-container">
               <div className="filter-description">
                 {filtro.numericValues.column}
