@@ -13,10 +13,11 @@ const deleteFilter = (e, setSelectors, setFilters) => {
 };
 
 const renderFiltersActive = (filters, setSelectors, setFilters) => {
-  filters.splice(0, 2);
+  const cpFilters = [...filters];
+  cpFilters.splice(0, 2);
   return (
     <div className="active-filters-container">
-      {filters.map((filtro, index) => (
+      {cpFilters.map((filtro, index) => (
         <div key={filtro.numericValues.column} className="active-filters">
           <div>
             <button

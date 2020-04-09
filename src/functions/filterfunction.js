@@ -6,29 +6,28 @@ const filterPlanetByName = (data, { filters }) => {
 };
 
 const filterPlanetByColumn = (planetsByName, { filters }) => {
-  filters.splice(0, 2);
-  if (!filters.length) return planetsByName;
-  filters.forEach(({ numericValues: { column, comparison, valueComparison } }) => {
-    switch (comparison) {
-      case (comparison === 'Maior que'): {
-        return planetsByName.filter((p) => (parseFloat(p[column]) > parseFloat(valueComparison)));
-      }
-      case (comparison === 'Menor que'): {
-        return planetsByName.filter((p) => (parseFloat(p[column]) < parseFloat(valueComparison)));
-      }
-      case (comparison === 'ou Igual a'): {
-        return planetsByName.filter((p) => (parseFloat(p[column]) === parseFloat(valueComparison)));
-      }
-      default:
-        return planetsByName;
+  const cpFilters = [...filters];
+  cpFilters.splice(0, 2);
+  console.log(cpFilters);
+  if (!cpFilters.length) return planetsByName;
+  let planet = planetsByName;
+  cpFilters.forEach(({ numericValues: { column, comparison, valueComparison } }) => {
+    if (column !== 'coluna' && comparison === 'Maior que' && valueComparison >= 0) {
+      planet = planet.filter((pla) => (parseFloat(pla[column]) > parseFloat(valueComparison)));
+    } else if (column !== 'coluna' && comparison === 'Menor que' && valueComparison >= 0) {
+      planet = planet.filter((pla) => (parseFloat(pla[column]) < parseFloat(valueComparison)));
+    } else if (column !== 'coluna' && comparison === 'ou Igual a' && valueComparison >= 0) {
+      planet = planet.filter((pla) => (parseFloat(pla[column]) === parseFloat(valueComparison)));
     }
   });
-  return planetsByName;
+  console.log(planet);
+  return planet;
 };
 
 const filterFunction = (data, filters) => {
   const planetsByName = filterPlanetByName(data, filters);
   const filteredPlanets = filterPlanetByColumn(planetsByName, filters);
+  console.log(filteredPlanets);
   return filteredPlanets;
 };
 
