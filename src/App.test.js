@@ -42,7 +42,6 @@ test('checking search by name', async () => {
 test('checking search by one filter', async () => {
   const { getByTestId, getByText, queryByText } = render(<App />);
   await waitForDomChange();
-  const inputName = getByTestId('name-inp');
   const columnFilter = getByTestId('col');
   const comparison = getByTestId('comp');
   const comparisonValue = getByTestId('value-comp');
@@ -76,10 +75,6 @@ test('checking search by one filter and word', async () => {
   const [pFilteredWord, notPFilteredWord] = getPlanetsByNameSearch('b');
   const [pFilteredLesser, notPFilteredLesser] = getPlanetsByOneFilterLesser(pFilteredWord, 'orbital_period', 350);
   const notFiltered = [...notPFilteredWord, ...notPFilteredLesser];
-  console.log(notPFilteredWord);
-  console.log(notPFilteredLesser);
-  console.log(notFiltered);
-  console.log(pFilteredLesser);
   pFilteredLesser.forEach(({ name }) => {
     expect(getByText(name)).toBeInTheDocument();
   });
@@ -90,7 +85,7 @@ test('checking search by one filter and word', async () => {
 
 
 test('checking multiple filters and deleting', async () => {
-  const { getByTestId, getByText } = render(<App />);
+  const { getByTestId, getByText, queryByText } = render(<App />);
   await waitForDomChange();
   const inputName = getByTestId('name-inp');
   const columnFilter = getByTestId('col');
@@ -98,49 +93,54 @@ test('checking multiple filters and deleting', async () => {
   const comparisonValue = getByTestId('value-comp');
   const btnFilter = getByTestId('btn-filter');
   fireEvent.change(inputName, { target: { value: 'a' } });
-  let [pFiltered, notpFiltered] = getPlanetsByNameSearch('a');
+  const [pFiltered, notpFilteredWord] = getPlanetsByNameSearch('a');
 
   fireEvent.change(columnFilter, { target: { value: 'rotation_period' } });
   fireEvent.change(comparison, { target: { value: 'Maior que' } });
   fireEvent.change(comparisonValue, { target: { value: '23' } });
   fireEvent.click(btnFilter);
-  pFiltered = getPlanetsByVariousFiltersBigger(pFiltered, 'rotation_period', '23');
+  const [pFiltered1, notPFiltered1] = getPlanetsByVariousFiltersBigger(pFiltered, 'rotation_period', '23');
 
   fireEvent.change(columnFilter, { target: { value: 'orbital_period' } });
   fireEvent.change(comparison, { target: { value: 'Maior que' } });
   fireEvent.change(comparisonValue, { target: { value: '312' } });
   fireEvent.click(btnFilter);
-  pFiltered = getPlanetsByVariousFiltersBigger(pFiltered, 'orbital_period', '312');
+  const [pFiltered2, notPFiltered2] = getPlanetsByVariousFiltersBigger(pFiltered1, 'orbital_period', '312');
 
   fireEvent.change(columnFilter, { target: { value: 'population' } });
   fireEvent.change(comparison, { target: { value: 'Maior que' } });
   fireEvent.change(comparisonValue, { target: { value: '1000' } });
   fireEvent.click(btnFilter);
-  pFiltered = getPlanetsByVariousFiltersBigger(pFiltered, 'population', '1000');
+  const [pFiltered3, notPFiltered3] = getPlanetsByVariousFiltersBigger(pFiltered2, 'population', '1000');
 
   fireEvent.change(columnFilter, { target: { value: 'diameter' } });
   fireEvent.change(comparison, { target: { value: 'Maior que' } });
   fireEvent.change(comparisonValue, { target: { value: '12250' } });
   fireEvent.click(btnFilter);
-  pFiltered = getPlanetsByVariousFiltersBigger(pFiltered, 'diameter', '12250');
+  const [pFiltered4, notPFiltered4] = getPlanetsByVariousFiltersBigger(pFiltered3, 'diameter', '12250');
 
   fireEvent.change(columnFilter, { target: { value: 'surface_water' } });
   fireEvent.change(comparison, { target: { value: 'ou Igual a' } });
   fireEvent.change(comparisonValue, { target: { value: '100' } });
   fireEvent.click(btnFilter);
-  pFiltered = getPlanetsByVariousFiltersEqual(pFiltered, 'surface_water', '100');
-  console.log(pFiltered[0].name);
+  const [pFiltered5, notPFiltered5] = getPlanetsByVariousFiltersEqual(pFiltered4, 'surface_water', '100');
+  const notFiltered = [...notpFilteredWord, ...notPFiltered1,
+    ...notPFiltered2, ...notPFiltered3, ...notPFiltered4, ...notPFiltered5];
+  console.log(pFiltered5[0].name);
+  console.log(notFiltered);
 
-  expect(getByText(pFiltered[0].name)).toBeInTheDocument();
-  console.log(pFiltered);
+  expect(getByText(pFiltered5[0].name)).toBeInTheDocument();
+  notFiltered.forEach(({ name }) => {
+    expect(queryByText(name)).toBeNull();
+  });
   const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   columns.forEach((column) => {
     const btnDelete = getByTestId(`delete-${column}`);
     fireEvent.click(btnDelete);
   });
 
-  pFiltered = getPlanetsByNameSearch('a');
-  pFiltered.forEach(({ name }) => {
+  fireEvent.change(inputName, { target: { value: '' } });
+  planetsMock.forEach(({ name }) => {
     expect(getByText(name)).toBeInTheDocument();
   });
 });

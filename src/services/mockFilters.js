@@ -12,12 +12,14 @@ export const getPlanetsByOneFilterLesser = (planetsParam, column, value) => {
   return [plan, notPlan];
 };
 
-export const getPlanetsByVariousFiltersBigger = (plan, column, value) => {
-  const returnFilteredPlanets = plan.filter((p) => (parseFloat(p[column]) > parseFloat(value)));
-  return returnFilteredPlanets;
+export const getPlanetsByVariousFiltersBigger = (planetsParam, column, value) => {
+  const plan = planetsParam.filter((p) => (parseFloat(p[column]) > parseFloat(value)));
+  const notPlan = planetsParam.filter((p) => (parseFloat(p[column]) <= parseFloat(value)));
+  return [plan, notPlan];
 };
 
-export const getPlanetsByVariousFiltersEqual = (plan, column, value) => {
-  const returnFilteredPlanets = plan.filter((p) => (parseFloat(p[column]) === parseFloat(value)));
-  return returnFilteredPlanets;
+export const getPlanetsByVariousFiltersEqual = (planetsParam, column, value) => {
+  const plan = planetsParam.filter((p) => (parseFloat(p[column]) === parseFloat(value)));
+  const notPlan = planetsParam.filter((p) => (parseFloat(p[column]) !== parseFloat(value)));
+  return [plan, notPlan];
 };
