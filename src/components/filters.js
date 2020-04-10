@@ -25,13 +25,14 @@ function Filters() {
   return (
     <div className="filters-container">
       <div className="filters-title">Escolha o filtro: </div>
-      <select className="select-filter" value={column} onChange={(e) => setFilteredSelector(e, 'column', setFilters)}>
+      <select data-testid="col" className="select-filter" value={column} onChange={(e) => setFilteredSelector(e, 'column', setFilters)}>
         {selectors.map((col) => (<option key={col} value={col}>{col}</option>))}
       </select>
-      <select className="select-filter" value={comparison} onChange={(e) => setFilteredSelector(e, 'comparison', setFilters)}>
+      <select data-testid="comp" className="select-filter" value={comparison} onChange={(e) => setFilteredSelector(e, 'comparison', setFilters)}>
         {comparisonvalues.map((valueComp) => (<option key={valueComp}>{valueComp}</option>))}
       </select>
       <input
+        data-testid="value-comp"
         className="input-filter"
         type="number"
         onChange={(e) => setFilteredSelector(e, 'valueComparison', setFilters)}

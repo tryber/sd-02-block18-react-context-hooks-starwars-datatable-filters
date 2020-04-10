@@ -8,7 +8,6 @@ const filterPlanetByName = (data, { filters }) => {
 const filterPlanetByColumn = (planetsByName, { filters }) => {
   const cpFilters = [...filters];
   cpFilters.splice(0, 2);
-  console.log(cpFilters);
   if (!cpFilters.length) return planetsByName;
   let planet = planetsByName;
   cpFilters.forEach(({ numericValues: { column, comparison, valueComparison } }) => {
@@ -20,14 +19,12 @@ const filterPlanetByColumn = (planetsByName, { filters }) => {
       planet = planet.filter((pla) => (parseFloat(pla[column]) === parseFloat(valueComparison)));
     }
   });
-  console.log(planet);
   return planet;
 };
 
 const filterFunction = (data, filters) => {
   const planetsByName = filterPlanetByName(data, filters);
   const filteredPlanets = filterPlanetByColumn(planetsByName, filters);
-  console.log(filteredPlanets);
   return filteredPlanets;
 };
 

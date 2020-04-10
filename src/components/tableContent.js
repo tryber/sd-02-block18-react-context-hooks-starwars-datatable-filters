@@ -10,7 +10,6 @@ function Table() {
   }, [filters]);
 
   const headerTable = Object.keys(data[0]);
-  console.log('rerender');
   const planets = filterFunction(data, filters);
   return (
     <table>

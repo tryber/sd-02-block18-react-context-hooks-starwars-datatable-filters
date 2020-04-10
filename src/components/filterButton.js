@@ -32,7 +32,6 @@ const addNewFilter = (column, comparison, valueComparison, setFilters, setSelect
 
 const addFilter = (filters, setFilters, setSelectors) => {
   const { column, comparison, valueComparison } = filters.filters[1].numericValues;
-  console.log(column, comparison, valueComparison);
   if ((column !== 'coluna' && comparison !== '-' && valueComparison >= 0)) {
     addNewFilter(column, comparison, valueComparison, setFilters, setSelectors);
   } else alert('Escolha os três campos');
@@ -50,6 +49,7 @@ function FilterButton() {
         type="button"
         onClick={() => addFilter(filters, setFilters, setSelectors)}
         className="filter-btn"
+        data-testid="btn-filter"
       >
         Filtrar
       </button>
