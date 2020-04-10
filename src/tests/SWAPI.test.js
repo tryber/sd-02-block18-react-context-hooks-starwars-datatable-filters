@@ -1,20 +1,42 @@
-import React, { useEffect, useContext } from 'react';
-import { cleanup, wait } from '@testing-library/react';
-import renderWithRouter from '../services/renderWithRouter';
-import { PlanetsDBContext } from '../context/PlanetsDBContext';
-import SWAPI from '../services/SWAPI';
+import React from 'react';
+import { cleanup } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
+import PlanetsDBProvider from '../context/PlanetsDBContext';
+import useSWAPI from '../services/useSWAPI';
 
 afterEach(cleanup);
 
-describe.skip('tests planetsDB api', () => {
+describe('tests planetsDB api', () => {
   it('it fetches planets', async () => {
-    const test = renderWithRouter(
-      <PlanetsDBContext.Consumer>
-        {(store) => <SWAPI store={store} />}
-      </PlanetsDBContext.Consumer>,
+    const planetProperties = {
+      name: expect.any(String),
+      rotation_period: expect.any(String),
+      orbital_period: expect.any(String),
+      diameter: expect.any(String),
+      climate: expect.any(String),
+      gravity: expect.any(String),
+      terrain: expect.any(String),
+      surface_water: expect.any(String),
+      population: expect.any(String),
+      residents:
+        [expect.any(String),
+          expect.any(String),
+          expect.any(String)],
+      films: [expect.any(String)],
+      created: expect.any(String),
+      edited: expect.any(String),
+      url: expect.any(String),
+    };
+    const wrapper = ({ children }) => <PlanetsDBProvider>{children}</PlanetsDBProvider>;
+
+    const { result: swapiResult, waitForNextUpdate } = await renderHook(
+      () => useSWAPI(), { wrapper },
     );
 
-    await wait(() => expect(test).not.toBeNull());
-    console.log(test);
-  });
+    await waitForNextUpdate();
+
+    expect(swapiResult.current).toEqual(expect.arrayContaining(
+      Array(expect.objectContaining(planetProperties)),
+    ));
+  }, 60000);
 });

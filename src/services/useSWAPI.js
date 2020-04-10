@@ -1,9 +1,9 @@
 import { useEffect, useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
-export default function SWAPI() {
+export default function useSWAPI() {
   const {
-    data: [, setPlanetsData],
+    data: [planetsData, setPlanetsData],
     loading: [, setIsLoading],
   } = useContext(PlanetsDBContext);
 
@@ -15,7 +15,7 @@ export default function SWAPI() {
         .then((response) => response.json())
         .then(({ results }) => {
           setIsLoading(false);
-          return results.flat();
+          return [...results];
         });
       return setPlanetsData(data);
     };
@@ -27,5 +27,5 @@ export default function SWAPI() {
     };
   }, [setPlanetsData]);
 
-  return null;
+  return planetsData;
 }

@@ -4,6 +4,7 @@ import { PlanetsDBContext } from '../context/PlanetsDBContext';
 // import TextInputFilter from './TextInputFilter';
 // import FiltersByNumber from './FiltersByNumber';
 import '../style/Table.css';
+import useSWAPI from '../services/useSWAPI';
 
 // const tableHeaders = () => (
 //   <tr>
@@ -88,6 +89,7 @@ const PlanetRows = () => {
 
 export default function Table() {
   // const { planets, filters } = this.props;
+  useSWAPI();
   const { loading: [isLoading] } = useContext(PlanetsDBContext);
   return (
     <div>
