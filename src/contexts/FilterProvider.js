@@ -6,30 +6,57 @@ import FilterContext from './FilterContext';
 import ApiContext from './ApiContext';
 import FunctionContext from './FunctionContext';
 
-const filterByName = (planets, name, setFilterPlanets) => {
-  const filterPlanets = planets.filter((planet) => planet.name.match(new RegExp(name, 'i')));
-  setFilterPlanets(filterPlanets);
+const filterByNumericValues = (filterPlanet, comparison, column, value) => {
+  switch (comparison) {
+    case 'maior que':
+      return filterPlanet.filter((planet) => Number(planet[column]) > Number(value));
+    case 'menor que':
+      return filterPlanet.filter((planet) => Number(planet[column]) < Number(value));
+    case 'igual a':
+      return filterPlanet.filter((planet) => Number(planet[column]) === Number(value));
+    default:
+      return filterPlanet;
+  }
+};
+
+const filterArray = (planets, filters, setFilterPlanets) => {
+  const filterPlanets = filters.reduce((acc, cur) => {
+    const { name, numeric_values: numericValues } = cur;
+    let filterPlanet = acc;
+    if (name) {
+      filterPlanet = filterPlanet.filter((planet) => planet.name.match(new RegExp(name, 'i')));
+    }
+    if (numericValues) {
+      const { comparison, column, value } = numericValues;
+      filterPlanet = filterByNumericValues(filterPlanet, comparison, column, value);
+    }
+    return filterPlanet;
+  }, planets);
+  setFilterPlanets([...filterPlanets]);
 };
 
 const FilterProvider = ({ children }) => {
   const { planets } = useContext(ApiContext);
   const {
-    setName, setFilterPlanets, filterPlanets, filters,
+    setName, setNumericValues, setFilterPlanets, filterPlanets, filters,
   } = useFilter(planets);
 
   const { name } = filters[0];
 
+  console.log(filters);
+
   useEffect(() => {
-    filterByName(planets, name, setFilterPlanets);
+    filterArray(planets, filters, setFilterPlanets);
   }, [name]);
 
   const filterContext = {
     filterPlanets: [...filterPlanets],
-    filters: [...filters],
+    filters,
   };
 
   const functionContext = {
     setName,
+    setNumericValues,
     setFilterPlanets,
   };
 

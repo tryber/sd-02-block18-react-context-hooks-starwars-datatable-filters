@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 const useFilter = (planets) => {
   const [name, setName] = useState('');
+  const [numericValues, setNumericValues] = useState([]);
   const [filterPlanets, setFilterPlanets] = useState([]);
 
   useEffect(() => {
@@ -11,18 +12,13 @@ const useFilter = (planets) => {
   return {
     setName,
     setFilterPlanets,
+    setNumericValues,
     filterPlanets,
     filters: [
       {
         name,
       },
-      {
-        numeric_values: {
-          column: '',
-          population: '',
-          comparison: '',
-        },
-      },
+      ...numericValues,
     ],
   };
 };
