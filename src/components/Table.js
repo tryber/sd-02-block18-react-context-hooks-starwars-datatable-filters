@@ -39,9 +39,7 @@ import '../style/Table.css';
 // );
 
 const PlanetRows = () => {
-  const { data: [planetsData,] } = useContext(PlanetsDBContext);
-  console.log(planetsData);
-
+  const { data: [planetsData] } = useContext(PlanetsDBContext);
   let filteredPlanets = planetsData;
 
   // const [nameFilter, ...numericFilters] = filters;
@@ -64,7 +62,7 @@ const PlanetRows = () => {
   // }
 
   return (
-    planetsData !== undefined ? filteredPlanets.map(({
+    filteredPlanets.map(({
       name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
       climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
       edited, url,
@@ -85,12 +83,12 @@ const PlanetRows = () => {
         <td>{url}</td>
       </tr>
     ))
-      : <div>Loading ...</div>
   );
 };
 
 export default function Table() {
   // const { planets, filters } = this.props;
+  const { loading: [isLoading] } = useContext(PlanetsDBContext);
   return (
     <div>
       <h1>StarWars Datatable with Filters</h1>
@@ -100,16 +98,19 @@ export default function Table() {
       <div>
         {/* <FiltersByNumber /> */}
       </div>
-      <div className="table-container">
-        <table className="table">
-          <thead>
-            {/* {tableHeaders()} */}
-          </thead>
-          <tbody>
-            <PlanetRows />
-          </tbody>
-        </table>
-      </div>
+      {isLoading ? <span>Loading...</span>
+        : (
+          <div className="table-container">
+            <table className="table">
+              <thead>
+                {/* {tableHeaders()} */}
+              </thead>
+              <tbody>
+                <PlanetRows />
+              </tbody>
+            </table>
+          </div>
+        )}
     </div>
   );
 }

@@ -1,13 +1,15 @@
-import React, { createContext } from 'react';
+import React, { useState, createContext } from 'react';
 import PropTypes from 'prop-types';
 
 export const PlanetsDBContext = createContext();
 
 export default function PlanetsDBProvider({ children }) {
-  const [planetsData, setPlanetsData] = React.useState([]);
+  const [planetsData, setPlanetsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const store = {
     data: [planetsData, setPlanetsData],
+    loading: [isLoading, setIsLoading],
   };
 
   return <PlanetsDBContext.Provider value={store}>{children}</PlanetsDBContext.Provider>;

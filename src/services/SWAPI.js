@@ -2,7 +2,10 @@ import { useEffect, useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
 export default function SWAPI() {
-  const { data: [, setPlanetsData] } = useContext(PlanetsDBContext);
+  const {
+    data: [, setPlanetsData],
+    loading: [, setIsLoading],
+  } = useContext(PlanetsDBContext);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -10,11 +13,19 @@ export default function SWAPI() {
 
       const data = await fetch(URL)
         .then((response) => response.json())
-        .then(({ results }) => results.flat());
+        .then(({ results }) => {
+          setIsLoading(false);
+          return results.flat();
+        });
       return setPlanetsData(data);
     };
     fetchPlanets();
-  }, []);
+
+    return () => {
+      setIsLoading(true);
+      setPlanetsData([]);
+    };
+  }, [setPlanetsData]);
 
   return null;
 }
