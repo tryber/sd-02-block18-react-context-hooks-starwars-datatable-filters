@@ -25,7 +25,7 @@ export default function useSWAPI() {
       setIsLoading(true);
       setPlanetsData([]);
     };
-  }, [setPlanetsData]);
+  }, [setPlanetsData, setIsLoading]);
 
   return planetsData;
 }

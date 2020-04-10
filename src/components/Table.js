@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
-// import TextInputFilter from './TextInputFilter';
+import NameFilterInput from './NameFilterInput';
 // import FiltersByNumber from './FiltersByNumber';
 import '../style/Table.css';
 import useSWAPI from '../services/useSWAPI';
@@ -30,8 +30,8 @@ const TableHeaders = () => (
 //   higherThan: () => column > value,
 // });
 
-// const filterByPlanetsNames = (planets, filters) => (
-//   planets.filter((planet) => planet.name.includes(filters[0].name)));
+const filterByPlanetsNames = (planets, planetName) => (
+  planets.filter((planet) => planet.name.toLocaleLowerCase().includes(planetName)));
 
 // const filterByNumericValues = (filteredPlanets, { column, value, comparison }) => (
 //   filteredPlanets.filter(
@@ -40,12 +40,12 @@ const TableHeaders = () => (
 // );
 
 const PlanetRows = () => {
-  const { data: [planetsData] } = useContext(PlanetsDBContext);
+  const { data: [planetsData], filters: [filters] } = useContext(PlanetsDBContext);
   let filteredPlanets = planetsData;
 
-  // const [nameFilter, ...numericFilters] = filters;
+  const [{ name: nameFilter }] = filters;
 
-  // if (nameFilter.name) filteredPlanets = filterByPlanetsNames(planets, filters);
+  if (nameFilter) filteredPlanets = filterByPlanetsNames(filteredPlanets, nameFilter);
 
   // numericFilters.map((filter) => {
   //   const { numericValues, numericValues: { column, comparison, value } } = filter;
@@ -95,7 +95,7 @@ export default function Table() {
     <div>
       <h1>StarWars Datatable with Filters</h1>
       <div>
-        {/* <TextInputFilter /> */}
+        <NameFilterInput />
       </div>
       <div>
         {/* <FiltersByNumber /> */}

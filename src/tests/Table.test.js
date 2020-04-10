@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, wait } from '@testing-library/react';
+import { cleanup, wait, fireEvent } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import renderWithRouter from '../services/renderWithRouter';
 import PlanetsDBProvider from '../context/PlanetsDBContext';
@@ -47,5 +47,25 @@ describe('Tests Table component', () => {
         return expect(rowsData[index]).toEqual(expect.stringContaining(`${planet[property]}`));
       },
     ));
+  }, 60000);
+
+  it('if names is input, table filters by name', async () => {
+    const { getByTestId, getAllByTestId } = renderWithRouter(
+      <PlanetsDBProvider>
+        <Table />
+      </PlanetsDBProvider>,
+    );
+
+    await wait(() => getByTestId('name-filter-input'));
+    const nameFilterInput = getByTestId('name-filter-input');
+
+    fireEvent.change(nameFilterInput, { target: { value: 'tatooine' } });
+
+    await wait(() => getAllByTestId('table-row'));
+    const tableRows = getAllByTestId('table-row');
+    const rowsData = tableRows.map((row) => String(row.innerHTML));
+
+    expect(tableRows.length).toBe(1);
+    expect(rowsData[0]).toMatch(/tatooine/i);
   }, 60000);
 });
