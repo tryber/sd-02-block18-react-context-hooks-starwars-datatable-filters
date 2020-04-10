@@ -1,10 +1,10 @@
 import React, { createContext } from 'react';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 
 export const PlanetsDBContext = createContext();
 
 export default function PlanetsDBProvider({ children }) {
-  const [planetsData, setPlanetsData] = React.useState({ data: [] });
+  const [planetsData, setPlanetsData] = React.useState([]);
 
   const store = {
     data: [planetsData, setPlanetsData],
@@ -14,5 +14,7 @@ export default function PlanetsDBProvider({ children }) {
 }
 
 PlanetsDBProvider.propTypes = {
-  children: PropTypes.instanceOf(object).isRequired,
+  children: PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
 };
