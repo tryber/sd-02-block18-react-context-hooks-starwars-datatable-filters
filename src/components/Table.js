@@ -6,23 +6,23 @@ import { PlanetsDBContext } from '../context/PlanetsDBContext';
 import '../style/Table.css';
 import useSWAPI from '../services/useSWAPI';
 
-// const tableHeaders = () => (
-//   <tr>
-//     <th>Name</th>
-//     <th>Rotation period</th>
-//     <th>Orbital period</th>
-//     <th>Diamater</th>
-//     <th>Climate</th>
-//     <th>Gravity</th>
-//     <th>Terrain</th>
-//     <th>Surface Water</th>
-//     <th>Population</th>
-//     <th>Films</th>
-//     <th>Created</th>
-//     <th>Edited</th>
-//     <th>URL</th>
-//   </tr>
-// );
+const TableHeaders = () => (
+  <tr>
+    <th>Name</th>
+    <th>Rotation period</th>
+    <th>Orbital period</th>
+    <th>Diamater</th>
+    <th>Climate</th>
+    <th>Gravity</th>
+    <th>Terrain</th>
+    <th>Surface Water</th>
+    <th>Population</th>
+    <th>Films</th>
+    <th>Created</th>
+    <th>Edited</th>
+    <th>URL</th>
+  </tr>
+);
 
 // const columnComparison = (column, value) => ({
 //   lesserThan: () => column < value,
@@ -68,7 +68,7 @@ const PlanetRows = () => {
       climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
       edited, url,
     }) => (
-      <tr key={name}>
+      <tr data-testid="table-row" key={name}>
         <td>{name}</td>
         <td className="rotation-period">{rotationPeriod}</td>
         <td className="orbital-period">{orbitalPeriod}</td>
@@ -102,10 +102,10 @@ export default function Table() {
       </div>
       {isLoading ? <span>Loading...</span>
         : (
-          <div className="table-container">
+          <div data-testid="table-container" className="table-container">
             <table className="table">
               <thead>
-                {/* {tableHeaders()} */}
+                <TableHeaders />
               </thead>
               <tbody>
                 <PlanetRows />

@@ -29,13 +29,13 @@ describe('tests planetsDB api', () => {
     };
     const wrapper = ({ children }) => <PlanetsDBProvider>{children}</PlanetsDBProvider>;
 
-    const { result: swapiResult, waitForNextUpdate } = await renderHook(
+    const { result: fetchedPlanets, waitForNextUpdate } = await renderHook(
       () => useSWAPI(), { wrapper },
     );
 
     await waitForNextUpdate();
 
-    expect(swapiResult.current).toEqual(expect.arrayContaining(
+    expect(fetchedPlanets.current).toEqual(expect.arrayContaining(
       Array(expect.objectContaining(planetProperties)),
     ));
   }, 60000);
