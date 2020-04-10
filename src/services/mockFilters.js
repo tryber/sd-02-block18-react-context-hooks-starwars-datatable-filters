@@ -14,9 +14,11 @@ export const getPlanetsByOneFilterLesser = (word, column, value) => {
 };
 
 export const getPlanetsByVariousFiltersBigger = (plan, column, value) => {
-  return plan.filter((p) => (parseFloat(p[column]) > parseFloat(value)));
+  const returnFilteredPlanets = plan.filter((p) => (parseFloat(p[column]) > parseFloat(value)));
+  return returnFilteredPlanets;
 };
 
 export const getPlanetsByVariousFiltersEqual = (plan, column, value) => {
-  return plan.filter((p) => (parseFloat(p[column]) === parseFloat(value)));
+  const returnFilteredPlanets = plan.filter((p) => (parseFloat(p[column]) === parseFloat(value)));
+  return returnFilteredPlanets;
 };
