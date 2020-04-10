@@ -7,7 +7,9 @@ import './PlanetsList.css';
 const TableTHead = (planets) => (
   <thead>
     <tr>
-      {Object.keys(planets[0] || []).map((tHead) => <th key={tHead}>{tHead}</th>)}
+      {Object.keys(planets[0] || []).map((tHead) => (
+        <th data-testid={`th-${tHead}`} key={tHead}>{tHead}</th>
+      ))}
     </tr>
   </thead>
 );

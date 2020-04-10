@@ -12,7 +12,7 @@ import mockFetchPromise, { planets } from '../__mocks__/apiMock';
 const testTableRender = async () => {
   jest.spyOn(global, 'fetch').mockImplementation(() => mockFetchPromise);
 
-  const { queryByText, getByRole } = render(
+  const { queryByTestId, queryByText, getByRole } = render(
     <Provider>
       <Table />
     </Provider>,
@@ -29,6 +29,7 @@ const testTableRender = async () => {
   return {
     queryByText,
     getByRole,
+    queryByTestId,
   };
 };
 
@@ -41,15 +42,15 @@ describe('PlanetsList tests', () => {
     expect(getByRole('table')).toBeInTheDocument();
   });
   test('if exist a table thead', async () => {
-    const { queryByText, getByRole } = await testTableRender();
+    const { queryByTestId } = await testTableRender();
 
     Object.keys(planets[0]).forEach((key) => {
-      expect(queryByText(key)).toBeInTheDocument();
-      expect(queryByText(key).tagName).toBe('TH');
+      expect(queryByTestId(`th-${key}`)).toBeInTheDocument();
+      expect(queryByTestId(`th-${key}`).tagName).toBe('TH');
     });
   });
   test('if exist a table tbody', async () => {
-    const { queryByText, getByRole } = await testTableRender();
+    const { queryByText } = await testTableRender();
 
     planets.map((planet) => Object.values(planet).forEach((value, index) => {
       if (index === 9) {

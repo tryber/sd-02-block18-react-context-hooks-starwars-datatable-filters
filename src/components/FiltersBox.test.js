@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  render, cleanup, waitForElementToBeRemoved,
+  render, cleanup, waitForElementToBeRemoved, fireEvent,
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Simulate } from 'react-dom/test-utils';
@@ -57,13 +57,14 @@ describe('FiltersBox tests', () => {
   test('if filtering planets by name', async () => {
     const { queryByText, queryByTestId } = await testTableRender();
 
-    Simulate.change(queryByTestId(/input-name/i), event);
+    fireEvent.change(queryByTestId(/input-name/i), event);
     expect(queryByTestId(/input-name/i).value).toBe('AA');
+
     const notFilterPlanets = planets.filter((planet) => !planet.name.match(new RegExp(event.target.value, 'i')));
     const FilterPlanets = planets.filter((planet) => planet.name.match(new RegExp(event.target.value, 'i')));
 
     notFilterPlanets.forEach((planet) => {
-      expect(queryByText(planet.name)).toBeNull();
+      expect(queryByText(planet.name)).not.toBeInTheDocument();
     });
     FilterPlanets.forEach((planet) => {
       expect(queryByText(planet.name)).toBeInTheDocument();

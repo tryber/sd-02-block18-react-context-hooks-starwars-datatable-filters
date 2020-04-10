@@ -21,17 +21,19 @@ const filterByNumericValues = (filterPlanet, comparison, column, value) => {
 
 const filterArray = (planets, filters, setFilterPlanets) => {
   const filterPlanets = filters.reduce((acc, cur) => {
-    const { name, numeric_values: numericValues } = cur;
+    const {
+      name, column, comparison, value,
+    } = cur;
     let filterPlanet = acc;
     if (name) {
       filterPlanet = filterPlanet.filter((planet) => planet.name.match(new RegExp(name, 'i')));
     }
-    if (numericValues) {
-      const { comparison, column, value } = numericValues;
+    if (value) {
       filterPlanet = filterByNumericValues(filterPlanet, comparison, column, value);
     }
     return filterPlanet;
   }, planets);
+
   setFilterPlanets([...filterPlanets]);
 };
 
@@ -41,13 +43,12 @@ const FilterProvider = ({ children }) => {
     setName, setNumericValues, setFilterPlanets, filterPlanets, filters,
   } = useFilter(planets);
 
-  const { name } = filters[0];
+  const [{ name }, ...rest] = filters;
 
-  console.log(filters);
 
   useEffect(() => {
     filterArray(planets, filters, setFilterPlanets);
-  }, [name]);
+  }, [name, rest.length]);
 
   const filterContext = {
     filterPlanets: [...filterPlanets],

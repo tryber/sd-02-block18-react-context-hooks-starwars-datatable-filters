@@ -6,7 +6,7 @@ import FunctionContext from '../contexts/FunctionContext';
 const renderInputByName = (name, setName) => {
   return (
     <input
-      type="input"
+      type="text"
       data-testid="input-name"
       value={name}
       placeholder="Digite um nome :"
@@ -18,8 +18,8 @@ const renderInputByName = (name, setName) => {
 const renderInputByNumber = (value, setLocalNumericValues) => {
   return (
     <input
-      type="input"
-      data-testid="input-name"
+      type="number"
+      data-testid="input-number"
       value={value}
       placeholder="Digite um numero :"
       onChange={({ target }) => setLocalNumericValues((array) => [
