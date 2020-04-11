@@ -6,7 +6,18 @@ export const PlanetsDBContext = createContext();
 export default function PlanetsDBProvider({ children }) {
   const [planetsData, setPlanetsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [filters, setFilters] = useState([{ name: '' }]);
+  const [filters, setFilters] = useState([
+    {
+      name: '',
+    },
+    {
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: 0,
+      },
+    },
+  ]);
 
   const store = {
     data: [planetsData, setPlanetsData],
@@ -16,9 +27,3 @@ export default function PlanetsDBProvider({ children }) {
 
   return <PlanetsDBContext.Provider value={store}>{children}</PlanetsDBContext.Provider>;
 }
-
-PlanetsDBProvider.propTypes = {
-  children: PropTypes.shape({
-    data: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
-};

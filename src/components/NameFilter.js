@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
-const TextInputFilter = () => {
+export default function NameFilter() {
   const { filters: [filters, setFilters] } = useContext(PlanetsDBContext);
 
   const dispatchNameFilter = (event) => {
@@ -18,5 +18,3 @@ const TextInputFilter = () => {
     </div>
   );
 };
-
-export default TextInputFilter;

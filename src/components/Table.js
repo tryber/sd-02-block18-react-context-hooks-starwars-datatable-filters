@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
-import NameFilterInput from './NameFilterInput';
-// import FiltersByNumber from './FiltersByNumber';
+import NameFilter from './NameFilter';
+import NumericFilters from './NumericFilters';
 import '../style/Table.css';
 import useSWAPI from '../services/useSWAPI';
 
@@ -88,17 +88,16 @@ const PlanetRows = () => {
 };
 
 export default function Table() {
-  // const { planets, filters } = this.props;
   useSWAPI();
   const { loading: [isLoading] } = useContext(PlanetsDBContext);
   return (
     <div>
       <h1>StarWars Datatable with Filters</h1>
       <div>
-        <NameFilterInput />
+        <NameFilter />
       </div>
       <div>
-        {/* <FiltersByNumber /> */}
+        <NumericFilters />
       </div>
       {isLoading ? <span>Loading...</span>
         : (

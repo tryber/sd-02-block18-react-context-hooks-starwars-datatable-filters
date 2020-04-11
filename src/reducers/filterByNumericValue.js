@@ -1,10 +1,3 @@
-import {
-  STORE_COLUMN_FILTER,
-  STORE_COMPARISON_FILTER,
-  STORE_VALUE_FILTER,
-  REMOVE_FILTER,
-} from '../components/FiltersByNumber';
-import { ADD_NEW_FIELD } from '../components/Table';
 
 const INITIAL_STATE = {
   filters: [
