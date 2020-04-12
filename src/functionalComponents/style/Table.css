@@ -1,0 +1,16 @@
+table , th , td {
+  border: 1px solid black;
+  text-transform: capitalize;
+  width: 100%;
+}
+
+.essa2 {
+  display: flex;
+  margin: 5px;
+  text-transform: capitalize;
+  width: fit-content;
+}
+
+.essa2 > p , button {
+  margin: 2px;
+}
