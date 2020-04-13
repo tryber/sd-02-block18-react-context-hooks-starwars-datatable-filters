@@ -1,45 +1,52 @@
-table.darkTable {
+.darkTable {
   background-color: rgb(74, 74, 74);
   border: 2px solid black;
   border-collapse: collapse;
-  font-family: "Arial Black", Gadget, sans-serif;
+  font-family: 'Arial Black', Gadget, sans-serif;
   height: 200px;
   text-align: center;
   width: 100%;
 }
-table.darkTable td, table.darkTable th {
+
+.darkTable td , .darkTable th {
   border: 1px solid rgb(74, 74, 74);
   padding: 3px 2px;
 }
-table.darkTable tbody td {
+
+.darkTable tbody td {
   color: rgb(230, 230, 230);
   font-size: 13px;
 }
-table.darkTable tr:nth-child(even) {
+
+.darkTable tr:nth-child(even) {
   background: rgb(136, 136, 136);
 }
-table.darkTable thead {
+
+.darkTable thead {
   background: black;
   border-bottom: 3px solid black;
 }
-table.darkTable thead th {
+
+.darkTable thead th {
   border-left: 2px solid rgb(74, 74, 74);
   color: rgb(230, 230, 230);
   font-size: 15px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
 }
-table.darkTable thead th:first-child {
+
+.darkTable thead th:first-child {
   border-left: none;
 }
 
-table.darkTable tfoot {
+.darkTable tfoot {
   background: black;
   border-top: 1px solid rgb(74, 74, 74);
   color: rgb(230, 230, 230);
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 700;
 }
-table.darkTable tfoot td {
+
+.darkTable tfoot td {
   font-size: 12px;
 }
