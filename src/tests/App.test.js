@@ -7,12 +7,16 @@ import data from './mockResponse';
 afterEach(cleanup);
 
 describe('StarWars DataTable tests', () => {
-  test('render all possible items when page loads', () => {
-    const { queryByText, queryByTestId } = render(
-      <StarWarsContext.Provider>
-        <App />
-      </StarWarsContext.Provider>,
-    );
+  test('loads page and fetches an error', async () => {
+    jest.spyOn(global, 'fetch')
+      .mockImplementation(() => Promise.resolve({
+        status: 200,
+        ok: false,
+        json: () => Promise.resolve({
+          message: 'Failed to fetch',
+        }),
+      }));
+    const { queryByText, queryByTestId } = render(<App />);
 
     expect(queryByTestId(/boxColumn/i)).toBeInTheDocument();
     expect(queryByTestId(/boxComparison/i)).toBeInTheDocument();
@@ -21,18 +25,6 @@ describe('StarWars DataTable tests', () => {
     expect(buttonFilter).toBeInTheDocument();
     expect(buttonFilter.disabled).toBeTruthy();
     expect(queryByTestId(/boxName/i)).toBeInTheDocument();
-    expect(queryByText(/Loading.../i)).toBeInTheDocument();
-  });
-
-  test('loads page and fetches an error', async () => {
-    jest.spyOn(global, 'fetch')
-      .mockImplementation(() => Promise.reject(new Error('Failed to fetch')));
-    const { queryByText } = render(
-      <StarWarsContext.Provider>
-        <App />
-      </StarWarsContext.Provider>,
-    );
-
     expect(queryByText(/Loading.../i)).toBeInTheDocument();
     expect(queryByText(/StarWars Datatable with Filters/i)).not.toBeInTheDocument();
     expect(queryByText(/Failed to fetch/i)).not.toBeInTheDocument();
@@ -53,11 +45,7 @@ describe('StarWars DataTable tests', () => {
           results: [...data],
         }),
       }));
-    const { queryByText, queryByTestId } = render(
-      <StarWarsContext.Provider>
-        <App />
-      </StarWarsContext.Provider>,
-    );
+    const { queryByText, queryByTestId } = render(<App />);
 
     expect(queryByText(/Loading.../i)).toBeInTheDocument();
     expect(queryByText(/StarWars Datatable with Filters/i)).not.toBeInTheDocument();
@@ -83,11 +71,7 @@ describe('StarWars DataTable tests', () => {
   });
 
   test('after change, testing numeric values', async () => {
-    const { queryByText, queryByTestId } = render(
-      <StarWarsContext.Provider>
-        <App />
-      </StarWarsContext.Provider>,
-    );
+    const { queryByText, queryByTestId } = render(<App />);
 
     await waitForDomChange();
 
