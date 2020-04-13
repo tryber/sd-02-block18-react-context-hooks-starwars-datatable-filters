@@ -1,4 +1,4 @@
-const PLANET_API = 'https://swapi.co/api/planets';
+const PLANET_API = 'https://cors-anywhere.herokuapp.com/https://swapi-trybe.herokuapp.com/api/planets';
 
 const getPlanets = () => (
   fetch(PLANET_API)

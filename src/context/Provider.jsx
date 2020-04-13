@@ -7,7 +7,11 @@ const Provider = ({ children }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
-  const [filters, setFilters] = useState([{ name: '' }]);
+  const [filters, setFilters] = useState([{
+    name: '',
+    column: 'diameter',
+    order: 'ASC',
+  }]);
   const [filtredPlanets, setFiltredPlanets] = useState([]);
 
   const switchFunction = ({ numericValues = {} }, filtred) => {
@@ -29,14 +33,24 @@ const Provider = ({ children }) => {
     }
   };
 
+  const sortArray = ({ column, order }, array) => {
+    return (order === 'ASC') ? (array.sort((a, b) => ((
+      (typeof a[column] === 'number')
+        ? Number(a[column]) < Number(b[column]) ? -1 : 1
+        : (a[column]) < (b[column]) ? -1 : 1))))
+      : array.sort((a, b) => ((a[column] < b[column]) ? 1 : -1));
+  };
+
   useEffect(() => {
     const nameMatch = (name) => name.match(new RegExp(filters[0].name, 'i'));
-    let filtred = data;
+    let filtred = [...data];
     filters.forEach((filter) => {
       filtred = switchFunction(filter, filtred);
     });
-    setFiltredPlanets(filtred.filter(({ name }) => nameMatch(name)));
-  }, [filters]);
+    const newArray = filtred.filter(({ name }) => nameMatch(name));
+    setFiltredPlanets(sortArray(filters[0], newArray));
+  }, [filters, data]);
+
 
   const fetchSucess = ({ results }) => {
     setData(results);
@@ -44,8 +58,8 @@ const Provider = ({ children }) => {
     setIsFetching(true);
   };
 
-  const fetchFail = (receiveError) => {
-    setError(receiveError);
+  const fetchFail = (Error) => {
+    setError(Error.message);
     setIsFetching(true);
   };
 

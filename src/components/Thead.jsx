@@ -7,7 +7,14 @@ const Thead = () => {
     <thead>
       <tr>
         {Object.keys(data[0])
-          .map((infoPlanets) => (infoPlanets !== 'residents') && <th key={infoPlanets}>{infoPlanets}</th>)}
+          .map((infoPlanets) => (infoPlanets !== 'residents')
+            && (
+              <th key={infoPlanets}>
+                <button type="button">
+                  {infoPlanets}
+                </button>
+              </th>
+            ))}
       </tr>
     </thead>
   );

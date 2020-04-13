@@ -51,7 +51,7 @@ export default planets;
 
 afterEach(cleanup);
 
-describe('Coverage 90%', () => {
+describe('Coverage 100%', () => {
   test('renders learn react link', async () => {
     jest.spyOn(global, 'fetch')
       .mockImplementation(() => Promise.resolve({
@@ -231,13 +231,16 @@ describe('Coverage 90%', () => {
   });
   test('test error api ', async () => {
     jest.spyOn(global, 'fetch')
-      .mockImplementation(() => (Promise.reject('error')));
+      .mockImplementation(() => Promise.resolve({
+        status: 400,
+        json: () => Promise.resolve(new Error('erro')),
+      }));
     const {
       getByText,
     } = render(<App />);
     expect(getByText(/Loading/i)).toBeInTheDocument();
     await wait();
-    expect(getByText(/error/i)).toBeInTheDocument();
+    expect(getByText(/erro/i)).toBeInTheDocument();
   });
   test('test 2 numeric filters', async () => {
     jest.spyOn(global, 'fetch')
@@ -248,9 +251,9 @@ describe('Coverage 90%', () => {
           results: [...planets],
         }),
       }));
-    const {
-      getByText, getByTestId, queryByTestId, queryByText,
-    } = render(<App />);
+      const {
+        getByText, getByTestId, queryByTestId, queryByText,
+      } = render(<App />);
     expect(getByText(/Loading/i)).toBeInTheDocument();
     await wait();
     fireEvent.change(getByTestId('input-name'), { target: { value: 'aa' } });
