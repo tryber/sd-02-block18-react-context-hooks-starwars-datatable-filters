@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 
-import FilterContext from '../context/Context';
+import starWarsContext from '../context/Context';
 import Filters from './Filters';
 
 function Panel() {
-  const { planets, params } = useContext(FilterContext);
+  const { planets, params } = useContext(starWarsContext);
 
   return (
     <div className="complete-panel">

@@ -8,7 +8,7 @@ function DropDown(props) {
   let selected;
   let dropped = false;
   const {
-    arr, func, name, index, testid
+    arr, func, name, index, testid,
   } = props;
 
   const dropDown = () => {
@@ -27,29 +27,34 @@ function DropDown(props) {
     dropDown();
   };
 
+  const renderList = () => (
+    <div className="list" ref={(node) => { list = node; }}>
+      {arr.map((param) => (
+        <button
+          key={param}
+          type="button"
+          name={param}
+          onClick={(e) => clickHandle(e)}
+        >
+          {param}
+        </button>
+      ))}
+    </div>
+  );
+
+
   return (
     <div className="comp_dropdown" data-testid={testid}>
-      <label>{name}</label>
+      <p className="selectedTag">{name}</p>
       <div className="selected">
         <button
           type="button"
           onClick={() => dropDown()}
         >
-          <p ref={(node) => { selected = node; }} />
+          <p name={`tag${testid}`} ref={(node) => { selected = node; }} />
         </button>
       </div>
-      <div className="list" ref={(node) => { list = node; }}>
-        {arr.map((param) => (
-          <button
-            key={param}
-            type="button"
-            name={param}
-            onClick={(e) => clickHandle(e)}
-          >
-            {param}
-          </button>
-        ))}
-      </div>
+      {renderList()}
     </div>
   );
 }
@@ -61,6 +66,7 @@ DropDown.propTypes = {
   func: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  testid: PropTypes.string.isRequired,
 };
 
 export default DropDown;

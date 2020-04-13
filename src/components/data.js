@@ -1,6 +1,7 @@
 const data = [
   {
     name: 'Alderaan',
+    rotation_period: '24',
     orbital_period: '364',
     diameter: '12500',
     climate: 'temperate',
@@ -22,7 +23,7 @@ const data = [
   },
   {
     name: 'Yavin IV',
-    rotation_period: '24',
+    rotation_period: '42',
     orbital_period: '4818',
     diameter: '10200',
     climate: 'temperate, tropical',

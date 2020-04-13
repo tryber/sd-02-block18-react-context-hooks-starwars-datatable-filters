@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const FilterContext = createContext();
+const StarWarsContext = createContext();
 
-export default FilterContext;
+export default StarWarsContext;

@@ -1,62 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import FilterContext from './Context';
+import starWarsContext from './Context';
 import fetchApi from '../services/api';
 
+const planetsParams = [{
+  name: '',
+  rotation_period: '',
+  orbital_period: '',
+  diameter: '',
+  climate: '',
+  gravity: '',
+  terrain: '',
+  surface_water: '',
+  population: '',
+}];
+
+const params2 = [
+  'name',
+  'rotation_period',
+  'orbital_period',
+  'diameter',
+  'climate',
+  'gravity',
+  'terrain',
+  'surface_water',
+  'population',
+  'films',
+  'created',
+  'edited',
+  'url',
+];
+
+const typeParam2 = [
+  'rotation_period',
+  'orbital_period',
+  'diameter',
+  'surface_water',
+  'population',
+];
+
+const filtersParams = {
+  filters: [
+    {
+      name: '',
+    },
+    {
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    },
+  ],
+};
 
 const FilterProvider = ({ children }) => {
-  const planetsParams = [{
-    name: '',
-    rotation_period: '',
-    orbital_period: '',
-    diameter: '',
-    climate: '',
-    gravity: '',
-    terrain: '',
-    surface_water: '',
-    population: '',
-  }];
-
-  const params2 = [
-    'name',
-    'rotation_period',
-    'orbital_period',
-    'diameter',
-    'climate',
-    'gravity',
-    'terrain',
-    'surface_water',
-    'population',
-    'films',
-    'created',
-    'edited',
-    'url',
-  ];
-
-  const typeParam2 = [
-    'rotation_period',
-    'orbital_period',
-    'diameter',
-    'surface_water',
-    'population',
-  ];
-
-  const filtersParams = {
-    filters: [
-      {
-        name: '',
-      },
-      {
-        numericValues: {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      },
-    ],
-  };
-
   const [planets, setPlanets] = useState(planetsParams);
   const [data, setData] = useState(planetsParams);
   const [params] = useState(params2);
@@ -122,7 +121,6 @@ const FilterProvider = ({ children }) => {
       .reduce((acc, val, index) => filterByNumber(acc, index + 1), filterPlanets);
   };
 
-
   useEffect(() => {
     fetchApi().then((dados) => {
       const dados2 = dados.map((dado) => {
@@ -142,7 +140,6 @@ const FilterProvider = ({ children }) => {
     const planets2 = filterByNumbers(filterByName(data));
     setPlanets(planets2);
   }, [filters]);
-
 
   const removeFilter = (index) => {
     filters.filters.splice(index, 1);
@@ -222,9 +219,9 @@ const FilterProvider = ({ children }) => {
   };
 
   return (
-    <FilterContext.Provider value={contextValue}>
+    <starWarsContext.Provider value={contextValue}>
       {children}
-    </FilterContext.Provider>
+    </starWarsContext.Provider>
   );
 };
 

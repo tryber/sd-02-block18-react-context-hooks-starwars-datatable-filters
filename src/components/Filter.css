@@ -7,11 +7,11 @@
 }
 
 .filter button {
-  cursor: pointer;
-  position: relative;
-  padding: 0;
   background-color: white;
   border-style: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
 }
 
 .comp_condition {

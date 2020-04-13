@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 
-import FilterContext from '../context/Context';
+import starWarsContext from '../context/Context';
 
 function FilterName() {
-  const { filterNameFunc } = useContext(FilterContext);
+  const { filterNameFunc } = useContext(starWarsContext);
 
   const handleChange = (e) => {
     const name = e.target.value;
@@ -12,8 +12,9 @@ function FilterName() {
 
   return (
     <div>
-      <label>Planet name:</label>
+      <label htmlFor="inputName">Planet name:</label>
       <input
+        id="inputName"
         data-testid="inputName"
         type="text"
         onChange={(e) => handleChange(e)}

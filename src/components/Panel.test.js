@@ -20,14 +20,17 @@ const tableRender = async () => {
       }),
     }));
 
-  const { getByTestId, getByText, queryByText, getAllByTestId } = render(
+  const {
+    getByTestId, getByText, queryByText, getAllByTestId,
+  } = render(
     <Provider>
       <Panel />
     </Provider>,
   );
+  const api = 'https://cors-anywhere.herokuapp.com/https://swapi-trybe.herokuapp.com/api/planets';
 
   await wait();
-  expect(global.fetch).toHaveBeenCalledWith('https://swapi.co/api/planets/');
+  expect(global.fetch).toHaveBeenCalledWith(api);
 
   return {
     getByTestId,
@@ -49,20 +52,45 @@ describe('Panel', () => {
     expect(tds[1].innerHTML).toBe('rotation_period');
     expect(getByText(/Alderaan/)).toBeInTheDocument();
     expect(getByText(/364/)).toBeInTheDocument();
+    expect(getByText(/Yavin IV/)).toBeInTheDocument();
   });
 
-  test('Filters', async () => {
-    const { getByTestId, getAllByTestId, queryByText } = await tableRender();
+  test('Filter by name', async () => {
+    const { getByTestId, queryByText } = await tableRender();
     const filters = getByTestId('filters');
     expect(filters).toBeInTheDocument();
 
     const inputName = getByTestId('inputName');
     fireEvent.change(inputName, { target: { value: 'Alderaan' } });
+    expect(inputName.value).toBe('Alderaan');
+
     expect(queryByText(/Alderaan/)).toBeInTheDocument();
     expect(queryByText(/Yavin IV/)).not.toBeInTheDocument();
+  });
 
+  test('Filter by condition', async () => {
+    const { getAllByTestId, queryByText, getByText } = await tableRender();
+
+    const add = getByText('Add filter');
+    fireEvent.click(add);
     const allfilter = getAllByTestId('filter');
-    const dropDownType = getByTestId('type');
-    const t = dropDownType.querySelector("button[name*='rotation_period']");
+    expect(allfilter.length).toBe(2);
+
+    const rotationPeriod = allfilter[0].querySelector("button[name*='rotation_period']");
+    const selectType = allfilter[0].querySelector("p[name*='tagtype']");
+    fireEvent.click(rotationPeriod);
+    expect(selectType.innerHTML).toBe('rotation_period');
+
+    const menorQue = allfilter[0].querySelector("button[name*='Menor que']");
+    const selectCond = allfilter[0].querySelector("p[name*='tagcondition']");
+    fireEvent.click(menorQue);
+    expect(selectCond.innerHTML).toBe('Menor que');
+
+    const inputCondition = allfilter[0].querySelector("input[name*='inputCondition']");
+    fireEvent.change(inputCondition, { target: { value: '25' } });
+    expect(inputCondition.value).toBe('25');
+
+    expect(queryByText(/Yavin IV/)).not.toBeInTheDocument();
+    expect(queryByText(/Alderaan/)).toBeInTheDocument();
   });
 });

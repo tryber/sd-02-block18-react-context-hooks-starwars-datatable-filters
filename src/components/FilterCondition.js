@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import './Filter.css';
-import FilterContext from '../context/Context';
+import starWarsContext from '../context/Context';
 
 function FilterCondition(props) {
   const { index } = props;
-  const { filterNumberFunc } = useContext(FilterContext);
+  const { filterNumberFunc } = useContext(starWarsContext);
 
   const handleChange = (e) => {
     const name = e.target.value;
@@ -15,8 +15,10 @@ function FilterCondition(props) {
 
   return (
     <div className="comp_condition">
-      <label>Number:</label>
+      <label htmlFor="inputCondition">Number:</label>
       <input
+        id="inputCondition"
+        name="inputCondition"
         type="text"
         onChange={(e) => handleChange(e)}
       />

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import FilterContext from '../context/Context';
+import starWarsContext from '../context/Context';
 import Dropdown from './Dropdown';
 import FilterCondition from './FilterCondition';
 
@@ -11,13 +11,32 @@ function Filter(props) {
     typeParam,
     filterTypeFunc,
     filterConditionFunc,
-  } = useContext(FilterContext);
+  } = useContext(starWarsContext);
   const conditions = ['Maior que', 'Menor que', 'Igual a'];
 
   const handleClick = () => {
     removeFilter2(index);
   };
 
+  const renderDropDownType = () => (
+    <Dropdown
+      name="Type:"
+      arr={typeParam}
+      func={filterTypeFunc}
+      index={index}
+      testid="type"
+    />
+  );
+
+  const renderDropDownCond = () => (
+    <Dropdown
+      name="Condition:"
+      arr={conditions}
+      func={filterConditionFunc}
+      index={index}
+      testid="condition"
+    />
+  );
 
   return (
     <div className="filter" data-testid="filter">
@@ -26,20 +45,8 @@ function Filter(props) {
           close
         </span>
       </button>
-      <Dropdown
-        name="Type:"
-        arr={typeParam}
-        func={filterTypeFunc}
-        index={index}
-        testid="type"
-      />
-      <Dropdown
-        name="Condition:"
-        arr={conditions}
-        func={filterConditionFunc}
-        index={index}
-        testid="condition"
-      />
+      {renderDropDownType()}
+      {renderDropDownCond()}
       <FilterCondition index={index} />
     </div>
   );
