@@ -5,10 +5,10 @@ const Tbody = () => {
   const { filtredPlanets } = useContext(starWarsContext);
   return (
     <tbody>
-      {filtredPlanets.map((planet) => (
-        <tr key={planet.name}>
+      {filtredPlanets.map((planet, index) => (
+        <tr data-testid={`planet${index}`} key={planet.name}>
           {Object.values(planet)
-            .map((keyPlanet, index) => (Object.keys(planet)[index] !== 'residents')
+            .map((keyPlanet, i) => (Object.keys(planet)[i] !== 'residents')
               && <td key={keyPlanet}>{keyPlanet}</td>)}
         </tr>
       ))}

@@ -51,7 +51,7 @@ export default planets;
 
 afterEach(cleanup);
 
-describe('Coverage 100%', () => {
+describe('Coverage +90%', () => {
   test('renders learn react link', async () => {
     jest.spyOn(global, 'fetch')
       .mockImplementation(() => Promise.resolve({
@@ -251,9 +251,9 @@ describe('Coverage 100%', () => {
           results: [...planets],
         }),
       }));
-      const {
-        getByText, getByTestId, queryByTestId, queryByText,
-      } = render(<App />);
+    const {
+      getByText, getByTestId, queryByTestId, queryByText,
+    } = render(<App />);
     expect(getByText(/Loading/i)).toBeInTheDocument();
     await wait();
     fireEvent.change(getByTestId('input-name'), { target: { value: 'aa' } });
@@ -288,5 +288,29 @@ describe('Coverage 100%', () => {
     fireEvent.click(queryByTestId('filter'));
     await wait();
     expect(queryByText(/Alderaan/)).toBeInTheDocument();
+  });
+  test('test ASC/DESC string', async () => {
+    jest.spyOn(global, 'fetch')
+      .mockImplementation(() => Promise.resolve({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({
+          results: [...planets],
+        }),
+      }));
+    const {
+      getByTestId,
+    } = render(<App />);
+    await wait();
+    const name = getByTestId('name');
+    expect(name).toBeInTheDocument();
+    expect(getByTestId('planet0').firstChild.innerHTML).toBe('Alderaan');
+    expect(getByTestId('planet1').firstChild.innerHTML).toBe('Yavin IV');
+    fireEvent.click(name);
+    expect(getByTestId('planet1').firstChild.innerHTML).toBe('Alderaan');
+    expect(getByTestId('planet0').firstChild.innerHTML).toBe('Yavin IV');
+    fireEvent.click(name);
+    expect(getByTestId('planet0').firstChild.innerHTML).toBe('Alderaan');
+    expect(getByTestId('planet1').firstChild.innerHTML).toBe('Yavin IV');
   });
 });

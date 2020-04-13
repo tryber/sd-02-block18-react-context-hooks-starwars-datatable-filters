@@ -11,6 +11,7 @@ const Thead = () => {
             && (
               <th key={infoPlanets}>
                 <button
+                  data-testid={infoPlanets}
                   type="button"
                   value={infoPlanets}
                   onClick={({ target }) => filtersAscDesc(target.value)}
