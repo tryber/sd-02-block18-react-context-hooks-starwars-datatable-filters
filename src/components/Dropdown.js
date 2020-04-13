@@ -34,7 +34,7 @@ const DropDown = (props) => {
           key={param}
           type="button"
           name={param}
-          onClick={(e) => clickHandle(e, selected, list, index)}
+          onClick={(e) => clickHandle(e)}
         >
           {param}
         </button>

@@ -55,6 +55,42 @@ const filtersParams = {
   ],
 };
 
+const switchComparison = (filterPlanets, column, comparison, value) => {
+  switch (comparison) {
+    case '':
+      return filterPlanets;
+    case 'Maior que':
+      return filterPlanets
+        .filter((planet) => Number(planet[column]) > Number(value));
+    case 'Menor que':
+      return filterPlanets
+        .filter((planet) => Number(planet[column]) < Number(value));
+    case 'Igual a':
+      return filterPlanets
+        .filter((planet) => Number(planet[column]) === Number(value));
+    default:
+      return null;
+  }
+};
+
+const switchValeu = (filterPlanets, column, comparison, value) => {
+  switch (value) {
+    case '':
+      return filterPlanets;
+    default:
+      return switchComparison(filterPlanets, column, comparison, value);
+  }
+};
+
+const switchColumn = (filterPlanets, column, comparison, value) => {
+  switch (column) {
+    case '':
+      return filterPlanets;
+    default:
+      return switchValeu(filterPlanets, column, comparison, value);
+  }
+};
+
 const FilterProvider = ({ children }) => {
   const [planets, setPlanets] = useState(planetsParams);
   const [data, setData] = useState(planetsParams);
@@ -73,42 +109,6 @@ const FilterProvider = ({ children }) => {
     return switchName(filterPlanets, name);
   };
 
-
-  const switchComparison = (filterPlanets, column, comparison, value) => {
-    switch (comparison) {
-      case '':
-        return filterPlanets;
-      case 'Maior que':
-        return filterPlanets
-          .filter((planet) => Number(planet[column]) > Number(value));
-      case 'Menor que':
-        return filterPlanets
-          .filter((planet) => Number(planet[column]) < Number(value));
-      case 'Igual a':
-        return filterPlanets
-          .filter((planet) => Number(planet[column]) === Number(value));
-      default:
-        return null;
-    }
-  };
-
-  const switchValeu = (filterPlanets, column, comparison, value) => {
-    switch (value) {
-      case '':
-        return filterPlanets;
-      default:
-        return switchComparison(filterPlanets, column, comparison, value);
-    }
-  };
-
-  const switchColumn = (filterPlanets, column, comparison, value) => {
-    switch (column) {
-      case '':
-        return filterPlanets;
-      default:
-        return switchValeu(filterPlanets, column, comparison, value);
-    }
-  };
 
   const filterByNumber = (filterPlanets, index) => {
     const { column, comparison, value } = filters.filters[index].numericValues;
