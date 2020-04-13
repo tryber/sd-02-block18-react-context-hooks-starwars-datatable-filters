@@ -5,7 +5,7 @@ import starWarsContext from '../context/Context';
 import Dropdown from './Dropdown';
 import FilterCondition from './FilterCondition';
 
-function Filter(props) {
+const Filter = (props) => {
   const { index, removeFilter2 } = props;
   const {
     typeParam,
@@ -50,7 +50,7 @@ function Filter(props) {
       <FilterCondition index={index} />
     </div>
   );
-}
+};
 
 Filter.propTypes = {
   index: PropTypes.number.isRequired,

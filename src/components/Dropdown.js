@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './DropDown.css';
 
-function DropDown(props) {
+const DropDown = (props) => {
   let list;
   let selected;
   let dropped = false;
@@ -34,7 +34,7 @@ function DropDown(props) {
           key={param}
           type="button"
           name={param}
-          onClick={(e) => clickHandle(e)}
+          onClick={(e) => clickHandle(e, selected, list, index)}
         >
           {param}
         </button>
@@ -57,7 +57,7 @@ function DropDown(props) {
       {renderList()}
     </div>
   );
-}
+};
 
 DropDown.propTypes = {
   arr: PropTypes.arrayOf(
