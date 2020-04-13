@@ -2,20 +2,35 @@ import React from 'react';
 import {
   render, cleanup, waitForDomChange, fireEvent,
 } from '@testing-library/react';
-import { getPlanetsByNameSearch, getPlanetsByOneFilterLesser, getPlanetsByVariousFiltersBigger, getPlanetsByVariousFiltersEqual } from './services/mockFilters';
-// import planets from './services/mockPlanets';
+import {
+  getPlanetsByNameSearch, getPlanetsByOneFilterLesser,
+  getPlanetsByVariousFiltersBigger, getPlanetsByVariousFiltersEqual,
+} from './services/mockFilters';
 import App from './App';
 import planetsMock from './services/mockPlanets';
 
 afterEach(cleanup);
 
+const mockPlanetsSuccess = () => {
+  jest.spyOn(global, 'fetch')
+    .mockImplementation(() => Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => Promise.resolve({
+        results: [...planetsMock],
+      }),
+    }));
+};
+
 test('renders learn react link', () => {
+  mockPlanetsSuccess();
   const { getByText } = render(<App />);
   const title = getByText(/Pesquisar/i);
   expect(title).toBeInTheDocument();
 });
 
 test('Checking if the planets are rendered', async () => {
+  mockPlanetsSuccess();
   const { getByTestId, getByText } = render(<App />);
   const loading = getByTestId('loading');
   expect(loading).toBeInTheDocument();
@@ -26,6 +41,7 @@ test('Checking if the planets are rendered', async () => {
 });
 
 test('checking search by name', async () => {
+  mockPlanetsSuccess();
   const { getByTestId, getByText, queryByText } = render(<App />);
   await waitForDomChange();
   const inputName = getByTestId('name-inp');
@@ -40,6 +56,7 @@ test('checking search by name', async () => {
 });
 
 test('checking search by one filter', async () => {
+  mockPlanetsSuccess();
   const { getByTestId, getByText, queryByText } = render(<App />);
   await waitForDomChange();
   const columnFilter = getByTestId('col');
@@ -60,6 +77,7 @@ test('checking search by one filter', async () => {
 });
 
 test('checking search by one filter and word', async () => {
+  mockPlanetsSuccess();
   const { getByTestId, getByText, queryByText } = render(<App />);
   await waitForDomChange();
   const inputName = getByTestId('name-inp');
@@ -85,6 +103,7 @@ test('checking search by one filter and word', async () => {
 
 
 test('checking multiple filters and deleting', async () => {
+  mockPlanetsSuccess();
   const { getByTestId, getByText, queryByText } = render(<App />);
   await waitForDomChange();
   const inputName = getByTestId('name-inp');
@@ -126,8 +145,6 @@ test('checking multiple filters and deleting', async () => {
   const [pFiltered5, notPFiltered5] = getPlanetsByVariousFiltersEqual(pFiltered4, 'surface_water', '100');
   const notFiltered = [...notpFilteredWord, ...notPFiltered1,
     ...notPFiltered2, ...notPFiltered3, ...notPFiltered4, ...notPFiltered5];
-  console.log(pFiltered5[0].name);
-  console.log(notFiltered);
 
   expect(getByText(pFiltered5[0].name)).toBeInTheDocument();
   notFiltered.forEach(({ name }) => {
@@ -146,6 +163,7 @@ test('checking multiple filters and deleting', async () => {
 });
 
 test('check filter button not working', async () => {
+  mockPlanetsSuccess();
   const { getByTestId } = render(<App />);
   await waitForDomChange();
   jest.spyOn(window, 'alert').mockImplementation(() => { });
@@ -155,6 +173,7 @@ test('check filter button not working', async () => {
 });
 
 test('check equals to filter', async () => {
+  mockPlanetsSuccess();
   const { getByTestId, getByText } = render(<App />);
   await waitForDomChange();
   const columnFilter = getByTestId('col');
