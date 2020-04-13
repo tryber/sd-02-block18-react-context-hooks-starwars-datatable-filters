@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  render, cleanup, waitForElementToBeRemoved, fireEvent,
+  render, cleanup, waitForElementToBeRemoved, fireEvent, wait,
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Simulate } from 'react-dom/test-utils';
@@ -51,7 +51,7 @@ describe('FiltersBox tests', () => {
 
     expect(queryByTestId(/input-name/i)).toBeInTheDocument();
     expect(queryByTestId(/input-name/i).tagName).toBe('INPUT');
-    Simulate.change(queryByTestId(/input-name/i), event);
+    fireEvent.change(queryByTestId(/input-name/i), event);
     expect(queryByTestId(/input-name/i).value).toBe('AA');
   });
   test('if filtering planets by name', async () => {
@@ -69,5 +69,122 @@ describe('FiltersBox tests', () => {
     FilterPlanets.forEach((planet) => {
       expect(queryByText(planet.name)).toBeInTheDocument();
     });
+  });
+  test('if exist filters by numeric value', async () => {
+    const { queryByText, queryByTestId } = await testTableRender();
+
+    const selectComparison = queryByTestId(/select-comparison/i);
+    const selectColumn = queryByTestId(/select-column/i);
+    const inputValue = queryByTestId(/inputNumberValue/i);
+
+    expect(selectComparison).toBeInTheDocument();
+    expect(queryByText(/Escolha uma coluna/i)).toBeInTheDocument();
+
+    expect(selectColumn).toBeInTheDocument();
+    expect(queryByText(/Escolha um comparador/i)).toBeInTheDocument();
+
+    expect(inputValue).toBeInTheDocument();
+    expect(inputValue.value).toBe('');
+
+    expect(queryByText(/Clique para filtrar/i)).toBeNull();
+  });
+  test('if filtering planets by numeric value maior que', async () => {
+    const { queryByText, queryByTestId } = await testTableRender();
+
+    const selectComparison = queryByTestId(/select-comparison/i);
+    const selectColumn = queryByTestId(/select-column/i);
+    const inputValue = queryByTestId(/inputNumberValue/i);
+
+    fireEvent.change(selectComparison, { target: { value: 'maior que' } });
+    fireEvent.change(selectColumn, { target: { value: 'rotation_period' } });
+    Simulate.change(inputValue, { target: { value: '24' } });
+
+    expect(queryByText(/maior que/i)).toBeInTheDocument();
+    expect(queryByTestId(/select-column/i).value).toBe('rotation_period');
+    expect(queryByTestId(/inputNumberValue/i).value).toBe('24');
+    await wait(() => expect(queryByText(/Clique para filtrar/i)).toBeInTheDocument());
+
+    fireEvent.click(queryByText(/Clique para filtrar/i));
+
+    const notFilterPlanets = planets.filter((planet) => !(Number(planet.rotation_period) > 24));
+    const FilterPlanets = planets.filter((planet) => Number(planet.rotation_period) > 24);
+
+    notFilterPlanets.forEach((planet) => {
+      expect(queryByText(planet.name)).not.toBeInTheDocument();
+    });
+    FilterPlanets.forEach((planet) => {
+      expect(queryByText(planet.name)).toBeInTheDocument();
+    });
+
+    await wait(() => expect(queryByText(/Filters List/i)).toBeInTheDocument());
+    expect(queryByText('rotation_period|maior que|24')).toBeInTheDocument();
+    expect(queryByTestId(/remove-button/i)).toBeInTheDocument();
+    expect(queryByTestId(/remove-button/i).tagName).toBe('BUTTON');
+  });
+  test('if filtering planets by numeric value menor que', async () => {
+    const { queryByText, queryByTestId } = await testTableRender();
+
+    const selectComparison = queryByTestId(/select-comparison/i);
+    const selectColumn = queryByTestId(/select-column/i);
+    const inputValue = queryByTestId(/inputNumberValue/i);
+
+    fireEvent.change(selectComparison, { target: { value: 'menor que' } });
+    fireEvent.change(selectColumn, { target: { value: 'population' } });
+    Simulate.change(inputValue, { target: { value: '2000000' } });
+
+    expect(queryByText(/menor que/i)).toBeInTheDocument();
+    expect(queryByTestId(/select-column/i).value).toBe('population');
+    expect(queryByTestId(/inputNumberValue/i).value).toBe('2000000');
+    await wait(() => expect(queryByText(/Clique para filtrar/i)).toBeInTheDocument());
+
+    fireEvent.click(queryByText(/Clique para filtrar/i));
+
+    const notFilterPlanets = planets.filter((planet) => !(Number(planet.population) < 2000000));
+    const FilterPlanets = planets.filter((planet) => Number(planet.population) < 2000000);
+
+    notFilterPlanets.forEach((planet) => {
+      expect(queryByText(planet.name)).not.toBeInTheDocument();
+    });
+    FilterPlanets.forEach((planet) => {
+      expect(queryByText(planet.name)).toBeInTheDocument();
+    });
+
+    await wait(() => expect(queryByText(/Filters List/i)).toBeInTheDocument());
+    expect(queryByText('population|menor que|2000000')).toBeInTheDocument();
+    expect(queryByTestId(/remove-button/i)).toBeInTheDocument();
+    expect(queryByTestId(/remove-button/i).tagName).toBe('BUTTON');
+  });
+  test('if filtering planets by numeric value, igual a', async () => {
+    const { queryByText, queryByTestId } = await testTableRender();
+
+    const selectComparison = queryByTestId(/select-comparison/i);
+    const selectColumn = queryByTestId(/select-column/i);
+    const inputValue = queryByTestId(/inputNumberValue/i);
+
+    fireEvent.change(selectComparison, { target: { value: 'igual a' } });
+    fireEvent.change(selectColumn, { target: { value: 'orbital_period' } });
+    Simulate.change(inputValue, { target: { value: '100' } });
+
+    expect(queryByText(/igual a/i)).toBeInTheDocument();
+    expect(queryByTestId(/select-column/i).value).toBe('orbital_period');
+    expect(queryByTestId(/inputNumberValue/i).value).toBe('100');
+    await wait(() => expect(queryByText(/Clique para filtrar/i)).toBeInTheDocument());
+
+    fireEvent.click(queryByText(/Clique para filtrar/i));
+
+    const notFilterPlanets = planets.filter((planet) => !(Number(planet.orbital_period) === 100));
+    const FilterPlanets = planets.filter((planet) => Number(planet.orbital_period) === 100);
+
+    notFilterPlanets.forEach((planet) => {
+      expect(queryByText(planet.name)).not.toBeInTheDocument();
+    });
+    FilterPlanets.forEach((planet) => {
+      expect(queryByText(planet.name)).toBeInTheDocument();
+    });
+
+    await wait(() => expect(queryByText(/Filters List/i)).toBeInTheDocument());
+    expect(queryByText('orbital_period|igual a|100')).toBeInTheDocument();
+    expect(queryByTestId(/remove-button/i)).toBeInTheDocument();
+    expect(queryByTestId(/remove-button/i).tagName).toBe('BUTTON');
   });
 });
