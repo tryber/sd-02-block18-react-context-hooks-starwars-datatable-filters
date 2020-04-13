@@ -118,8 +118,8 @@ describe('FiltersBox tests', () => {
 
     await wait(() => expect(queryByText(/Filters List/i)).toBeInTheDocument());
     expect(queryByText('rotation_period|maior que|24')).toBeInTheDocument();
-    expect(queryByTestId(/remove-button/i)).toBeInTheDocument();
-    expect(queryByTestId(/remove-button/i).tagName).toBe('BUTTON');
+    expect(queryByTestId(/remove-button-rotation_period/i)).toBeInTheDocument();
+    expect(queryByTestId(/remove-button-rotation_period/i).tagName).toBe('BUTTON');
   });
   test('if filtering planets by numeric value menor que', async () => {
     const { queryByText, queryByTestId } = await testTableRender();

@@ -37,6 +37,13 @@ const filterArray = (planets, filters, setFilterPlanets) => {
   setFilterPlanets([...filterPlanets]);
 };
 
+const removeFilter = (filter, filters, setNumericValues) => {
+  const newFilters = filters;
+  const removeIndex = newFilters.findIndex(({ column }) => filter === column);
+  newFilters.splice(removeIndex, 1);
+  setNumericValues(newFilters);
+};
+
 const FilterProvider = ({ children }) => {
   const { planets } = useContext(ApiContext);
   const {
@@ -59,6 +66,7 @@ const FilterProvider = ({ children }) => {
     setName,
     setNumericValues,
     setFilterPlanets,
+    removeFilter,
   };
 
   return (
