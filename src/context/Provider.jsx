@@ -15,6 +15,25 @@ const sortArray = ({ column, order }, array) => {
     : (array.sort((a, b) => (Number(a[column]) < Number(b[column]) ? -1 : 1))));
 };
 
+const switchFunction = ({ numericValues = {} }, filtred) => {
+  const { column = '', value, comparison = '' } = numericValues;
+  switch (comparison) {
+    case 'menor que': {
+      return (filtred
+        .filter((planet) => Number(planet[column]) < Number(value)));
+    }
+    case 'maior que': {
+      return (filtred
+        .filter((planet) => Number(planet[column]) > Number(value)));
+    }
+    case 'igual a': {
+      return (filtred
+        .filter((planet) => Number(planet[column]) === Number(value)));
+    }
+    default: return filtred;
+  }
+};
+
 const Provider = ({ children }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
@@ -26,24 +45,6 @@ const Provider = ({ children }) => {
   }]);
   const [filtredPlanets, setFiltredPlanets] = useState([]);
 
-  const switchFunction = ({ numericValues = {} }, filtred) => {
-    const { column = '', value, comparison = '' } = numericValues;
-    switch (comparison) {
-      case 'menor que': {
-        return (filtred
-          .filter((planet) => Number(planet[column]) < Number(value)));
-      }
-      case 'maior que': {
-        return (filtred
-          .filter((planet) => Number(planet[column]) > Number(value)));
-      }
-      case 'igual a': {
-        return (filtred
-          .filter((planet) => Number(planet[column]) === Number(value)));
-      }
-      default: return filtred;
-    }
-  };
 
   useEffect(() => {
     const nameMatch = (name) => name.match(new RegExp(filters[0].name, 'i'));
