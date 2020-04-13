@@ -2,7 +2,7 @@
   background-color: rgb(74, 74, 74);
   border: 2px solid black;
   border-collapse: collapse;
-  font-family: 'Arial Black', Gadget, sans-serif;
+  font-family: 'Arial Black' Gadget sans-serif;
   height: 200px;
   text-align: center;
   width: 100%;
@@ -18,7 +18,7 @@
   font-size: 13px;
 }
 
-.darkTable tr:nth-child(even) {
+.darkTable tr:nth-child( even ) {
   background: rgb(136, 136, 136);
 }
 
