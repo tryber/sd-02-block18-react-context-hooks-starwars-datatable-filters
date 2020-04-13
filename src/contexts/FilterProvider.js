@@ -12,10 +12,8 @@ const filterByNumericValues = (filterPlanet, comparison, column, value) => {
       return filterPlanet.filter((planet) => Number(planet[column]) > Number(value));
     case 'menor que':
       return filterPlanet.filter((planet) => Number(planet[column]) < Number(value));
-    case 'igual a':
-      return filterPlanet.filter((planet) => Number(planet[column]) === Number(value));
     default:
-      return filterPlanet;
+      return filterPlanet.filter((planet) => Number(planet[column]) === Number(value));
   }
 };
 

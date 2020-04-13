@@ -15,16 +15,16 @@ const renderInputByName = (name, setName) => (
 );
 
 
-const renderInputByNumber = (value, setLocalNumericValues) => (
+const renderInputByNumber = (valueNumber, setLocalNumericValues) => (
   <input
     type="number"
     data-testid="inputNumberValue"
-    value={value}
+    value={valueNumber}
     placeholder="Digite um numero :"
-    onChange={({ target }) => setLocalNumericValues((array) => [
+    onChange={({ target: { value } }) => setLocalNumericValues((array) => [
       {
         ...array[0],
-        value: target.value,
+        value,
       },
     ])}
   />
@@ -96,7 +96,7 @@ const renderFilterButton = (
       setShowFiltersList(true);
     }}
   >
-      Clique para filtrar
+    Clique para filtrar
   </button>
 );
 
@@ -106,6 +106,7 @@ const FiltersBox = () => {
   const [numericValues, setLocalNumericValues] = useState([
     { column: '', comparison: '', value: '' },
   ]);
+
   const [showFiltersList, setShowFiltersList] = useState(false);
 
   return (

@@ -97,7 +97,9 @@ describe('FiltersBox tests', () => {
 
     fireEvent.change(selectComparison, { target: { value: 'maior que' } });
     fireEvent.change(selectColumn, { target: { value: 'rotation_period' } });
-    Simulate.change(inputValue, { target: { value: '24' } });
+    fireEvent.change(inputValue, { target: { value: '24' } });
+
+    await wait();
 
     expect(queryByText(/maior que/i)).toBeInTheDocument();
     expect(queryByTestId(/select-column/i).value).toBe('rotation_period');
@@ -130,7 +132,9 @@ describe('FiltersBox tests', () => {
 
     fireEvent.change(selectComparison, { target: { value: 'menor que' } });
     fireEvent.change(selectColumn, { target: { value: 'population' } });
-    Simulate.change(inputValue, { target: { value: '2000000' } });
+    fireEvent.change(inputValue, { target: { value: '2000000' } });
+
+    await wait();
 
     expect(queryByText(/menor que/i)).toBeInTheDocument();
     expect(queryByTestId(/select-column/i).value).toBe('population');
@@ -163,7 +167,9 @@ describe('FiltersBox tests', () => {
 
     fireEvent.change(selectComparison, { target: { value: 'igual a' } });
     fireEvent.change(selectColumn, { target: { value: 'orbital_period' } });
-    Simulate.change(inputValue, { target: { value: '100' } });
+    fireEvent.change(inputValue, { target: { value: '100' } });
+
+    await wait();
 
     expect(queryByText(/igual a/i)).toBeInTheDocument();
     expect(queryByTestId(/select-column/i).value).toBe('orbital_period');
