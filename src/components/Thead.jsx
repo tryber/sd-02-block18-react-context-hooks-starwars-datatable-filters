@@ -10,7 +10,11 @@ const Thead = () => {
           .map((infoPlanets) => (infoPlanets !== 'residents')
             && (
               <th key={infoPlanets}>
-                <button type="button" value={infoPlanets} onClick={({ target }) => filtersAscDesc(target.value)}>
+                <button
+                  type="button"
+                  value={infoPlanets}
+                  onClick={({ target }) => filtersAscDesc(target.value)}
+                >
                   {infoPlanets}
                 </button>
               </th>

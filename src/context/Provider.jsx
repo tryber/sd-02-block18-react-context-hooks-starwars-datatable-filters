@@ -3,6 +3,18 @@ import PropTypes from 'prop-types';
 import getPlanets from '../services/planetsApi';
 import starWarsContext from './StarWarsContext';
 
+const sortArray = ({ column, order }, array) => {
+  const arrayNumberSort = ['rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population'];
+  if (!arrayNumberSort.includes(column)) {
+    return ((order === 'ASC')
+      ? (array.sort((a, b) => ((a[column]) < (b[column]) ? -1 : 1)))
+      : (array.sort((a, b) => ((a[column] < b[column]) ? 1 : -1))));
+  }
+  return ((order === 'ASC')
+    ? (array.sort((a, b) => (Number(a[column]) < Number(b[column]) ? 1 : -1)))
+    : (array.sort((a, b) => (Number(a[column]) < Number(b[column]) ? -1 : 1))));
+};
+
 const Provider = ({ children }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
@@ -31,18 +43,6 @@ const Provider = ({ children }) => {
       }
       default: return filtred;
     }
-  };
-
-  const sortArray = ({ column, order }, array) => {
-    const arrayNumberSort = ['rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population'];
-    if (!arrayNumberSort.includes(column)) {
-      return ((order === 'ASC')
-        ? (array.sort((a, b) => ((a[column]) < (b[column]) ? -1 : 1)))
-        : (array.sort((a, b) => ((a[column] < b[column]) ? 1 : -1))));
-    }
-    return ((order === 'ASC')
-      ? (array.sort((a, b) => (Number(a[column]) < Number(b[column]) ? 1 : -1)))
-      : (array.sort((a, b) => (Number(a[column]) < Number(b[column]) ? -1 : 1))));
   };
 
   useEffect(() => {
