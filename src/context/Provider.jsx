@@ -9,7 +9,7 @@ const Provider = ({ children }) => {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState([{
     name: '',
-    column: 'diameter',
+    column: 'name',
     order: 'ASC',
   }]);
   const [filtredPlanets, setFiltredPlanets] = useState([]);
@@ -34,11 +34,15 @@ const Provider = ({ children }) => {
   };
 
   const sortArray = ({ column, order }, array) => {
-    return (order === 'ASC') ? (array.sort((a, b) => ((
-      (typeof a[column] === 'number')
-        ? Number(a[column]) < Number(b[column]) ? -1 : 1
-        : (a[column]) < (b[column]) ? -1 : 1))))
-      : array.sort((a, b) => ((a[column] < b[column]) ? 1 : -1));
+    const arrayNumberSort = ['rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population'];
+    if (!arrayNumberSort.includes(column)) {
+      return ((order === 'ASC')
+        ? (array.sort((a, b) => ((a[column]) < (b[column]) ? -1 : 1)))
+        : (array.sort((a, b) => ((a[column] < b[column]) ? 1 : -1))));
+    }
+    return ((order === 'ASC')
+      ? (array.sort((a, b) => (Number(a[column]) < Number(b[column]) ? 1 : -1)))
+      : (array.sort((a, b) => (Number(a[column]) < Number(b[column]) ? -1 : 1))));
   };
 
   useEffect(() => {
@@ -48,7 +52,8 @@ const Provider = ({ children }) => {
       filtred = switchFunction(filter, filtred);
     });
     const newArray = filtred.filter(({ name }) => nameMatch(name));
-    setFiltredPlanets(sortArray(filters[0], newArray));
+    const arraySorted = (filtred.length > 0) ? (sortArray(filters[0], newArray)) : [];
+    setFiltredPlanets(arraySorted);
   }, [filters, data]);
 
 
@@ -68,6 +73,13 @@ const Provider = ({ children }) => {
       .then(fetchSucess, fetchFail);
   };
 
+  const filtersAscDesc = (target) => {
+    const [param, ...rest] = filters;
+    param.column = target;
+    param.order = (param.order === 'ASC') ? 'DESC' : 'ASC';
+    setFilters([{ ...param }, ...rest]);
+  };
+
   const filterName = (name) => {
     const [param, ...rest] = filters;
     param.name = name;
@@ -81,9 +93,12 @@ const Provider = ({ children }) => {
   };
 
   const excludeFilter = (excludeClick) => {
-    const { name } = filters[0];
-    const removeFilter = filters.filter(({ numericValues: { column } }) => column !== excludeClick);
-    removeFilter[0] = { name, ...removeFilter[0] };
+    const { name, column, order } = filters[0];
+    const removeFilter = filters.filter(({ numericValues: { column: col } }) => (
+      col !== excludeClick));
+    removeFilter[0] = {
+      name, column, order, ...removeFilter[0],
+    };
     setFilters(removeFilter);
   };
 
@@ -97,6 +112,7 @@ const Provider = ({ children }) => {
     addFilter,
     filters,
     excludeFilter,
+    filtersAscDesc,
   };
   return (
     <starWarsContext.Provider value={context}>{children}</starWarsContext.Provider>

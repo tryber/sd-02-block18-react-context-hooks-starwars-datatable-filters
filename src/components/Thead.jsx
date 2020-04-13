@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import starWarsContext from '../context/StarWarsContext';
 
 const Thead = () => {
-  const { data } = useContext(starWarsContext);
+  const { data, filtersAscDesc } = useContext(starWarsContext);
   return (
     <thead>
       <tr>
@@ -10,7 +10,7 @@ const Thead = () => {
           .map((infoPlanets) => (infoPlanets !== 'residents')
             && (
               <th key={infoPlanets}>
-                <button type="button">
+                <button type="button" value={infoPlanets} onClick={({ target }) => filtersAscDesc(target.value)}>
                   {infoPlanets}
                 </button>
               </th>
