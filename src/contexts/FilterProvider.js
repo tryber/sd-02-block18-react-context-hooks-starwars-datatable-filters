@@ -36,9 +36,14 @@ const filterArray = (planets, filters, setFilterPlanets) => {
 };
 
 const removeFilter = (filter, filters, setNumericValues) => {
-  const newFilters = filters;
-  const removeIndex = newFilters.findIndex(({ column }) => filter === column);
-  newFilters.splice(removeIndex, 1);
+  const removeIndex = filters.findIndex(({ column }) => filter === column);
+
+  const array1 = filters.slice(0, removeIndex);
+  const array2 = filters.slice(removeIndex + 1, filters.length);
+
+  const newFilters = array1.concat(array2);
+  console.log(newFilters);
+  //newFilters.splice(removeIndex, 1);
   setNumericValues(newFilters);
 };
 
