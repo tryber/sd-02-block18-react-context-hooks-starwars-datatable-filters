@@ -7,7 +7,7 @@ export default function SortButton({ children, columnName }) {
     filters: [filters, setFilters],
   } = useContext(PlanetsDBContext);
 
-  const [sortOrder, setSortOrder] = useState('');
+  const [sortOrder, setSortOrder] = useState('ASC');
   const [isSorted, setIsSorted] = useState(false);
 
   const toggleSortOrder = () => {
@@ -19,17 +19,17 @@ export default function SortButton({ children, columnName }) {
 
   useEffect(() => {
     function setSortings() {
-      console.log(Object.keys(filters));
-      if ('column' in filters && filters.column === columnName) {
-        setFilters(filters.map(
-          (filter) => {
-            console.log(filter);
-            return filter.column === columnName && { ...filter, order: sortOrder };
-          },
-        ));
-      } else {
-        setFilters([...filters, { column: columnName, order: sortOrder }]);
-      }
+      filters.forEach((filter) => {
+        if (filter.column === columnName) {
+          return setFilters(filters.map(
+            (sortFilter) => {
+              if (sortFilter.column === columnName) return { ...sortFilter, order: sortOrder };
+              return sortFilter;
+            },
+          ));
+        }
+        return setFilters([...filters, { column: columnName, order: sortOrder }]);
+      });
     }
     if (isSorted) setSortings();
     setIsSorted(false);

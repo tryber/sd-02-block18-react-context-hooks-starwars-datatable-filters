@@ -26,7 +26,11 @@ const TableHeaders = () => (
 );
 
 const PlanetRows = () => {
-  const filteredPlanets = usePlanetsFiltering();
+  const {
+    data: [planetsData],
+    filters: [filters, setFilters],
+  } = useContext(PlanetsDBContext);
+  const filteredPlanets = usePlanetsFiltering(planetsData, filters, setFilters);
   return (
     filteredPlanets.map(({
       name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
@@ -54,6 +58,7 @@ const PlanetRows = () => {
 
 export default function Table() {
   useSWAPI();
+
   const { loading: [isLoading] } = useContext(PlanetsDBContext);
   return (
     <div>

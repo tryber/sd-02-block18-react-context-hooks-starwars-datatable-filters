@@ -1,5 +1,6 @@
-import { useContext, useEffect } from 'react';
-import { PlanetsDBContext } from '../context/PlanetsDBContext';
+import { useEffect, useState } from 'react';
+import useSortedColumns from './useSortedColumns';
+
 
 const filterByName = (nameFilter, newFilteredPlanets) => {
   const regExpFilter = new RegExp(nameFilter, 'yi');
@@ -29,12 +30,10 @@ const addNewFilterRow = (filters, setFilters) => {
   }
 };
 
-export default function usePlanetsFiltering() {
-  const {
-    data: [planetsData],
-    filters: [filters, setFilters],
-    filteredData: [filteredPlanets, setFilteredPlanets],
-  } = useContext(PlanetsDBContext);
+export default function usePlanetsFiltering(planetsData, filters, setFilters) {
+  const [filteredPlanets, setFilteredPlanets] = useState(planetsData);
+  const sortedFilteredPlanets = useSortedColumns(filteredPlanets, filters);
+
 
   useEffect(() => {
     const numericFilters = filters.filter((filter) => 'numericValues' in filter);
@@ -50,9 +49,13 @@ export default function usePlanetsFiltering() {
       return filter;
     });
 
+
     addNewFilterRow(filters, setFilters);
+
 
     setFilteredPlanets(newFilteredPlanets);
   }, [filters, planetsData, setFilters, setFilteredPlanets]);
-  return filteredPlanets;
+
+
+  return sortedFilteredPlanets;
 }
