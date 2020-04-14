@@ -1,5 +1,6 @@
 import React from 'react';
 import { cleanup } from '@testing-library/react';
+import PropTypes from 'prop-types';
 import { renderHook } from '@testing-library/react-hooks';
 import PlanetsDBProvider from '../context/PlanetsDBContext';
 import useSWAPI from '../services/useSWAPI';

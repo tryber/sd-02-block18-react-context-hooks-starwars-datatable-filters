@@ -13,7 +13,6 @@ describe('Tests Number Filter Inputs component', () => {
         <Table />
       </PlanetsDBProvider>,
     );
-
     const selectors = [
       ['', '   '],
       ['population', 'Population'],
@@ -25,7 +24,5 @@ describe('Tests Number Filter Inputs component', () => {
 
     const columnsSelector = getByTestId('column-selector');
     expect(columnsSelector).toBeInTheDocument();
-
-
   });
 });
