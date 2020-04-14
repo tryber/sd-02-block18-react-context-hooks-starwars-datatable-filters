@@ -1,9 +1,7 @@
-import React, { useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
-import useNumericFilters from '../hooks/useNumericFilters';
 import '../style/Table.css';
 import useSWAPI from '../services/useSWAPI';
 
@@ -29,7 +27,7 @@ const filterByPlanetsNames = (planets, planetName) => (
   planets.filter((planet) => planet.name.toLocaleLowerCase().includes(planetName)));
 
 const filterByNumericValues = (filteredPlanets, { column, value, comparison }) => {
-  const columnComparison = (column, value) => ({
+  const columnComparison = () => ({
     lesserThan: () => column < value,
     equalsThan: () => column === value,
     higherThan: () => column > value,
@@ -60,7 +58,7 @@ const PlanetRows = () => {
 
   const lastFilter = numericFilters[numericFilters.length - 1];
   const { numericValues: { column, comparison, value } } = lastFilter;
-  if (column !== '' && comparison !== '' && value !== '') {
+  if (column !== '' && comparison !== '' && value !== '' && numericFilters.length < 5) {
     setFilters([...filters, { numericValues: { column: '', comparison: '', value: '' } }]);
   }
 
@@ -117,10 +115,3 @@ export default function Table() {
     </div>
   );
 }
-
-// const mapStateToProps = ({ planetFetcher, filterByName, filterByNumericValue }) => {
-//   const { filters: nameFilters } = filterByName;
-//   const { filters: numericFilters } = filterByNumericValue;
-//   const filters = [...nameFilters, ...numericFilters];
-//   return { planets: planetFetcher.data, filters };
-// };

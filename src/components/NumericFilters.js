@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
 
@@ -61,11 +62,17 @@ function RenderNumberInput({ filterIndex, actualValue, setFilter }) {
   );
 }
 
-function RenderRemoveButton({ filterIndex, setFilter }) {
+function RenderRemoveButton({ filterIndex }) {
+  const { filters: [filters, setFilters] } = useContext(PlanetsDBContext);
+  const [, ...numericFilters] = filters;
+  const removeFilterRow = () => numericFilters.length > 1 && setFilters(
+    [...filters.filter((filter, index) => index !== filterIndex)],
+  );
+
   return (
     <button
       type="button"
-      onClick={(e) => setFilter(e, filterIndex)}
+      onClick={() => removeFilterRow()}
       id="remove"
     >
       X
@@ -124,3 +131,25 @@ export default function NumericFilters() {
     })
   );
 }
+
+RenderColumnsOptions.propTypes = {
+  filterIndex: PropTypes.number.isRequired,
+  setFilter: PropTypes.func.isRequired,
+  actualColumn: PropTypes.string.isRequired,
+};
+
+RenderComparisonOptions.propTypes = {
+  filterIndex: PropTypes.number.isRequired,
+  setFilter: PropTypes.func.isRequired,
+  actualComparison: PropTypes.string.isRequired,
+};
+
+RenderNumberInput.propTypes = {
+  filterIndex: PropTypes.number.isRequired,
+  setFilter: PropTypes.func.isRequired,
+  actualValue: PropTypes.string.isRequired,
+};
+
+RenderRemoveButton.propTypes = {
+  filterIndex: PropTypes.number.isRequired,
+};

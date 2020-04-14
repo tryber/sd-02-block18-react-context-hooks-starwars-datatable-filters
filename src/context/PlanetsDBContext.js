@@ -1,4 +1,5 @@
 import React, { useState, createContext } from 'react';
+import PropTypes from 'prop-types';
 
 export const PlanetsDBContext = createContext();
 
@@ -26,3 +27,7 @@ export default function PlanetsDBProvider({ children }) {
 
   return <PlanetsDBContext.Provider value={store}>{children}</PlanetsDBContext.Provider>;
 }
+
+PlanetsDBProvider.propTypes = {
+  children: PropTypes.instanceOf(Object).isRequired,
+};
