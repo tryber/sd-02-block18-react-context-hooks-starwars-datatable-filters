@@ -42,8 +42,7 @@ const removeFilter = (filter, filters, setNumericValues) => {
   const array2 = filters.slice(removeIndex + 1, filters.length);
 
   const newFilters = array1.concat(array2);
-  console.log(newFilters);
-  //newFilters.splice(removeIndex, 1);
+  // newFilters.splice(removeIndex, 1);
   setNumericValues(newFilters);
 };
 

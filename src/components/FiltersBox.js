@@ -54,7 +54,11 @@ const renderInputByComparison = (comparison, setLocalNumericValues) => {
   );
 };
 
-const renderInputByColumn = (column, setLocalNumericValues) => {
+const verifyColumn = (columnSelect, numericValues) => (
+  numericValues.some(({ column }) => column === columnSelect)
+);
+
+const renderInputByColumn = (column, setLocalNumericValues, numericValues) => {
   const columnValues = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   return (
     <select
@@ -71,7 +75,8 @@ const renderInputByColumn = (column, setLocalNumericValues) => {
       <option value="" disabled>Escolha uma coluna</option>
       {
         columnValues.map((dropdown) => (
-          <option key={dropdown} value={dropdown}>{dropdown}</option>
+          verifyColumn(dropdown, numericValues)
+          || <option key={dropdown} value={dropdown}>{dropdown}</option>
         ))
       }
     </select>
@@ -112,7 +117,7 @@ const FiltersBox = () => {
   return (
     <div>
       {renderInputByName(name, setName)}
-      {renderInputByColumn(numericValues[0].column, setLocalNumericValues)}
+      {renderInputByColumn(numericValues[0].column, setLocalNumericValues, rest)}
       {renderInputByComparison(numericValues[0].comparison, setLocalNumericValues)}
       {renderInputByNumber(numericValues[0].value, setLocalNumericValues)}
       {(numericValues[0].column && numericValues[0].comparison && numericValues[0].value)
