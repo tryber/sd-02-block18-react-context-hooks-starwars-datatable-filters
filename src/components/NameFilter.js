@@ -17,4 +17,4 @@ export default function NameFilter() {
       <input data-testid="name-filter-input" type="text" onChange={(e) => dispatchNameFilter(e)} />
     </div>
   );
-};
+}
