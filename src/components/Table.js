@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
+import useNumericFilters from '../hooks/useNumericFilters';
 import '../style/Table.css';
 import useSWAPI from '../services/useSWAPI';
 
@@ -24,43 +25,44 @@ const TableHeaders = () => (
   </tr>
 );
 
-// const columnComparison = (column, value) => ({
-//   lesserThan: () => column < value,
-//   equalsThan: () => column === value,
-//   higherThan: () => column > value,
-// });
-
 const filterByPlanetsNames = (planets, planetName) => (
   planets.filter((planet) => planet.name.toLocaleLowerCase().includes(planetName)));
 
-// const filterByNumericValues = (filteredPlanets, { column, value, comparison }) => (
-//   filteredPlanets.filter(
-//     (planet) => columnComparison(Number(planet[column]), Number(value))[comparison](),
-//   )
-// );
+const filterByNumericValues = (filteredPlanets, { column, value, comparison }) => {
+  const columnComparison = (column, value) => ({
+    lesserThan: () => column < value,
+    equalsThan: () => column === value,
+    higherThan: () => column > value,
+  });
+
+  return filteredPlanets.filter(
+    (planet) => columnComparison(Number(planet[column]), Number(value))[comparison](),
+  );
+};
 
 const PlanetRows = () => {
-  const { data: [planetsData], filters: [filters] } = useContext(PlanetsDBContext);
+  const { data: [planetsData], filters: [filters, setFilters] } = useContext(PlanetsDBContext);
+  const [, ...numericFilters] = filters;
   let filteredPlanets = planetsData;
 
   const [{ name: nameFilter }] = filters;
 
   if (nameFilter) filteredPlanets = filterByPlanetsNames(filteredPlanets, nameFilter);
 
-  // numericFilters.map((filter) => {
-  //   const { numericValues, numericValues: { column, comparison, value } } = filter;
-  //   if (column !== '' && comparison !== '' && value !== '') {
-  //     filteredPlanets = filterByNumericValues(filteredPlanets, numericValues);
-  //     return filter;
-  //   }
-  //   return filter;
-  // });
+  numericFilters.map((filter) => {
+    const { numericValues, numericValues: { column, comparison, value } } = filter;
+    if (column !== '' && comparison !== '' && value !== '') {
+      filteredPlanets = filterByNumericValues(filteredPlanets, numericValues);
+      return filter;
+    }
+    return filter;
+  });
 
-  // const lastFilter = numericFilters[numericFilters.length - 1];
-  // const { numericValues: { column, comparison, value } } = lastFilter;
-  // if (column !== '' && comparison !== '' && value !== '') {
-  //   dispatch({ type: ADD_NEW_FIELD, column });
-  // }
+  const lastFilter = numericFilters[numericFilters.length - 1];
+  const { numericValues: { column, comparison, value } } = lastFilter;
+  if (column !== '' && comparison !== '' && value !== '') {
+    setFilters([...filters, { numericValues: { column: '', comparison: '', value: '' } }]);
+  }
 
   return (
     filteredPlanets.map(({

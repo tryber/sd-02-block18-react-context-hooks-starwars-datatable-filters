@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
 
-function RenderColumnsOptions({ filterIndex, actualColumn, onChange }) {
+function RenderColumnsOptions({ filterIndex, actualColumn, setFilter }) {
   const { filters: [filters] } = useContext(PlanetsDBContext);
 
   const selectors = [
@@ -23,7 +22,7 @@ function RenderColumnsOptions({ filterIndex, actualColumn, onChange }) {
   return (
     <select
       data-testid="column-selector"
-      onChange={(e) => onChange(e, filterIndex)}
+      onChange={(e) => setFilter(e, filterIndex)}
       id="column"
       value={actualColumn}
     >
@@ -34,12 +33,12 @@ function RenderColumnsOptions({ filterIndex, actualColumn, onChange }) {
   );
 }
 
-function renderComparisonOptions(filterIndex, comparison, onChange) {
+function RenderComparisonOptions({ filterIndex, actualComparison, setFilter }) {
   return (
     <select
-      onChange={(e) => onChange(e, filterIndex)}
+      onChange={(e) => setFilter(e, filterIndex)}
       id="comparison"
-      value={comparison}
+      value={actualComparison}
     >
       <option label=" " value="" defaultValue />
       <option value="lesserThan">{'<'}</option>
@@ -50,23 +49,23 @@ function renderComparisonOptions(filterIndex, comparison, onChange) {
   );
 }
 
-function renderNumberInput(filterIndex, value, onChange) {
+function RenderNumberInput({ filterIndex, actualValue, setFilter }) {
   return (
     <input
-      onChange={(e) => onChange(e, filterIndex)}
+      onChange={(e) => setFilter(e, filterIndex)}
       type="number"
       id="value"
       width="100px"
-      value={value}
+      value={actualValue}
     />
   );
 }
 
-function renderRemoveButton(filterIndex, onChange) {
+function RenderRemoveButton({ filterIndex, setFilter }) {
   return (
     <button
       type="button"
-      onClick={(e) => onChange(e, filterIndex)}
+      onClick={(e) => setFilter(e, filterIndex)}
       id="remove"
     >
       X
@@ -78,12 +77,12 @@ function renderRemoveButton(filterIndex, onChange) {
 export default function NumericFilters() {
   const { filters: [filters, setFilters] } = useContext(PlanetsDBContext);
 
-  const onChange = (event, filterIndex) => setFilters(
+  const setFilter = (event, filterIndex) => setFilters(
     filters.map((filter, index) => {
-      if ('numericValue' in filter && filterIndex + 1 === index) {
+      if ('numericValues' in filter && filterIndex === index) {
         return {
-          numericValue:
-          { ...filter.numericValue, [event.target.id]: event.target.value },
+          numericValues:
+          { ...filter.numericValues, [event.target.id]: event.target.value },
         };
       }
       return filter;
@@ -102,14 +101,22 @@ export default function NumericFilters() {
             <RenderColumnsOptions
               filterIndex={filterIndex}
               actualColumn={actualColumn}
-              onChange={onChange}
+              setFilter={setFilter}
             />
 
-            {/* {renderComparisonOptions(filterIndex, comparison, onChange)}
+            <RenderComparisonOptions
+              filterIndex={filterIndex}
+              actualComparison={actualComparison}
+              setFilter={setFilter}
+            />
 
-            {renderNumberInput(filterIndex, value, onChange)}
+            <RenderNumberInput
+              filterIndex={filterIndex}
+              actualValue={actualValue}
+              setFilter={setFilter}
+            />
 
-            { renderRemoveButton(filterIndex, onChange)} */}
+            <RenderRemoveButton filterIndex={filterIndex} setFilter={setFilter} />
           </div>
         );
       }

@@ -1,5 +1,4 @@
 import React, { useState, createContext } from 'react';
-import PropTypes from 'prop-types';
 
 export const PlanetsDBContext = createContext();
 
@@ -14,7 +13,7 @@ export default function PlanetsDBProvider({ children }) {
       numericValues: {
         column: '',
         comparison: '',
-        value: 0,
+        value: '',
       },
     },
   ]);
