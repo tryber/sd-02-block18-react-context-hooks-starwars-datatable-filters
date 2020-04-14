@@ -21,14 +21,13 @@ const filterByNumericValues = (newFilteredPlanets, { column, value, comparison }
 };
 
 const addNewFilterRow = (filters, setFilters) => {
-  const [, ...numericFilters] = filters;
+  const numericFilters = filters.filter((filter) => 'numericValues' in filter);
   const lastFilter = numericFilters[numericFilters.length - 1];
   const { numericValues: { column, comparison, value } } = lastFilter;
   if (column !== '' && comparison !== '' && value !== '' && numericFilters.length < 5) {
     setFilters([...filters, { numericValues: { column: '', comparison: '', value: '' } }]);
   }
 };
-
 
 export default function usePlanetsFiltering() {
   const {
@@ -38,10 +37,9 @@ export default function usePlanetsFiltering() {
   } = useContext(PlanetsDBContext);
 
   useEffect(() => {
-    const [, ...numericFilters] = filters;
+    const numericFilters = filters.filter((filter) => 'numericValues' in filter);
     let newFilteredPlanets = planetsData;
     const [{ name: nameFilter }] = filters;
-
     if (nameFilter) newFilteredPlanets = filterByName(nameFilter, newFilteredPlanets);
 
     numericFilters.map((filter) => {
@@ -55,6 +53,6 @@ export default function usePlanetsFiltering() {
     addNewFilterRow(filters, setFilters);
 
     setFilteredPlanets(newFilteredPlanets);
-  }, [filters, planetsData, setFilteredPlanets]);
+  }, [filters, planetsData, setFilters, setFilteredPlanets]);
   return filteredPlanets;
 }

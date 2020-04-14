@@ -7,6 +7,8 @@ export default function PlanetsDBProvider({ children }) {
   const [planetsData, setPlanetsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [sortOrder, setSortOrder] = useState('');
+
   const [filters, setFilters] = useState([
     {
       name: '',
@@ -18,6 +20,7 @@ export default function PlanetsDBProvider({ children }) {
         value: '',
       },
     },
+    { column: 'name', order: 'ASC' },
   ]);
 
   const store = {

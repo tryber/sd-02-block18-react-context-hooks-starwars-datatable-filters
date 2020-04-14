@@ -2,25 +2,26 @@ import React, { useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
+import SortButton from './SortButton';
 import usePlanetsFiltering from '../hooks/usePlanetsFiltering';
 import '../style/Table.css';
 import useSWAPI from '../services/useSWAPI';
 
 const TableHeaders = () => (
   <tr>
-    <th>Name</th>
-    <th>Rotation period</th>
-    <th>Orbital period</th>
-    <th>Diamater</th>
-    <th>Climate</th>
-    <th>Gravity</th>
-    <th>Terrain</th>
-    <th>Surface Water</th>
-    <th>Population</th>
-    <th>Films</th>
-    <th>Created</th>
-    <th>Edited</th>
-    <th>URL</th>
+    <th><SortButton columnName="name">Name</SortButton></th>
+    <th><SortButton columnName="rotation_period">Rotation period</SortButton></th>
+    <th><SortButton columnName="orbital_period">Orbital period</SortButton></th>
+    <th><SortButton columnName="diameter">Diamater</SortButton></th>
+    <th><SortButton columnName="climate">Climate</SortButton></th>
+    <th><SortButton columnName="gravity">Gravity</SortButton></th>
+    <th><SortButton columnName="terrain">Terrain</SortButton></th>
+    <th><SortButton columnName="surface_water">Surface Water</SortButton></th>
+    <th><SortButton columnName="population">Population</SortButton></th>
+    <th><SortButton columnName="films">Films</SortButton></th>
+    <th><SortButton columnName="created">Created</SortButton></th>
+    <th><SortButton columnName="edited">Edited</SortButton></th>
+    <th><SortButton columnName="url">URL</SortButton></th>
   </tr>
 );
 

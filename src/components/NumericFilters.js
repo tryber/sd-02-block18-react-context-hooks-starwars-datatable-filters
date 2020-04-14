@@ -91,7 +91,7 @@ export default function NumericFilters() {
     }),
   );
 
-  const [, ...numericFilters] = filters;
+  const numericFilters = filters.filter((filter) => 'numericValues' in filter);
 
   return (
     numericFilters.map(({
