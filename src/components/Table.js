@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
@@ -24,8 +24,6 @@ const TableHeaders = () => (
   </tr>
 );
 
-
-
 const PlanetRows = () => {
   const filteredPlanets = usePlanetsFiltering();
   return (
@@ -49,7 +47,7 @@ const PlanetRows = () => {
         <td>{edited}</td>
         <td>{url}</td>
       </tr>
-    )) : null
+    ))
   );
 };
 

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
 
-function RenderColumnsOptions({ filterIndex, actualColumn, setFilter }) {
-  const { filters: [filters] } = useContext(PlanetsDBContext);
-
+function renderColumnsOptions(filterIndex, actualColumn, filters, setFilter) {
   const selectors = [
     ['', '   '],
     ['population', 'Population'],
@@ -34,7 +32,7 @@ function RenderColumnsOptions({ filterIndex, actualColumn, setFilter }) {
   );
 }
 
-function RenderComparisonOptions({ filterIndex, actualComparison, setFilter }) {
+function renderComparisonOptions(filterIndex, actualComparison, setFilter) {
   return (
     <select
       onChange={(e) => setFilter(e, filterIndex)}
@@ -50,7 +48,7 @@ function RenderComparisonOptions({ filterIndex, actualComparison, setFilter }) {
   );
 }
 
-function RenderNumberInput({ filterIndex, actualValue, setFilter }) {
+function renderNumberInput(filterIndex, actualValue, setFilter) {
   return (
     <input
       onChange={(e) => setFilter(e, filterIndex)}
@@ -62,8 +60,7 @@ function RenderNumberInput({ filterIndex, actualValue, setFilter }) {
   );
 }
 
-function RenderRemoveButton({ filterIndex }) {
-  const { filters: [filters, setFilters] } = useContext(PlanetsDBContext);
+function renderRemoveButton(filterIndex, filters, setFilters) {
   const [, ...numericFilters] = filters;
   const removeFilterRow = () => numericFilters.length > 1 && setFilters(
     [...filters.filter((filter, index) => index !== filterIndex)],
@@ -83,7 +80,6 @@ function RenderRemoveButton({ filterIndex }) {
 
 export default function NumericFilters() {
   const { filters: [filters, setFilters] } = useContext(PlanetsDBContext);
-
   const setFilter = (event, filterIndex) => setFilters(
     filters.map((filter, index) => {
       if ('numericValues' in filter && filterIndex === index) {
@@ -96,60 +92,22 @@ export default function NumericFilters() {
     }),
   );
 
+  const [, ...numericFilters] = filters;
+
   return (
-    filters.map((filter, filterIndex) => {
-      if ('numericValues' in filter) {
-        const {
-          numericValues:
-          { column: actualColumn, comparison: actualComparison, value: actualValue },
-        } = filter;
-        return (
-          <div key={`${filter}_${filterIndex + 1}`}>
-            <RenderColumnsOptions
-              filterIndex={filterIndex}
-              actualColumn={actualColumn}
-              setFilter={setFilter}
-            />
-
-            <RenderComparisonOptions
-              filterIndex={filterIndex}
-              actualComparison={actualComparison}
-              setFilter={setFilter}
-            />
-
-            <RenderNumberInput
-              filterIndex={filterIndex}
-              actualValue={actualValue}
-              setFilter={setFilter}
-            />
-
-            <RenderRemoveButton filterIndex={filterIndex} setFilter={setFilter} />
-          </div>
-        );
-      }
-      return null;
+    numericFilters.map(({
+      numericValues:
+      { column: actualColumn, comparison: actualComparison, value: actualValue },
+    }, index) => {
+      const filterIndex = index + 1;
+      return (
+        <div key={`row_${filterIndex + 1}`}>
+          {renderColumnsOptions(filterIndex, actualColumn, filters, setFilter)}
+          {renderComparisonOptions(filterIndex, actualComparison, setFilter)}
+          {renderNumberInput(filterIndex, actualValue, setFilter)}
+          {renderRemoveButton(filterIndex, filters, setFilters)}
+        </div>
+      );
     })
   );
 }
-
-RenderColumnsOptions.propTypes = {
-  filterIndex: PropTypes.number.isRequired,
-  setFilter: PropTypes.func.isRequired,
-  actualColumn: PropTypes.string.isRequired,
-};
-
-RenderComparisonOptions.propTypes = {
-  filterIndex: PropTypes.number.isRequired,
-  setFilter: PropTypes.func.isRequired,
-  actualComparison: PropTypes.string.isRequired,
-};
-
-RenderNumberInput.propTypes = {
-  filterIndex: PropTypes.number.isRequired,
-  setFilter: PropTypes.func.isRequired,
-  actualValue: PropTypes.string.isRequired,
-};
-
-RenderRemoveButton.propTypes = {
-  filterIndex: PropTypes.number.isRequired,
-};
