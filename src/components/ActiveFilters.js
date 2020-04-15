@@ -1,53 +1,27 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { removeFilters } from '../actions';
+import React, { useContext } from 'react';
+import { StarWarsContext } from '../context/StarWarsContext';
 
-class ActiveFilters extends Component {
-  constructor(props) {
-    super(props);
-    this.showActiveFilters = this.showActiveFilters.bind(this);
-    this.createFilter = this.createFilter.bind(this);
-  }
-
-  createFilter(filterObj) {
-    const { removePlanetFilters } = this.props;
-    return (
-      <p key={filterObj.column} className="active-filters">
-        {`${filterObj.column} | ${filterObj.comparison} | ${filterObj.value}  `}
-        <button type="button" onClick={() => removePlanetFilters(filterObj)}>X</button>
-      </p>
-    );
-  }
-
-  showActiveFilters(filters) {
-    return filters.map((filter) => this.createFilter(filter));
-  }
-
-  render() {
-    const { numeric_values: numericValues } = this.props;
-    return (
-      <div className="active-filters">
-        <h3>Filtros Ativos</h3>
-        {numericValues && this.showActiveFilters(numericValues)}
-      </div>
-    );
-  }
+function createFilter(filterObj, removeFilter) {
+  return (
+    <p key={filterObj.column} className="active-filters">
+      {`${filterObj.column} | ${filterObj.comparison} | ${filterObj.value}  `}
+      <button type="button" onClick={() => removeFilter(filterObj)}>X</button>
+    </p>
+  );
 }
 
-const mapStateToProps = ({ filters: { numeric_values } }) => ({ numeric_values });
+function showActiveFilters(filters, removeFilter) {
+  return filters.map((filter) => createFilter(filter, removeFilter));
+}
 
-const mapDispatchToProps = (dispatch) => ({
-  removePlanetFilters: (value) => dispatch(removeFilters(value)),
-});
+function ActiveFilters() {
+  const { numericFilters, removeNumericFilter } = useContext(StarWarsContext);
+  return (
+    <div className="active-filters">
+      <h3>Filtros Ativos</h3>
+      {numericFilters && showActiveFilters(numericFilters, removeNumericFilter)}
+    </div>
+  );
+}
 
-ActiveFilters.propTypes = {
-  numeric_values: PropTypes.arrayOf(PropTypes.shape({})),
-  removePlanetFilters: PropTypes.func.isRequired,
-};
-
-ActiveFilters.defaultProps = {
-  numeric_values: [],
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ActiveFilters);
+export default ActiveFilters;

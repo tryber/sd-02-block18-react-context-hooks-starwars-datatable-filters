@@ -1,18 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import { StarWarsContext } from '../context/StarWarsContext';
 
-function ValueFilterInput({ handleChange }) {
+function ValueFilterInput() {
+  const { setFilterObj, numericFilterObj: { column, comparison } } = useContext(StarWarsContext);
   return (
     <input
       type="number"
       placeholder="Filtrar por Valor"
-      onChange={(e) => handleChange(e.target.value)}
+      onChange={(e) => setFilterObj({ column, comparison, value: e.target.value })}
     />
   );
 }
-
-ValueFilterInput.propTypes = {
-  handleChange: PropTypes.func.isRequired,
-};
 
 export default ValueFilterInput;

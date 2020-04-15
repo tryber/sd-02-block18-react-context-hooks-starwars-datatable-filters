@@ -1,6 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
+import { StarWarsContext } from '../context/StarWarsContext';
 
 function verifySelect(filters, value) {
   const exists = filters.find((filterObj) => filterObj.column === value);
@@ -8,28 +7,22 @@ function verifySelect(filters, value) {
   return true;
 }
 
-function ColumnFilterSelect({ numeric_values, handleChange }) {
+function ColumnFilterSelect() {
+  const {
+    numericFilters,
+    setFilterObj,
+    numericFilterObj: { comparison, value },
+  } = useContext(StarWarsContext);
   return (
-    <select name="column" onChange={(e) => handleChange(e.target.value)}>
+    <select name="cl" onChange={(e) => setFilterObj({ column: e.target.value, comparison, value })}>
       <option value="">Selecionar Opção</option>
-      {verifySelect(numeric_values, 'population') && <option value="population">Population</option>}
-      {verifySelect(numeric_values, 'orbital_period') && <option value="orbital_period">Orbital Period</option>}
-      {verifySelect(numeric_values, 'diameter') && <option value="diameter">Diameter</option>}
-      {verifySelect(numeric_values, 'rotation_period') && <option value="rotation_period">Rotation Period</option>}
-      {verifySelect(numeric_values, 'surface_water') && <option value="surface_water">Surface Water</option>}
+      {verifySelect(numericFilters, 'population') && <option value="population">População</option>}
+      {verifySelect(numericFilters, 'orbital_period') && <option value="orbital_period">Duração Orbital</option>}
+      {verifySelect(numericFilters, 'diameter') && <option value="diameter">Diâmetro</option>}
+      {verifySelect(numericFilters, 'rotation_period') && <option value="rotation_period">Duração da Rotação</option>}
+      {verifySelect(numericFilters, 'surface_water') && <option value="surface_water">Superfície da Água</option>}
     </select>
   );
 }
 
-ColumnFilterSelect.propTypes = {
-  handleChange: PropTypes.func.isRequired,
-  numeric_values: PropTypes.arrayOf(PropTypes.shape({})),
-};
-
-ColumnFilterSelect.defaultProps = {
-  numeric_values: [],
-};
-
-const mapStateToProps = ({ filters: { numeric_values } }) => ({ numeric_values });
-
-export default connect(mapStateToProps)(ColumnFilterSelect);
+export default ColumnFilterSelect;
