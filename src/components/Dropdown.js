@@ -58,7 +58,7 @@ function DropDown(props) {
       {renderList()}
     </div>
   );
-};
+}
 
 DropDown.propTypes = {
   arr: PropTypes.arrayOf(
