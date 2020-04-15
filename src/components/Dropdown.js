@@ -26,14 +26,6 @@ function DropDown(props) {
     toggle();
   };
 
-  const renderList = () => (
-    <div className="list" ref={(node) => { list = node; }}>
-      {arr.map((param) => (
-        <ElementDropDown param={param} call={call} />
-      ))}
-    </div>
-  );
-
   return (
     <div className="comp_dropdown" data-testid={testid}>
       <p className="selectedTag">{name}</p>
@@ -42,7 +34,9 @@ function DropDown(props) {
           <p name={`tag${testid}`} ref={(node) => { selected = node; }} />
         </button>
       </div>
-      {renderList()}
+      <div className="list" ref={(node) => { list = node; }}>
+        {arr.map((param) => (<ElementDropDown param={param} call={call} />))}
+      </div>
     </div>
   );
 }
