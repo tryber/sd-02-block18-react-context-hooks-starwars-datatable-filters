@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function ElementDropDown(props) {
   const { param, call } = props;
@@ -18,5 +19,10 @@ function ElementDropDown(props) {
     </button>
   );
 }
+
+ElementDropDown.propTypes = {
+  param: PropTypes.string.isRequired,
+  call: PropTypes.func.isRequired,
+};
 
 export default ElementDropDown;
