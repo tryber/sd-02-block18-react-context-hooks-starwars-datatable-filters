@@ -1,45 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ElementDropDown from './ElementDropDown';
 import './DropDown.css';
 
-let list;
-let selected;
-let dropped = false;
-
-
-const dropDown = () => {
-  dropped = !dropped;
-  if (dropped) {
-    list.style.display = 'none';
-  } else {
-    list.style.display = 'flex';
-  }
-};
-
-const clickHandle = (e, func, index) => {
-  const type = e.target.name;
-  selected.innerHTML = type;
-  func(type, index);
-  dropDown();
-};
 
 function DropDown(props) {
   const {
     arr, func, name, index, testid,
   } = props;
 
+  let list;
+  let selected;
+  let dropped = false;
+
+  const toggle = () => {
+    dropped = !dropped;
+    list.style.display = (dropped) ? 'none' : 'flex';
+  };
+
+  const call = (e) => {
+    const type = e.target.name;
+    func(type, index);
+    selected.innerHTML = type;
+    toggle();
+  };
+
   const renderList = () => (
     <div className="list" ref={(node) => { list = node; }}>
       {arr.map((param) => (
-        <button
-          key={param}
-          type="button"
-          name={param}
-          onClick={(e) => clickHandle(e, func, index)}
-        >
-          {param}
-        </button>
+        <ElementDropDown param={param} call={call} />
       ))}
     </div>
   );
@@ -48,7 +38,7 @@ function DropDown(props) {
     <div className="comp_dropdown" data-testid={testid}>
       <p className="selectedTag">{name}</p>
       <div className="selected">
-        <button type="button" onClick={() => dropDown()}>
+        <button type="button" onClick={() => toggle()}>
           <p name={`tag${testid}`} ref={(node) => { selected = node; }} />
         </button>
       </div>
