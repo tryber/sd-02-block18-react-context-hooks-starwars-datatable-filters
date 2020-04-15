@@ -48,10 +48,7 @@ function DropDown(props) {
     <div className="comp_dropdown" data-testid={testid}>
       <p className="selectedTag">{name}</p>
       <div className="selected">
-        <button
-          type="button"
-          onClick={() => dropDown()}
-        >
+        <button type="button" onClick={() => dropDown()}>
           <p name={`tag${testid}`} ref={(node) => { selected = node; }} />
         </button>
       </div>
