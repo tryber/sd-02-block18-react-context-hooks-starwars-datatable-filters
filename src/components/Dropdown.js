@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import DropDownElement from './DropDownElement';
 import './DropDown.css';
 
-
 function DropDown(props) {
   const {
     arr, func, name, index, testid,
