@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ElementDropDown from './ElementDropDown';
+import DropDownElement from './DropDownElement';
 import './DropDown.css';
 
 
@@ -35,7 +35,7 @@ function DropDown(props) {
         </button>
       </div>
       <div className="list" ref={(node) => { list = node; }}>
-        {arr.map((param) => (<ElementDropDown param={param} call={call} />))}
+        {arr.map((param) => (<DropDownElement param={param} call={call} />))}
       </div>
     </div>
   );

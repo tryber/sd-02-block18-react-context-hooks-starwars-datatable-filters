@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function ElementDropDown(props) {
+function DropDownElement(props) {
   const { param, call } = props;
 
   const clickHandle = (e) => {
@@ -20,9 +20,9 @@ function ElementDropDown(props) {
   );
 }
 
-ElementDropDown.propTypes = {
+DropDownElement.propTypes = {
   param: PropTypes.string.isRequired,
   call: PropTypes.func.isRequired,
 };
 
-export default ElementDropDown;
+export default DropDownElement;
