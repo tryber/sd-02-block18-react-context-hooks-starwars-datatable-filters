@@ -1,22 +1,18 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import starWarsContext from '../context/Context';
+import StarWarsContext from '../context/StarWarsContext';
 import Dropdown from './Dropdown';
 import FilterCondition from './FilterCondition';
 
-const {
-  typeParam,
-  filterTypeFunc,
-  filterConditionFunc,
-} = useContext(starWarsContext);
+
 const conditions = ['Maior que', 'Menor que', 'Igual a'];
 
 const handleClick = (removeFilter2, index) => {
   removeFilter2(index);
 };
 
-const renderDropDownType = (index) => (
+const renderDropDownType = (index, typeParam, filterTypeFunc) => (
   <Dropdown
     name="Type:"
     arr={typeParam}
@@ -26,7 +22,7 @@ const renderDropDownType = (index) => (
   />
 );
 
-const renderDropDownCond = (index) => (
+const renderDropDownCond = (index, filterConditionFunc) => (
   <Dropdown
     name="Condition:"
     arr={conditions}
@@ -36,7 +32,13 @@ const renderDropDownCond = (index) => (
   />
 );
 
-const Filter = (props) => {
+function Filter(props) {
+  const {
+    typeParam,
+    filterTypeFunc,
+    filterConditionFunc,
+  } = useContext(StarWarsContext);
+
   const { index, removeFilter2 } = props;
   return (
     <div className="filter" data-testid="filter">
@@ -45,12 +47,12 @@ const Filter = (props) => {
           close
         </span>
       </button>
-      {renderDropDownType(index)}
-      {renderDropDownCond(index)}
+      {renderDropDownType(index, typeParam, filterTypeFunc)}
+      {renderDropDownCond(index, filterConditionFunc)}
       <FilterCondition index={index} />
     </div>
   );
-};
+}
 
 Filter.propTypes = {
   index: PropTypes.number.isRequired,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import starWarsContext from './Context';
+import StarWarsContext from './StarWarsContext';
 import fetchApi from '../services/api';
 
 const planetsParams = [{
@@ -219,9 +219,9 @@ const FilterProvider = ({ children }) => {
   };
 
   return (
-    <starWarsContext.Provider value={contextValue}>
+    <StarWarsContext.Provider value={contextValue}>
       {children}
-    </starWarsContext.Provider>
+    </StarWarsContext.Provider>
   );
 };
 

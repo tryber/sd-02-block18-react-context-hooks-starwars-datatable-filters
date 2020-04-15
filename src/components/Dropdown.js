@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import './DropDown.css';
 
-
 let list;
 let selected;
 let dropped = false;
+
 
 const dropDown = () => {
   dropped = !dropped;
@@ -24,25 +24,25 @@ const clickHandle = (e, func, index) => {
   dropDown();
 };
 
-const renderList = (arr, func, index) => (
-  <div className="list" ref={(node) => { list = node; }}>
-    {arr.map((param) => (
-      <button
-        key={param}
-        type="button"
-        name={param}
-        onClick={(e) => clickHandle(e, func, index)}
-      >
-        {param}
-      </button>
-    ))}
-  </div>
-);
-
-const DropDown = (props) => {
+function DropDown(props) {
   const {
     arr, func, name, index, testid,
   } = props;
+
+  const renderList = () => (
+    <div className="list" ref={(node) => { list = node; }}>
+      {arr.map((param) => (
+        <button
+          key={param}
+          type="button"
+          name={param}
+          onClick={(e) => clickHandle(e, func, index)}
+        >
+          {param}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <div className="comp_dropdown" data-testid={testid}>
@@ -55,7 +55,7 @@ const DropDown = (props) => {
           <p name={`tag${testid}`} ref={(node) => { selected = node; }} />
         </button>
       </div>
-      {renderList(arr, func, index)}
+      {renderList()}
     </div>
   );
 };

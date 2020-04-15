@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 
-import starWarsContext from '../context/Context';
+import StarWarsContext from '../context/StarWarsContext';
 
 function FilterName() {
-  const { filterNameFunc } = useContext(starWarsContext);
+  const { filterNameFunc } = useContext(StarWarsContext);
 
   const handleChange = (e) => {
     const name = e.target.value;

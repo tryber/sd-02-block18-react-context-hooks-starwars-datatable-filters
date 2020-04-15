@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import shortid from 'shortid';
 
-import starWarsContext from '../context/Context';
+import StarWarsContext from '../context/StarWarsContext';
 import FilterName from './FilterName';
 import Filter from './Filter';
 
 function Filters() {
-  const { addFilter, removeFilter } = useContext(starWarsContext);
+  const { addFilter, removeFilter } = useContext(StarWarsContext);
   const [filters2, setFilters] = useState([shortid.generate()]);
 
   const handleClick = () => {

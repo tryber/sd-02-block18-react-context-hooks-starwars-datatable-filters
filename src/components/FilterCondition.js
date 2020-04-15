@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import './Filter.css';
-import starWarsContext from '../context/Context';
+import StarWarsContext from '../context/StarWarsContext';
 
 function FilterCondition(props) {
   const { index } = props;
-  const { filterNumberFunc } = useContext(starWarsContext);
+  const { filterNumberFunc } = useContext(StarWarsContext);
 
   const handleChange = (e) => {
     const name = e.target.value;
