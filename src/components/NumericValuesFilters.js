@@ -1,8 +1,4 @@
-import React, { Component, useContext } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-// import changeNumericValuesFilters from '../actions/changeNumericValuesFilters';
-// import deleteNumericValuesFilters from '../actions/deleteNumericValuesFilters';
+import React, { useContext } from 'react';
 import { acertaTexto } from './Table';
 import { Context } from '../context/Provider';
 
@@ -13,7 +9,6 @@ function verificaEntradasVazias(array) {
 }
 
 function addFilter(i, filters, changeNumericValuesFilters, deleteNumericValuesFilters) {
-  // const { arrayColumns, handleChange, handleClick } = this.props;
   const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
 
   const newArrayColumns = arrayColumns.slice(0, i - 1);
@@ -46,12 +41,10 @@ function addFilter(i, filters, changeNumericValuesFilters, deleteNumericValuesFi
   );
 }
 
-function NumericValuesFilters() {
+export default function NumericValuesFilters() {
   const { filters, changeNumericValuesFilters, deleteNumericValuesFilters } = useContext(Context);
 
   function addMoreAndMoreFilters() {
-    // const arrayValues = this.props.arrayValues;
-    // const arrayColumns = this.props.arrayColumns;
     const arrayValues = filters.slice(1).map((item) => item.numericValues.value);
     const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
 
@@ -85,35 +78,4 @@ function NumericValuesFilters() {
       {addMoreAndMoreFilters()}
     </div>
   );
-}
-
-const mapStateToProps = (state) => {
-  // const objectStates = state.filters.slice(1).reduce((acc, current, i) => ({
-  //   ...acc,
-  //   [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
-  //   [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
-  //   [`valueNumber${i + 1}`]: current.numericValues.value,
-  // }), {});
-  // const arrayValues = state.filters.slice(1).map((item) => item.numericValues.value);
-  // const arrayColumns = state.filters.slice(1).map((item) => item.numericValues.column);
-
-  // return { ...objectStates, arrayValues, arrayColumns };
 };
-
-const mapDispatchToProps = (dispatch) => ({
-  // handleChange: (event) => {
-  //   dispatch(changeNumericValuesFilters(event));
-  // },
-  // handleClick: (event) => {
-  //   dispatch(deleteNumericValuesFilters(event));
-  // },
-});
-
-NumericValuesFilters.propTypes = {
-  arrayValues: PropTypes.arrayOf(PropTypes.string).isRequired,
-  arrayColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NumericValuesFilters);

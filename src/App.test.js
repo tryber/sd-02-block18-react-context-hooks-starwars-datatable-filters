@@ -1,8 +1,6 @@
 import React from 'react';
 import { render, waitForDomChange, cleanup } from '@testing-library/react';
 import App from './App';
-import { Provider } from 'react-redux';
-import store from './store';
 import '@testing-library/jest-dom/extend-expect';
 
 afterEach(cleanup);

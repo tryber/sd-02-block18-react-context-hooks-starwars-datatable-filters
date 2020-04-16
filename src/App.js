@@ -1,17 +1,12 @@
-import React, { Component, useContext } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import './App.css';
-
+import React, { useContext } from 'react';
+import { Context } from './context/Provider';
 import Table from './components/Table';
 import NameFilter from './components/NameFilter';
 import NumericValuesFilters from './components/NumericValuesFilters';
 import SortingSelection from './components/SortingSelection';
+import './App.css';
 
-import { Context } from './context/Provider';
-
-function App() {
-  // const { isLoading } = this.props;
+export default function App() {
   const { isLoading } = useContext(Context);
 
   return (
@@ -24,14 +19,4 @@ function App() {
       <Table />
     </div>
   );
-}
-
-App.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
 };
-
-const mapStateToProps = (state) => ({
-  // isLoading: state.data.length <= 1,
-});
-
-export default connect(mapStateToProps)(App);

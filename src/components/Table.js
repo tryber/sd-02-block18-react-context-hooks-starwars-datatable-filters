@@ -1,8 +1,4 @@
-import React, { Component, useContext, useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import fetchAPI from '../actions/fetchAPI';
-
+import React, { useContext, useEffect } from 'react';
 import { Context } from '../context/Provider';
 
 export function acertaTexto(texto) {
@@ -48,7 +44,6 @@ function filterDataByNumericValues(data, column, comparison, value) {
 }
 
 function filterData(filters, data, name) {
-  // const { data, name, arrayColumns } = this.props;
   const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
   const objectStates = filters.slice(1).reduce((acc, current, i) => ({
     ...acc,
@@ -110,8 +105,6 @@ function ordenaPorLetra(filteredData, columnToBeSorted, order) {
 }
 
 function setSortingRules(obj1, obj2, columnToBeSorted, order) {
-  // const { columnToBeSorted, order } = this.props;
-
   if (obj1[columnToBeSorted] === 'unknown'
     || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
     || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
@@ -122,7 +115,6 @@ function setSortingRules(obj1, obj2, columnToBeSorted, order) {
 }
 
 function filterAndSortData(filters, data, name, columnToBeSorted, order) {
-  // const { columnToBeSorted, order } = this.props;
   const filteredData = filterData(filters, data, name);
 
   if (columnToBeSorted === 'name') return ordenaPorLetra(filteredData, columnToBeSorted, order);
@@ -132,7 +124,7 @@ function filterAndSortData(filters, data, name, columnToBeSorted, order) {
   return filteredData;
 }
 
-function Table() {
+export default function Table() {
   const {
     data,
     updateData,
@@ -153,47 +145,10 @@ function Table() {
     [],
   );
 
-  // render() {
-  // const dataTable = this.filterAndSortData();
-
-  // const dataTable = filterDataByName(data, name);
-  // const dataTable = filterData();
   const dataTable = filterAndSortData(filters, data, name, columnToBeSorted, order);
-
   const keysPlanet = Object.keys(dataTable[0]);
   const indexResidents = keysPlanet.indexOf('residents');
   keysPlanet.splice(indexResidents, 1);
 
   return renderizaATabela(dataTable, indexResidents, keysPlanet);
-}
-
-const mapStateToProps = (state) => {
-  const data = state.data;
-  const name = state.filters[0].name;
-  const columnToBeSorted = state.sorting.column;
-  const order = state.sorting.order;
-  const arrayColumns = state.filters.slice(1).map((item) => item.numericValues.column);
-  const objectStates = state.filters.slice(1).reduce((acc, current, i) => ({
-    ...acc,
-    [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
-    [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
-    [`valueNumber${i + 1}`]: current.numericValues.value,
-  }), {});
-
-  return { ...objectStates, /*data,*/ name, columnToBeSorted, order, arrayColumns };
 };
-
-const mapDispatchToProps = (dispatch) => ({
-  getData: () => dispatch(fetchAPI()),
-});
-
-Table.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  name: PropTypes.string.isRequired,
-  columnToBeSorted: PropTypes.string.isRequired,
-  order: PropTypes.string.isRequired,
-  arrayColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
-  getData: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Table);
