@@ -95,16 +95,35 @@ function Table() {
   //   return -1;
   // }
 
-  // function filterData() {
-  //   const { data, name, arrayColumns } = this.props;
+  const { data, updateData, filters, filters: [{ name }] } = useContext(Context);
 
-  //   let newData = data;
-  //   for (let i = 0; i < arrayColumns.length; i += 1) {
-  //     newData = filterDataByNumericValues(newData, this.props[`valueSelectedColumn${i + 1}`], this.props[`valueSelectedComparison${i + 1}`], this.props[`valueNumber${i + 1}`]);
-  //   }
+  useEffect(
+    updateData,
+    [],
+  );
 
-  //   return filterDataByName(newData, name);
-  // }
+  function filterData() {
+    // const { data, name, arrayColumns } = this.props;
+    const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
+    const objectStates = filters.slice(1).reduce((acc, current, i) => ({
+      ...acc,
+      [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
+      [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
+      [`valueNumber${i + 1}`]: current.numericValues.value,
+    }), {});
+
+    let newData = data;
+    for (let i = 0; i < arrayColumns.length; i += 1) {
+      newData = filterDataByNumericValues(
+        newData,
+        objectStates[`valueSelectedColumn${i + 1}`],
+        objectStates[`valueSelectedComparison${i + 1}`],
+        objectStates[`valueNumber${i + 1}`],
+      );
+    }
+
+    return filterDataByName(newData, name);
+  }
 
   // function filterAndSortData() {
   //   const { columnToBeSorted, order } = this.props;
@@ -130,14 +149,9 @@ function Table() {
 
   // render() {
   // const dataTable = this.filterAndSortData();
-  const { data, updateData, filters: [{ name }] } = useContext(Context);
 
-  useEffect(
-    updateData,
-    [],
-  );
-
-  const dataTable = filterDataByName(data, name);
+  // const dataTable = filterDataByName(data, name);
+  const dataTable = filterData();
 
   const keysPlanet = Object.keys(dataTable[0]);
   const indexResidents = keysPlanet.indexOf('residents');

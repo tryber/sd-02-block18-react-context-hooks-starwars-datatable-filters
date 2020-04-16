@@ -29,8 +29,26 @@ const Provider = ({ children }) => {
       ...filters.slice(1),
     ])
   );
+  const changeNumericValuesFilters = ({ target: { value, name, parentNode: { id } } }) => {
+    const newFilters = [...filters];
+    newFilters.splice(
+      Number(id),
+      1,
+      {
+        numericValues: {
+          ...filters[Number(id)].numericValues,
+          [name]: value,
+        },
+      },
+    );
+    setFilters(newFilters.concat(
+      Number(id) === filters.length - 1 && Number(id) < 5
+        ? [{ numericValues: { column: '', comparison: '>', value: '' } }]
+        : [],
+    ));
+  };
 
-  const context = { data, filters, sorting, updateData, isLoading, changeNameFilter };
+  const context = { data, filters, sorting, updateData, isLoading, changeNameFilter, changeNumericValuesFilters };
 
   return (
     <Context.Provider value={context}>
