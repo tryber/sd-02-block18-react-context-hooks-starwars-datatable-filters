@@ -47,6 +47,31 @@ function filterDataByNumericValues(data, column, comparison, value) {
   return newData;
 }
 
+function renderizaATabela(dataTable, indexResidents, keysPlanet) {
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            {keysPlanet.map((key) => <th key={key}>{acertaTexto(key)}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {dataTable.map((planet) => {
+            const valuesPlanet = Object.values(planet);
+            valuesPlanet.splice(indexResidents, 1);
+            return (
+              <tr key={planet.name}>
+                {valuesPlanet.map((valueColumn) => <td key={valueColumn}>{valueColumn}</td>)}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function Table() {
   // constructor(props) {
   //   super(props);
@@ -118,28 +143,7 @@ function Table() {
   const indexResidents = keysPlanet.indexOf('residents');
   keysPlanet.splice(indexResidents, 1);
 
-  return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            {keysPlanet.map((key) => <th key={key}>{acertaTexto(key)}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {dataTable.map((planet) => {
-            const valuesPlanet = Object.values(planet);
-            valuesPlanet.splice(indexResidents, 1);
-            return (
-              <tr key={planet.name}>
-                {valuesPlanet.map((valueColumn) => <td key={valueColumn}>{valueColumn}</td>)}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
+  return renderizaATabela(dataTable, indexResidents, keysPlanet);
 }
 
 const mapStateToProps = (state) => {
