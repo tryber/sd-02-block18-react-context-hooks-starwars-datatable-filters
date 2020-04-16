@@ -1,21 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import changeNameFilter from '../actions/changeNameFilter';
+// import changeNameFilter from '../actions/changeNameFilter';
+import { Context } from '../context/Provider';
 
-class NameFilter extends Component {
-  render() {
-    const { valueInput, handleChange } = this.props;
-    return (
-      <div className="filter">
-        <input
-          placeholder="Search by name"
-          value={valueInput}
-          onChange={handleChange}
-        />
-      </div>
-    );
-  }
+function NameFilter() {
+  // const { valueInput, handleChange } = this.props;
+  const { filters: [{ name: valueInput }], changeNameFilter } = useContext(Context);
+
+  return (
+    <div className="filter">
+      <input
+        placeholder="Search by name"
+        value={valueInput}
+        onChange={changeNameFilter}
+      />
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => ({
@@ -23,9 +24,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleChange: (event) => {
-    dispatch(changeNameFilter(event));
-  },
+  // handleChange: (event) => {
+  //   dispatch(changeNameFilter(event));
+  // },
 });
 
 NameFilter.propTypes = {

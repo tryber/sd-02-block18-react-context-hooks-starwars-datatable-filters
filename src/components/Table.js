@@ -105,11 +105,14 @@ function Table() {
 
   // render() {
   // const dataTable = this.filterAndSortData();
-  const { data: dataTable, updateData } = useContext(Context);
+  const { data, updateData, filters: [{ name }] } = useContext(Context);
+
   useEffect(
     updateData,
     [],
   );
+
+  const dataTable = filterDataByName(data, name);
 
   const keysPlanet = Object.keys(dataTable[0]);
   const indexResidents = keysPlanet.indexOf('residents');

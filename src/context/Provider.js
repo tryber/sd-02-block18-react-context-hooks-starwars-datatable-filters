@@ -17,16 +17,20 @@ const Provider = ({ children }) => {
     },
   ]);
   const [sorting, setSorting] = useState({ column: 'name', order: 'ASC' });
-
   const updateData = () => (
     fetch('https://swapi-trybe.herokuapp.com/api/planets')
       .then((response) => response.json())
       .then(({ results }) => setData(results))
   );
-
   const isLoading = (data.length <= 1);
+  const changeNameFilter = ({ target: { value } }) => (
+    setFilters([
+      { name: value },
+      ...filters.slice(1),
+    ])
+  );
 
-  const context = { data, filters, sorting, updateData, isLoading };
+  const context = { data, filters, sorting, updateData, isLoading, changeNameFilter };
 
   return (
     <Context.Provider value={context}>
