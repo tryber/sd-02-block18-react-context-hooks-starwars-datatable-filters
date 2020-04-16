@@ -12,42 +12,42 @@ function verificaEntradasVazias(array) {
   ));
 }
 
+function addFilter(i, filters, changeNumericValuesFilters) {
+  // const { arrayColumns, handleChange, handleClick } = this.props;
+  const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
+
+  const newArrayColumns = arrayColumns.slice(0, i - 1);
+  const allColumns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const columnsRestantes = allColumns.filter((item) => !newArrayColumns.includes(item));
+
+  const objectStates = filters.slice(1).reduce((acc, current, index) => ({
+    ...acc,
+    [`valueSelectedColumn${index + 1}`]: current.numericValues.column,
+    [`valueSelectedComparison${index + 1}`]: current.numericValues.comparison,
+    [`valueNumber${index + 1}`]: current.numericValues.value,
+  }), {});
+
+  return (
+    <div id={i} className="filter" key={i}>
+      <select name="column" onChange={changeNumericValuesFilters} value={objectStates[`valueSelectedColumn${i}`]}>
+        <option value="" disabled>Select column</option>
+        {columnsRestantes.map((item) => (
+          <option key={item} value={item}>{acertaTexto(item)}</option>
+        ))}
+      </select>
+      <select name="comparison" onChange={changeNumericValuesFilters} value={objectStates[`valueSelectedComparison${i}`]}>
+        <option value=">">greater than</option>
+        <option value="<">less than</option>
+        <option value="===">equal to</option>
+      </select>
+      <input type="number" placeholder="Enter a number" name="value" onChange={changeNumericValuesFilters} value={objectStates[`valueNumber${i}`]} />
+      {/* <button type="button" onClick={handleClick}>X</button> */}
+    </div>
+  );
+}
+
 function NumericValuesFilters() {
   const { filters, changeNumericValuesFilters } = useContext(Context);
-
-  function addFilter(i) {
-    // const { arrayColumns, handleChange, handleClick } = this.props;
-    const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
-
-    const newArrayColumns = arrayColumns.slice(0, i - 1);
-    const allColumns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-    const columnsRestantes = allColumns.filter((item) => !newArrayColumns.includes(item));
-
-    const objectStates = filters.slice(1).reduce((acc, current, i) => ({
-      ...acc,
-      [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
-      [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
-      [`valueNumber${i + 1}`]: current.numericValues.value,
-    }), {});
-
-    return (
-      <div id={i} className="filter" key={i}>
-        <select name="column" onChange={changeNumericValuesFilters} value={objectStates[`valueSelectedColumn${i}`]}>
-          <option value="" disabled>Select column</option>
-          {columnsRestantes.map((item) => (
-            <option key={item} value={item}>{acertaTexto(item)}</option>
-          ))}
-        </select>
-        <select name="comparison" onChange={changeNumericValuesFilters} value={objectStates[`valueSelectedComparison${i}`]}>
-          <option value=">">greater than</option>
-          <option value="<">less than</option>
-          <option value="===">equal to</option>
-        </select>
-        <input type="number" placeholder="Enter a number" name="value" onChange={changeNumericValuesFilters} value={objectStates[`valueNumber${i}`]} />
-        {/* <button type="button" onClick={handleClick}>X</button> */}
-      </div>
-    );
-  }
 
   function addMoreAndMoreFilters() {
     // const arrayValues = this.props.arrayValues;
@@ -60,7 +60,7 @@ function NumericValuesFilters() {
     if (verificaEntradasVazias(arrayValues) && verificaEntradasVazias(arrayColumns)) {
       numericFilters = (
         <div>
-          {arrayValues.map((item, i) => addFilter(i + 1, item))}
+          {arrayValues.map((item, i) => addFilter(i + 1, filters, changeNumericValuesFilters))}
         </div>
       );
     } else {
@@ -68,7 +68,7 @@ function NumericValuesFilters() {
 
       numericFilters = (
         <div>
-          {newArrayValues.map((item, i) => addFilter(i + 1))}
+          {newArrayValues.map((item, i) => addFilter(i + 1, filters, changeNumericValuesFilters))}
         </div>
       );
     }

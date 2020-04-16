@@ -48,7 +48,15 @@ const Provider = ({ children }) => {
     ));
   };
 
-  const context = { data, filters, sorting, updateData, isLoading, changeNameFilter, changeNumericValuesFilters };
+  const context = {
+    data,
+    filters,
+    sorting,
+    updateData,
+    isLoading,
+    changeNameFilter,
+    changeNumericValuesFilters,
+  };
 
   return (
     <Context.Provider value={context}>
