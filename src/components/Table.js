@@ -95,23 +95,25 @@ function renderizaATabela(dataTable, indexResidents, keysPlanet) {
   );
 }
 
+function ordenaPorLetra(filteredData, columnToBeSorted) {
+  const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
+  filteredColumns.sort();
+  const sortedData = filteredColumns.map((column) => (
+    filteredData.find((object) => object[columnToBeSorted] === column)
+  ));
+
+  if (order === 'DESC') {
+    sortedData.reverse();
+  }
+
+  return sortedData;
+}
+
 function filterAndSortData(filters, data, name, columnToBeSorted, order) {
   // const { columnToBeSorted, order } = this.props;
   const filteredData = filterData(filters, data, name);
 
-  if (columnToBeSorted === 'name') {
-    const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
-    filteredColumns.sort();
-    const sortedData = filteredColumns.map((column) => (
-      filteredData.find((object) => object[columnToBeSorted] === column)
-    ));
-
-    if (order === 'DESC') {
-      sortedData.reverse();
-    }
-
-    return sortedData;
-  }
+  if (columnToBeSorted === 'name') return ordenaPorLetra(filteredData, columnToBeSorted);
 
   function setSortingRules(obj1, obj2) {
     // const { columnToBeSorted, order } = this.props;
