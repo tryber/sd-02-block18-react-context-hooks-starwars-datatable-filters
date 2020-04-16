@@ -83,19 +83,19 @@ function Table() {
   //   getData();
   // }
 
-  // function setSortingRules(obj1, obj2) {
-  //   const { columnToBeSorted, order } = this.props;
+  const { data, updateData, filters, filters: [{ name }], sorting: { column: columnToBeSorted, order } } = useContext(Context);
 
-  //   if (obj1[columnToBeSorted] === 'unknown'
-  //     || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
-  //     || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
-  //     return 1;
-  //   }
+  function setSortingRules(obj1, obj2) {
+    // const { columnToBeSorted, order } = this.props;
 
-  //   return -1;
-  // }
+    if (obj1[columnToBeSorted] === 'unknown'
+      || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
+      || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
+      return 1;
+    }
 
-  const { data, updateData, filters, filters: [{ name }] } = useContext(Context);
+    return -1;
+  }
 
   useEffect(
     updateData,
@@ -125,33 +125,34 @@ function Table() {
     return filterDataByName(newData, name);
   }
 
-  // function filterAndSortData() {
-  //   const { columnToBeSorted, order } = this.props;
-  //   const filteredData = this.filterData();
+  function filterAndSortData() {
+    // const { columnToBeSorted, order } = this.props;
+    const filteredData = filterData();
 
-  //   if (columnToBeSorted === 'name') {
-  //     const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
-  //     filteredColumns.sort();
-  //     const sortedData = filteredColumns.map((column) => (
-  //       filteredData.find((object) => object[columnToBeSorted] === column)
-  //     ));
+    if (columnToBeSorted === 'name') {
+      const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
+      filteredColumns.sort();
+      const sortedData = filteredColumns.map((column) => (
+        filteredData.find((object) => object[columnToBeSorted] === column)
+      ));
 
-  //     if (order === 'DESC') {
-  //       sortedData.reverse();
-  //     }
+      if (order === 'DESC') {
+        sortedData.reverse();
+      }
 
-  //     return sortedData;
-  //   }
+      return sortedData;
+    }
 
-  //   filteredData.sort(this.setSortingRules);
-  //   return filteredData;
-  // }
+    filteredData.sort(setSortingRules);
+    return filteredData;
+  }
 
   // render() {
   // const dataTable = this.filterAndSortData();
 
   // const dataTable = filterDataByName(data, name);
-  const dataTable = filterData();
+  // const dataTable = filterData();
+  const dataTable = filterAndSortData();
 
   const keysPlanet = Object.keys(dataTable[0]);
   const indexResidents = keysPlanet.indexOf('residents');

@@ -50,6 +50,12 @@ const Provider = ({ children }) => {
   const deleteNumericValuesFilters = ({ target: { parentNode: { id } } }) => (
     setFilters(filters.filter((item, index) => Number(id) !== index))
   );
+  const changeSorting = ({ target: { name, value } }) => (
+    setSorting({
+      ...sorting,
+      [name]: value,
+    })
+  );
 
   const context = {
     data,
@@ -60,6 +66,7 @@ const Provider = ({ children }) => {
     changeNameFilter,
     changeNumericValuesFilters,
     deleteNumericValuesFilters,
+    changeSorting,
   };
 
   return (

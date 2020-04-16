@@ -60,7 +60,9 @@ function NumericValuesFilters() {
     if (verificaEntradasVazias(arrayValues) && verificaEntradasVazias(arrayColumns)) {
       numericFilters = (
         <div>
-          {arrayValues.map((item, i) => addFilter(i + 1, filters, changeNumericValuesFilters, deleteNumericValuesFilters))}
+          {arrayValues.map((item, i) => (
+            addFilter(i + 1, filters, changeNumericValuesFilters, deleteNumericValuesFilters)
+          ))}
         </div>
       );
     } else {
@@ -68,7 +70,9 @@ function NumericValuesFilters() {
 
       numericFilters = (
         <div>
-          {newArrayValues.map((item, i) => addFilter(i + 1, filters, changeNumericValuesFilters, deleteNumericValuesFilters))}
+          {newArrayValues.map((item, i) => (
+            addFilter(i + 1, filters, changeNumericValuesFilters, deleteNumericValuesFilters)
+          ))}
         </div>
       );
     }
