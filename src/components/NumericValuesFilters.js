@@ -12,7 +12,7 @@ function verificaEntradasVazias(array) {
   ));
 }
 
-function addFilter(i, filters, changeNumericValuesFilters) {
+function addFilter(i, filters, changeNumericValuesFilters, deleteNumericValuesFilters) {
   // const { arrayColumns, handleChange, handleClick } = this.props;
   const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
 
@@ -41,13 +41,13 @@ function addFilter(i, filters, changeNumericValuesFilters) {
         <option value="===">equal to</option>
       </select>
       <input type="number" placeholder="Enter a number" name="value" onChange={changeNumericValuesFilters} value={objectStates[`valueNumber${i}`]} />
-      {/* <button type="button" onClick={handleClick}>X</button> */}
+      <button type="button" onClick={deleteNumericValuesFilters}>X</button>
     </div>
   );
 }
 
 function NumericValuesFilters() {
-  const { filters, changeNumericValuesFilters } = useContext(Context);
+  const { filters, changeNumericValuesFilters, deleteNumericValuesFilters } = useContext(Context);
 
   function addMoreAndMoreFilters() {
     // const arrayValues = this.props.arrayValues;
@@ -60,7 +60,7 @@ function NumericValuesFilters() {
     if (verificaEntradasVazias(arrayValues) && verificaEntradasVazias(arrayColumns)) {
       numericFilters = (
         <div>
-          {arrayValues.map((item, i) => addFilter(i + 1, filters, changeNumericValuesFilters))}
+          {arrayValues.map((item, i) => addFilter(i + 1, filters, changeNumericValuesFilters, deleteNumericValuesFilters))}
         </div>
       );
     } else {
@@ -68,7 +68,7 @@ function NumericValuesFilters() {
 
       numericFilters = (
         <div>
-          {newArrayValues.map((item, i) => addFilter(i + 1, filters, changeNumericValuesFilters))}
+          {newArrayValues.map((item, i) => addFilter(i + 1, filters, changeNumericValuesFilters, deleteNumericValuesFilters))}
         </div>
       );
     }

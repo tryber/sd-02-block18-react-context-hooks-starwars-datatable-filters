@@ -47,6 +47,9 @@ const Provider = ({ children }) => {
         : [],
     ));
   };
+  const deleteNumericValuesFilters = ({ target: { parentNode: { id } } }) => (
+    setFilters(filters.filter((item, index) => Number(id) !== index))
+  );
 
   const context = {
     data,
@@ -56,6 +59,7 @@ const Provider = ({ children }) => {
     isLoading,
     changeNameFilter,
     changeNumericValuesFilters,
+    deleteNumericValuesFilters,
   };
 
   return (
