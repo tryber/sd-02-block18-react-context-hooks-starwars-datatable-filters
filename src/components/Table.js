@@ -95,7 +95,7 @@ function renderizaATabela(dataTable, indexResidents, keysPlanet) {
   );
 }
 
-function ordenaPorLetra(filteredData, columnToBeSorted) {
+function ordenaPorLetra(filteredData, columnToBeSorted, order) {
   const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
   filteredColumns.sort();
   const sortedData = filteredColumns.map((column) => (
@@ -109,25 +109,26 @@ function ordenaPorLetra(filteredData, columnToBeSorted) {
   return sortedData;
 }
 
+function setSortingRules(obj1, obj2, columnToBeSorted, order) {
+  // const { columnToBeSorted, order } = this.props;
+
+  if (obj1[columnToBeSorted] === 'unknown'
+    || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
+    || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
+    return 1;
+  }
+
+  return -1;
+}
+
 function filterAndSortData(filters, data, name, columnToBeSorted, order) {
   // const { columnToBeSorted, order } = this.props;
   const filteredData = filterData(filters, data, name);
 
-  if (columnToBeSorted === 'name') return ordenaPorLetra(filteredData, columnToBeSorted);
+  if (columnToBeSorted === 'name') return ordenaPorLetra(filteredData, columnToBeSorted, order);
 
-  function setSortingRules(obj1, obj2) {
-    // const { columnToBeSorted, order } = this.props;
+  filteredData.sort((obj1, obj2) => setSortingRules(obj1, obj2, columnToBeSorted, order));
 
-    if (obj1[columnToBeSorted] === 'unknown'
-      || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
-      || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
-      return 1;
-    }
-
-    return -1;
-  }
-
-  filteredData.sort(setSortingRules);
   return filteredData;
 }
 
