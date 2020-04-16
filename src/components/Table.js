@@ -47,6 +47,29 @@ function filterDataByNumericValues(data, column, comparison, value) {
   return newData;
 }
 
+function filterData(filters, data, name) {
+  // const { data, name, arrayColumns } = this.props;
+  const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
+  const objectStates = filters.slice(1).reduce((acc, current, i) => ({
+    ...acc,
+    [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
+    [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
+    [`valueNumber${i + 1}`]: current.numericValues.value,
+  }), {});
+
+  let newData = data;
+  for (let i = 0; i < arrayColumns.length; i += 1) {
+    newData = filterDataByNumericValues(
+      newData,
+      objectStates[`valueSelectedColumn${i + 1}`],
+      objectStates[`valueSelectedComparison${i + 1}`],
+      objectStates[`valueNumber${i + 1}`],
+    );
+  }
+
+  return filterDataByName(newData, name);
+}
+
 function renderizaATabela(dataTable, indexResidents, keysPlanet) {
   return (
     <div>
@@ -73,17 +96,25 @@ function renderizaATabela(dataTable, indexResidents, keysPlanet) {
 }
 
 function Table() {
-  // constructor(props) {
-  //   super(props);
-  //   this.setSortingRules = this.setSortingRules.bind(this);
-  // }
+  const {
+    data,
+    updateData,
+    filters,
+    filters: [
+      {
+        name,
+      },
+    ],
+    sorting: {
+      column: columnToBeSorted,
+      order,
+    },
+  } = useContext(Context);
 
-  // componentDidMount() {
-  //   const { getData } = this.props;
-  //   getData();
-  // }
-
-  const { data, updateData, filters, filters: [{ name }], sorting: { column: columnToBeSorted, order } } = useContext(Context);
+  useEffect(
+    updateData,
+    [],
+  );
 
   function setSortingRules(obj1, obj2) {
     // const { columnToBeSorted, order } = this.props;
@@ -97,37 +128,9 @@ function Table() {
     return -1;
   }
 
-  useEffect(
-    updateData,
-    [],
-  );
-
-  function filterData() {
-    // const { data, name, arrayColumns } = this.props;
-    const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
-    const objectStates = filters.slice(1).reduce((acc, current, i) => ({
-      ...acc,
-      [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
-      [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
-      [`valueNumber${i + 1}`]: current.numericValues.value,
-    }), {});
-
-    let newData = data;
-    for (let i = 0; i < arrayColumns.length; i += 1) {
-      newData = filterDataByNumericValues(
-        newData,
-        objectStates[`valueSelectedColumn${i + 1}`],
-        objectStates[`valueSelectedComparison${i + 1}`],
-        objectStates[`valueNumber${i + 1}`],
-      );
-    }
-
-    return filterDataByName(newData, name);
-  }
-
   function filterAndSortData() {
     // const { columnToBeSorted, order } = this.props;
-    const filteredData = filterData();
+    const filteredData = filterData(filters, data, name);
 
     if (columnToBeSorted === 'name') {
       const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
