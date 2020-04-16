@@ -95,6 +95,40 @@ function renderizaATabela(dataTable, indexResidents, keysPlanet) {
   );
 }
 
+function filterAndSortData(filters, data, name, columnToBeSorted, order) {
+  // const { columnToBeSorted, order } = this.props;
+  const filteredData = filterData(filters, data, name);
+
+  if (columnToBeSorted === 'name') {
+    const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
+    filteredColumns.sort();
+    const sortedData = filteredColumns.map((column) => (
+      filteredData.find((object) => object[columnToBeSorted] === column)
+    ));
+
+    if (order === 'DESC') {
+      sortedData.reverse();
+    }
+
+    return sortedData;
+  }
+
+  function setSortingRules(obj1, obj2) {
+    // const { columnToBeSorted, order } = this.props;
+
+    if (obj1[columnToBeSorted] === 'unknown'
+      || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
+      || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
+      return 1;
+    }
+
+    return -1;
+  }
+
+  filteredData.sort(setSortingRules);
+  return filteredData;
+}
+
 function Table() {
   const {
     data,
@@ -116,46 +150,12 @@ function Table() {
     [],
   );
 
-  function setSortingRules(obj1, obj2) {
-    // const { columnToBeSorted, order } = this.props;
-
-    if (obj1[columnToBeSorted] === 'unknown'
-      || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
-      || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
-      return 1;
-    }
-
-    return -1;
-  }
-
-  function filterAndSortData() {
-    // const { columnToBeSorted, order } = this.props;
-    const filteredData = filterData(filters, data, name);
-
-    if (columnToBeSorted === 'name') {
-      const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
-      filteredColumns.sort();
-      const sortedData = filteredColumns.map((column) => (
-        filteredData.find((object) => object[columnToBeSorted] === column)
-      ));
-
-      if (order === 'DESC') {
-        sortedData.reverse();
-      }
-
-      return sortedData;
-    }
-
-    filteredData.sort(setSortingRules);
-    return filteredData;
-  }
-
   // render() {
   // const dataTable = this.filterAndSortData();
 
   // const dataTable = filterDataByName(data, name);
   // const dataTable = filterData();
-  const dataTable = filterAndSortData();
+  const dataTable = filterAndSortData(filters, data, name, columnToBeSorted, order);
 
   const keysPlanet = Object.keys(dataTable[0]);
   const indexResidents = keysPlanet.indexOf('residents');
