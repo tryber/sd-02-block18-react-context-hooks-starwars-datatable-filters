@@ -33,4 +33,4 @@ export default function SortingSelection() {
       {renderOrderSelect()}
     </div>
   );
-};
+}

@@ -151,4 +151,4 @@ export default function Table() {
   keysPlanet.splice(indexResidents, 1);
 
   return renderizaATabela(dataTable, indexResidents, keysPlanet);
-};
+}
