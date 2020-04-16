@@ -1,12 +1,12 @@
 import React from 'react';
 import Table from './components/Table';
-import { SWAPIContext } from './context/SWAPIContext';
+import PlanetsProvider from './context/PlanetsProvider';
 
 function App() {
   return (
-    <SWAPIContext>
+    <PlanetsProvider>
       <Table />
-    </SWAPIContext>
+    </PlanetsProvider>
   );
 }
 

@@ -1,15 +1,6 @@
 import React, { useContext } from 'react';
-import SWAPIProvider from '../context/SWAPIContext';
-
-// function useFetchPlanets() {
-//   const [state, setState] = useState(true);
-
-//   useEffect(() => {
-//     setState(fetchPlanets().then(() => setIsFetching(false)));
-//   }, []);
-
-//   return [state, setState];
-// }
+import { PlanetsContext } from '../context/PlanetsProvider';
+import SearchBar from './SearchBar';
 
 function renderTableHead(planets) {
   return (
@@ -42,16 +33,21 @@ function renderTableBody(planets) {
 }
 
 const Table = () => {
-  const { isFetching, planets } = useContext(SWAPIProvider);
+  const { isFetching, planets, filteredPlanets } = useContext(PlanetsContext);
 
   return (
     <div>
+      <SearchBar />
       {isFetching
         ? 'loading...'
         : (
           <table>
             {renderTableHead(planets)}
-            {renderTableBody(planets)}
+            {
+              filteredPlanets.length
+                ? renderTableBody(filteredPlanets)
+                : renderTableBody(planets)
+            }
           </table>
         )}
     </div>
