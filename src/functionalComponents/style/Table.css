@@ -18,11 +18,7 @@ table , th , td {
 .container-header {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin: 0 auto;
   width: fit-content;
-}
-
-.container-header {
-  display: flex;
-  justify-content: space-between;
 }

@@ -35,10 +35,10 @@ const StarWarsProvider = ({ children }) => {
       return filter;
     });
     return filteredResult;
-  }
-  
+  };
+
   const planetAction = (planet) => {
-    let whosFilter = data;
+    const whosFilter = data;
     // if (dataMockFilterOn) {
     //   whosFilter = dataMock;
     // }

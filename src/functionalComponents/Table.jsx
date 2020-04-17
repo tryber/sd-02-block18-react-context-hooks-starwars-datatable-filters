@@ -16,7 +16,7 @@ const Table = () => {
   return (
     <React.Fragment>
       <div className="container-header">
-        <input type="text" onChange={(e) => planetAction(e.target.value)}/>
+        <input type="text" onChange={(e) => planetAction(e.target.value)} />
         <button>Search</button>
         <div>StarWars DataTable with Filters</div>
       </div>
