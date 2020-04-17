@@ -5,15 +5,15 @@ import CellTable from './CellTable';
 import './style/Table.css';
 
 const Table = () => {
-  
   const value = useContext(StarWarsContext);
   const { onLoad, callAPI } = value;
-  
+
   useEffect(() => {
     callAPI();
-  }, [])
+  }, []);
 
-  if (!onLoad) return (<div style={{ textAlign: "center" }}><h1>Loading...</h1></div>);
+  if (!onLoad) return (<div style={{ textAlign: 'center' }}><h1>Loading...</h1></div>);
+
   return (
     <React.Fragment>
       <div className="container-header">
@@ -27,7 +27,6 @@ const Table = () => {
       </table>
     </React.Fragment>
   );
-}
-
+};
 
 export default Table;

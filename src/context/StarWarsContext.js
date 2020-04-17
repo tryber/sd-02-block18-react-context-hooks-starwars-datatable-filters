@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import propTypes from 'prop-types';
 import getEndPointSwAPI from '../service/SwAPI';
 
 const StarWarsContext = createContext();
@@ -27,11 +28,16 @@ const StarWarsProvider = ({ children }) => {
     data,
     error,
     dataMock,
+    setDataMock,
     dataMockFilter,
+    setDataMockFilter,
     dataMockOn,
+    setDataMockOn,
     dataMockFilterOn,
+    setDataMockFilterOn,
     onLoad,
     filters,
+    setFilters,
     callAPI,
   };
 
@@ -43,3 +49,7 @@ const StarWarsProvider = ({ children }) => {
 }
 
 export { StarWarsContext, StarWarsProvider };
+
+StarWarsProvider.propTypes = {
+  children: propTypes.node.isRequired,
+};

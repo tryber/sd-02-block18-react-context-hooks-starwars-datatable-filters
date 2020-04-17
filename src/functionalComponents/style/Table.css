@@ -22,7 +22,7 @@ table , th , td {
   width: fit-content;
 }
 
-.container-header#text {
+.container-header {
   display: flex;
   justify-content: space-between;
 }
