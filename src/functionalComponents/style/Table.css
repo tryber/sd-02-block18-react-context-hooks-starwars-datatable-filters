@@ -14,3 +14,15 @@ table , th , td {
 .essa2 > p , button {
   margin: 2px;
 }
+
+.container-header {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.container-header#text {
+  display: flex;
+  justify-content: space-between;
+}

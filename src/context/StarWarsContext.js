@@ -1,10 +1,12 @@
 import React, { createContext, useState } from 'react';
+import getEndPointSwAPI from '../service/SwAPI';
 
 const StarWarsContext = createContext();
 
 const StarWarsProvider = ({ children }) => {
 
-  const [data, useData] = useState([]);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState('');
   const [dataMock, setDataMock] = useState([]);
   const [dataMockFilter, setDataMockFilter] = useState([]);
   const [dataMockOn, setDataMockOn] = useState(false);
@@ -12,14 +14,25 @@ const StarWarsProvider = ({ children }) => {
   const [onLoad, setOnLoad] = useState(false);
   const [filters, setFilters] = useState([]);
 
+  const callAPI = () => {
+    getEndPointSwAPI()
+    .then(
+      (data) => setData(data.results),
+      (error) => setError(error.message),
+    );
+    setOnLoad(true);
+  };
+
   const context = {
     data,
+    error,
     dataMock,
     dataMockFilter,
     dataMockOn,
     dataMockFilterOn,
     onLoad,
     filters,
+    callAPI,
   };
 
   return (
