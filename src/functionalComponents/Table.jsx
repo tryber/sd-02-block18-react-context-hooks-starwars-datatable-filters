@@ -5,8 +5,7 @@ import CellTable from './CellTable';
 import './style/Table.css';
 
 const Table = () => {
-  const value = useContext(StarWarsContext);
-  const { onLoad, callAPI } = value;
+  const { onLoad, callAPI, planetAction } = useContext(StarWarsContext);
 
   useEffect(() => {
     callAPI();
@@ -17,7 +16,7 @@ const Table = () => {
   return (
     <React.Fragment>
       <div className="container-header">
-        <input type="text" />
+        <input type="text" onChange={(e) => planetAction(e.target.value)}/>
         <button>Search</button>
         <div>StarWars DataTable with Filters</div>
       </div>

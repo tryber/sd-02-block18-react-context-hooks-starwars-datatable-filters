@@ -1,14 +1,8 @@
 import React from 'react';
 import './App.css';
-import { StarWarsContext, StarWarsProvider } from './context/StarWarsContext';
+import { StarWarsProvider } from './context/StarWarsContext';
 import Table from './functionalComponents/Table';
 
-const App = () => {
-  return (
-    <StarWarsProvider>
-      <Table />
-    </StarWarsProvider>
-  );
-}
+const App = () => <StarWarsProvider><Table /></StarWarsProvider>;
 
 export default App;
