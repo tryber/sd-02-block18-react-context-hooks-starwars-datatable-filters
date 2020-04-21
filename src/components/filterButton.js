@@ -1,11 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 import '../styles/filterButton.css';
 
 function FilterButton() {
   const { addFilter } = useContext(StarWarsContext);
-  // useEffect(() => {
-  // }, [filters]);
   return (
     <div>
       <button
