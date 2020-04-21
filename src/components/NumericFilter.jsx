@@ -58,7 +58,7 @@ const NumericFilter = () => {
 
   return (
     <div>
-      {column.length > 0 && (
+      {selectColumn.length > 0 && (
       <div>
         {renderColumnSelected(selectColumn, setColumn)}
         {column && renderComparisonSelected(comparisonArray, setComparison)}
