@@ -10,6 +10,7 @@ export default function NameFilter() {
         placeholder="Search by name"
         value={valueInput}
         onChange={changeNameFilter}
+        data-testid="name-filter-input"
       />
     </div>
   );

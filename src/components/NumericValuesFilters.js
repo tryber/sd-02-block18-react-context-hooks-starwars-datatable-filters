@@ -23,19 +23,19 @@ function addFilter(i, filters, changeNumericValuesFilters, deleteNumericValuesFi
   }), {});
 
   return (
-    <div id={i} className="filter" key={i}>
-      <select name="column" onChange={changeNumericValuesFilters} value={objectStates[`valueSelectedColumn${i}`]}>
+    <div id={i} className="filter" key={i} data-testid="filter">
+      <select name="column" onChange={changeNumericValuesFilters} value={objectStates[`valueSelectedColumn${i}`]} data-testid={`${i}-column-filter`}>
         <option value="" disabled>Select column</option>
         {columnsRestantes.map((item) => (
           <option key={item} value={item}>{acertaTexto(item)}</option>
         ))}
       </select>
-      <select name="comparison" onChange={changeNumericValuesFilters} value={objectStates[`valueSelectedComparison${i}`]}>
+      <select name="comparison" onChange={changeNumericValuesFilters} value={objectStates[`valueSelectedComparison${i}`]} data-testid={`${i}-comparison-filter`}>
         <option value=">">greater than</option>
         <option value="<">less than</option>
         <option value="===">equal to</option>
       </select>
-      <input type="number" placeholder="Enter a number" name="value" onChange={changeNumericValuesFilters} value={objectStates[`valueNumber${i}`]} />
+      <input type="number" placeholder="Enter a number" name="value" onChange={changeNumericValuesFilters} value={objectStates[`valueNumber${i}`]} data-testid={`${i}-value-filter`} />
       <button type="button" onClick={deleteNumericValuesFilters}>X</button>
     </div>
   );

@@ -9,7 +9,7 @@ export default function SortingSelection() {
     const columns = ['name', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
     return (
-      <select name="column" onChange={changeSorting} defaultValue="">
+      <select name="column" onChange={changeSorting} defaultValue="" data-testid="column-sorting">
         <option value="" disabled>Select column</option>
         {columns.map((column) => (
           <option key={column} value={column}>{acertaTexto(column)}</option>
@@ -20,7 +20,7 @@ export default function SortingSelection() {
 
   function renderOrderSelect() {
     return (
-      <select name="order" onChange={changeSorting} defaultValue="ASC">
+      <select name="order" onChange={changeSorting} defaultValue="ASC" data-testid="order-sorting">
         <option value="ASC">asc. order</option>
         <option value="DESC">desc. order</option>
       </select>

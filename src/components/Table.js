@@ -10,14 +10,12 @@ export function acertaTexto(texto) {
 
 function comparaValores(arg1, arg2, comparison) {
   switch (comparison) {
-    case '>':
-      return arg1 > arg2;
     case '<':
       return arg1 < arg2;
     case '===':
       return arg1 === arg2;
     default:
-      return false;
+      return arg1 > arg2;
   }
 }
 
@@ -80,7 +78,7 @@ function renderizaATabela(dataTable, indexResidents, keysPlanet) {
             valuesPlanet.splice(indexResidents, 1);
             return (
               <tr key={planet.name}>
-                {valuesPlanet.map((valueColumn) => <td key={valueColumn}>{valueColumn}</td>)}
+                {valuesPlanet.map((valueColumn, index) => <td key={valueColumn} data-testid={`coluna-${index + 1}`}>{valueColumn}</td>)}
               </tr>
             );
           })}
