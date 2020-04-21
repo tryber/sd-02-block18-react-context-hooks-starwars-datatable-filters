@@ -117,9 +117,11 @@ const FiltersBox = () => {
   return (
     <div>
       {renderInputByName(name, setName)}
-      {renderInputByColumn(numericValues[0].column, setLocalNumericValues, rest)}
-      {renderInputByComparison(numericValues[0].comparison, setLocalNumericValues)}
-      {renderInputByNumber(numericValues[0].value, setLocalNumericValues)}
+      {(rest.length === 5)
+        || renderInputByColumn(numericValues[0].column, setLocalNumericValues, rest)}
+      {(rest.length === 5)
+        || renderInputByComparison(numericValues[0].comparison, setLocalNumericValues)}
+      {(rest.length === 5) || renderInputByNumber(numericValues[0].value, setLocalNumericValues)}
       {(numericValues[0].column && numericValues[0].comparison && numericValues[0].value)
         && renderFilterButton(
           rest,

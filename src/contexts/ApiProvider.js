@@ -18,7 +18,7 @@ const ApiProvider = ({ children }) => {
   const planetsWithoutResidents = removeResidents(planets || []);
 
   const apiContext = {
-    planets: planetsWithoutResidents,
+    data: planetsWithoutResidents,
     isFetching,
     error,
   };

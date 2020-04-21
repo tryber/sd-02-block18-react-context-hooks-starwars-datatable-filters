@@ -47,16 +47,16 @@ const removeFilter = (filter, filters, setNumericValues) => {
 };
 
 const FilterProvider = ({ children }) => {
-  const { planets } = useContext(ApiContext);
+  const { data } = useContext(ApiContext);
   const {
     setName, setNumericValues, setFilterPlanets, filterPlanets, filters,
-  } = useFilter(planets);
+  } = useFilter(data);
 
   const [{ name }, ...rest] = filters;
 
 
   useEffect(() => {
-    filterArray(planets, filters, setFilterPlanets);
+    filterArray(data, filters, setFilterPlanets);
   }, [name, rest.length]);
 
   const filterContext = {
