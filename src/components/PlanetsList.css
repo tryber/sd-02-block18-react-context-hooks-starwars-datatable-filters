@@ -1,0 +1,52 @@
+.darkTable {
+  background-color: rgb(74, 74, 74);
+  border: 2px solid black;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  height: 200px;
+  text-align: center;
+  width: 100%;
+}
+
+.darkTable td , .darkTable th {
+  border: 1px solid rgb(74, 74, 74);
+  padding: 3px 2px;
+}
+
+.darkTable tbody td {
+  color: rgb(230, 230, 230);
+  font-size: 13px;
+}
+
+.darkTable tr:nth-child( even ) {
+  background: rgb(136, 136, 136);
+}
+
+.darkTable thead {
+  background: black;
+  border-bottom: 3px solid black;
+}
+
+.darkTable thead th {
+  border-left: 2px solid rgb(74, 74, 74);
+  color: rgb(230, 230, 230);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.darkTable thead th:first-child {
+  border-left: none;
+}
+
+.darkTable tfoot {
+  background: black;
+  border-top: 1px solid rgb(74, 74, 74);
+  color: rgb(230, 230, 230);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.darkTable tfoot td {
+  font-size: 12px;
+}
