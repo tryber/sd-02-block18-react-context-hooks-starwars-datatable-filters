@@ -58,12 +58,14 @@ const NumericFilter = () => {
 
   return (
     <div>
+      {column.length > 0 && (
       <div>
         {renderColumnSelected(selectColumn, setColumn)}
         {column && renderComparisonSelected(comparisonArray, setComparison)}
         {comparison && renderInput(setValue)}
         {value && renderButtonFilter(onAddFilter)}
       </div>
+      )}
       <div>
         {(filters[0].numericValues) && filters.map(({ numericValues: num }) => (
           renderFilterSelected(num, onExcludeFilter)))}
