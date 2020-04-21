@@ -21,7 +21,7 @@ const Provider = ({ children }) => {
   const updateData = () => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets')
       .then((response) => response.json())
-      .then(({ results }) => setData(results))
+      .then(({ results }) => setData(results));
   };
   const isLoading = (data.length <= 1);
   const changeNameFilter = ({ target: { value } }) => (
