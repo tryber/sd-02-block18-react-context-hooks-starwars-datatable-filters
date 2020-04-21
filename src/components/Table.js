@@ -1,33 +1,11 @@
 import React, { Component } from 'react';
-import SWContext from '../context/starWarsContext';
-import { thunkPlanets, filterText } from '../actions/APIactions';
-import { eraseFilter } from '../actions/dropdownActions';
-import { sortColumn, changeOrder } from '../actions/sortActions';
-import Dropdowns from './Dropdowns';
 import './Table.css';
+import SWContext from '../context/starWarsContext';
 
-export default class Table extends Component {
-  static numericFilters(array, { numericValues }) {
-    const { column, comparison, value } = numericValues;
-    const columnValue = (column !== '' && value !== '');
-    if (comparison === 'more than' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) > Number(value));
-    }
-    if (comparison === 'less than' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) < Number(value));
-    }
-    if (comparison === 'equal to' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) === Number(value));
-    }
-    return array;
-  }
-
-  static generateBody(data, text, filterCriteria) {
-    let firstFilter = data;
-    filterCriteria.forEach((x) => { firstFilter = Table.numericFilters(firstFilter, x); });
+class Table extends Component {
+  static generateBody(data) {
     return (
-      firstFilter
-        .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
+      data
         .map((values) => (
           <tbody key={values.name}>
             <tr>
@@ -39,8 +17,8 @@ export default class Table extends Component {
         )));
   }
 
-  static generateTable(loadInfo, data, failLoad, filtered, text, filterCriteria) {
-    if (!loadInfo && data) {
+  static generateTable(loading, data, error) {
+    if (!loading && data) {
       return (
         <table>
           <thead>
@@ -50,145 +28,41 @@ export default class Table extends Component {
                 : null))}
             </tr>
           </thead>
-          {!filtered
-            ? Table.generateBody(data, text, filterCriteria)
-            : Table.generateBody(filtered, text, filterCriteria)}
+          {Table.generateBody(data)}
         </table>
       );
     }
-    if (failLoad) { return <div>{failLoad}</div>; }
+    if (error) { return <div>{error}</div>; }
     return <div>Loading...</div>;
   }
 
-  constructor(props) {
-    super(props);
-    this.onChangeHandler = this.onChangeHandler.bind(this);
-    this.showFilters = this.showFilters.bind(this);
-  }
-
-/*   componentDidMount() {
+  componentDidMount() {
     const { importedThunk } = this.props;
     importedThunk();
-  } */
-
-  onChangeHandler(event) {
-    const { filterByText } = this.props;
-    let { data } = this.props;
-    const text = event.target.value.toLowerCase();
-    filterByText(text, data);
-    data = filterByText(text, data).results;
-  }
-
-  showFilters(filters) {
-    const { eraseColumn } = this.props;
-    return filters[0].numericValues.column && filters
-      .map(({ numericValues }) => (
-        <div className="filters">
-          <p key={numericValues.column}>{numericValues.column}</p>
-          <p key={numericValues.comparison}>{numericValues.comparison}</p>
-          <p key={numericValues.value}>{numericValues.value}</p>
-          <button
-            type="button"
-            value={numericValues.column}
-            onClick={() => eraseColumn(filters, numericValues.column)}
-          >
-            X
-          </button>
-        </div>
-      ));
-  }
-
-  changeOrderandState(e) {
-    const { importchangeOrder, sFilters, data } = this.props;
-    const { column, order } = sFilters[0];
-    if (order === 'ASC') {
-      data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
-    }
-    if ((order === 'DESC')) {
-      data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
-    }
-    importchangeOrder(e.target.value);
-  }
-
-  changeOrder(data) {
-    const { importSortColumn, sFilters } = this.props;
-    return (
-      <div>
-        <select onClick={(e) => importSortColumn(e.target.value)}>
-          {Object.keys(data[0])
-            .map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-        </select>
-        <button type="button" value={sFilters[0].order === 'ASC' ? 'DESC' : 'ASC'} onClick={(e) => this.changeOrderandState(e)}>Ascending/descending</button>
-      </div>
-    );
   }
 
   render() {
-/*     const {
-      loading,
-      data,
-      error,
-      filtered,
-      textFilter,
-      filters,
-      sFilters,
-    } = this.props; */
     return (
       <SWContext.Consumer>
-        {({
-          loading,
+        {(loading,
           data,
-          error,
-          filtered,
-          textFilter,
-          filters,
-          sFilters,
-        }) => (
-          <div>
-            <h1>Star Wars - A New Saga begins!</h1>
-            <input onChange={this.onChangeHandler} />
-            <Dropdowns />
-            {data === null ? null : this.changeOrder(data)}
-            <h2>Filters:</h2>
-            <div className="filterContainer">
-              {this.showFilters(filters)}
+          error) => {
+          return (
+            <div>
+              <h1>Star Wars - A New Saga begins!</h1>
+              <input />
+              <h2>Filters:</h2>
+              {Table.generateTable(loading, data, error)}
             </div>
-            {Table.generateTable(loading, data, error, filtered, textFilter[0].name, filters, sFilters)}
-          </div>
-        )}
+          );
+        }}
       </SWContext.Consumer>
     );
   }
 }
 
-const mapStateToProps = ({
-  APIreducer: {
-    loading,
-    data,
-    error,
-  },
-  textReducer: {
-    filtered,
-    filters: textFilter,
-  },
-  dropdownReducer: {
-    filters,
-  },
-  sortReducer: {
-    filters: sFilters,
-  },
-}) => ({
-  loading, data, error, filtered, textFilter, filters, sFilters,
-});
+export default Table;
 
-const mapDispatchToProps = (dispatch) => ({
-  importedThunk: () => dispatch(thunkPlanets()),
-  filterByText: (typing, data) => dispatch(filterText(typing, data)),
-  eraseColumn: (array, column) => dispatch(eraseFilter(array, column)),
-  importSortColumn: (column) => dispatch(sortColumn(column)),
-  importchangeOrder: (order) => dispatch(changeOrder(order)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   importedThunk: () => dispatch(thunkPlanets()),
+// });
