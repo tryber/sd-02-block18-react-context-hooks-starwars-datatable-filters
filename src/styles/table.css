@@ -1,0 +1,19 @@
+.table-container {
+  margin-top: 25px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+}
+
+th , td {
+  border: 1px solid yellow;
+  border-radius: 15px;
+  color: white;
+  padding: 15px;
+}
+
+th {
+  font-weight: 700;
+}

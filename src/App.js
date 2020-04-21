@@ -1,24 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
+import Table from './components/table';
+import Title from './components/title';
+import FiltersComponent from './components/filtersComponent';
+import ListFilters from './components/listFilters';
+import Inputs from './components/inputs';
+import Provider from './context/StarWarsProvider';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Provider>
+        <Title />
+        <Inputs />
+        <FiltersComponent />
+        <ListFilters />
+        <Table />
+      </Provider>
     </div>
   );
 }
