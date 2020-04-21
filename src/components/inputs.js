@@ -6,15 +6,12 @@ function Inputs() {
   const { setFilters } = useContext(StarWarsContext);
 
   const setFilteredWord = (word) => {
-    setFilters((prevFilter) => ({
-      ...prevFilter,
-      filters: prevFilter.filters.map((elem, index) => {
-        if (index === 0) {
-          return { ...elem, name: word };
-        }
-        return elem;
-      }),
-    }));
+    setFilters((prevFilter) => {
+      const newFilter = [...prevFilter];
+      newFilter[0] = { name: word };
+      console.log(newFilter);
+      return newFilter;
+    });
   };
 
   return (

@@ -5,15 +5,14 @@ import '../styles/listFilters.css';
 const deleteFilter = (e, setSelectors, setFilters) => {
   const { id, value } = e.target;
   setSelectors((prevSelector) => [...prevSelector, value]);
-  setFilters((prevSelector) => ({
-    ...prevSelector,
-    filters: prevSelector.filters.filter((elem, index) => index !== parseInt(id, 10)),
-  }));
+  setFilters((prevSelector) => ([
+    ...prevSelector.filter((elem, index) => index !== parseInt(id, 10)),
+  ]));
 };
 
 const renderFiltersActive = (filters, setSelectors, setFilters) => {
   const cpFilters = [...filters];
-  cpFilters.splice(0, 2);
+  cpFilters.splice(0, 1);
   return (
     <div className="active-filters-container">
       {cpFilters.map((filtro, index) => (
@@ -22,7 +21,7 @@ const renderFiltersActive = (filters, setSelectors, setFilters) => {
             data-testid={`delete-${filtro.numericValues.column}`}
             type="button"
             onClick={(e) => deleteFilter(e, setSelectors, setFilters)}
-            id={index + 2}
+            id={index + 1}
             value={filtro.numericValues.column}
           > X </button>
           <div className="filter-description-container">
@@ -33,7 +32,7 @@ const renderFiltersActive = (filters, setSelectors, setFilters) => {
               {filtro.numericValues.comparison}
             </div>
             <div className="filter-description">
-              {filtro.numericValues.valueComparison}
+              {filtro.numericValues.value}
             </div>
           </div>
         </div>
@@ -46,7 +45,7 @@ function ListFilters() {
   const { filters, setSelectors, setFilters } = useContext(StarWarsContext);
   return (
     <div>
-      {filters.filters.length > 2 && renderFiltersActive(filters.filters, setSelectors, setFilters)}
+      {filters.length > 1 && renderFiltersActive(filters, setSelectors, setFilters)}
     </div>
   );
 }

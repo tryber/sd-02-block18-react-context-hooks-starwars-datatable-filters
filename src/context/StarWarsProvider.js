@@ -8,22 +8,15 @@ const StarWarsProvider = ({ children }) => {
   const [selectors, setSelectors] = useState(initialSelectors);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const initialFilters = {
-    filters: [
-      {
-        name: '',
-      },
-      {
-        numericValues: {
-          column: 'coluna',
-          comparison: '-',
-          valueComparison: 0,
-        },
-      },
-    ],
+  const initialFilters = [{ name: '' }];
+  const initialActualFilter = {
+    column: 'coluna',
+    comparison: '-',
+    value: 0,
   };
 
   const [filters, setFilters] = useState(initialFilters);
+  const [actualFilter, setActualFilter] = useState(initialActualFilter);
 
   const fetchPlanetsComplete = ({ results }) => {
     setData(results);
@@ -35,6 +28,27 @@ const StarWarsProvider = ({ children }) => {
       .then((response) => fetchPlanetsComplete(response));
   };
 
+  const addNewFilter = (column, comparison, value) => {
+    setSelectors((prevSelectors) => [
+      ...prevSelectors.filter((elem) => elem !== column),
+    ]);
+    setFilters((prevfilters) => [...prevfilters, {
+      numericValues: {
+        column,
+        comparison,
+        value,
+      },
+    }]);
+    setActualFilter(initialActualFilter);
+  };
+
+  const addFilter = () => {
+    const { column, comparison, value } = actualFilter;
+    if ((column !== 'coluna' && comparison !== '-' && value >= 0)) {
+      addNewFilter(column, comparison, value);
+    } else alert('Escolha os três campos');
+  };
+
   const context = {
     selectors,
     setSelectors,
@@ -43,10 +57,15 @@ const StarWarsProvider = ({ children }) => {
     isLoading,
     filters,
     setFilters,
+    actualFilter,
+    setActualFilter,
+    addFilter,
   };
 
   return (
-    <StarWarsContext.Provider value={context}> {children}</StarWarsContext.Provider>
+    <StarWarsContext.Provider value={context}>
+      {children}
+    </StarWarsContext.Provider>
   );
 };
 
