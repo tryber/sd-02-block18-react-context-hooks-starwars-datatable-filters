@@ -5,18 +5,18 @@ const SWContext = createContext();
 
 const SWProvider = ({ children }) => {
   // state
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState('');
   const [error, setError] = useState(null);
   // functions
   const handleSWSuccess = (response) => {
     const { results } = response;
-    setLoading(false);
     setData(results);
+    setLoading(false);
   };
   const handleSWFailure = (response) => {
-    setLoading(false);
     setError(response.error.message);
+    setLoading(false);
   };
   useEffect(() => {
     setLoading(true);
@@ -26,9 +26,8 @@ const SWProvider = ({ children }) => {
         (response) => handleSWFailure(response),
       );
   }, []);
-
   // export
-  const context = [
+  const context = {
     loading,
     setLoading,
     data,
@@ -37,7 +36,7 @@ const SWProvider = ({ children }) => {
     setError,
     handleSWSuccess,
     handleSWFailure,
-  ];
+  };
   // render
   return (
     <SWContext.Provider value={context}>

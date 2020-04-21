@@ -1,19 +1,19 @@
 import React, { useContext } from 'react';
 import { SWContext } from '../context/starWarsContext';
-import './Table.css';
+
 
 const generateBody = (data) => {
-  data
-    .map((values) => (
-      <tbody key={values.name}>
-        <tr>
-          {Object.values(values).map((box, index) => (index !== 9
-            ? <td className="tableData" key={box}>{box}</td>
-            : null))}
-        </tr>
-      </tbody>
-    ));
+  return (data.map((values) => (
+    <tbody key={values.name}>
+      <tr>
+        {Object.values(values).map((box, index) => (index !== 9
+          ? <td className="tableData" key={box}>{box}</td>
+          : null))}
+      </tr>
+    </tbody>
+  )));
 };
+
 const generateTable = (loading, data, error) => {
   if (!loading && data) {
     return (
@@ -34,14 +34,13 @@ const generateTable = (loading, data, error) => {
 };
 
 const Table = () => {
-  const { data } = useContext(SWContext);
-  console.log(data);
+  const { loading, data, error } = useContext(SWContext);
   return (
     <div>
       <h1>XABLAAAAAAAAAU</h1>
       <input />
       <h2>Filters:</h2>
-      {generateTable(data)}
+      {generateTable(loading, data, error)}
     </div>
   );
 };
