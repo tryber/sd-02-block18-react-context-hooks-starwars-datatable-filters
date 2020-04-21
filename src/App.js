@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useContext } from 'react';
+import { Context } from './context/Provider';
+import Table from './components/Table';
+import NameFilter from './components/NameFilter';
+import NumericValuesFilters from './components/NumericValuesFilters';
+import SortingSelection from './components/SortingSelection';
 import './App.css';
 
-function App() {
+export default function App() {
+  const { isLoading } = useContext(Context);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>StarWars Datatable with Filters</h1>
+      {isLoading && 'Loading...'}
+      {!isLoading && <SortingSelection />}
+      {!isLoading && <NameFilter />}
+      {!isLoading && <NumericValuesFilters />}
+      <Table />
     </div>
   );
 }
-
-export default App;

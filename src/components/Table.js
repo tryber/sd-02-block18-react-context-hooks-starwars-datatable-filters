@@ -1,0 +1,152 @@
+import React, { useContext, useEffect } from 'react';
+import { Context } from '../context/Provider';
+
+export function acertaTexto(texto) {
+  const palavras = texto.split('_');
+  const palavrasCapitalizadas = palavras.map((palavra) => `${palavra[0].toUpperCase()}${palavra.substr(1)}`);
+  const titulo = palavrasCapitalizadas.join(' ');
+  return titulo;
+}
+
+function comparaValores(arg1, arg2, comparison) {
+  switch (comparison) {
+    case '<':
+      return arg1 < arg2;
+    case '===':
+      return arg1 === arg2;
+    default:
+      return arg1 > arg2;
+  }
+}
+
+function filterDataByName(data, name) {
+  const newData = data.filter((item) => item.name.toUpperCase().includes(name.toUpperCase()));
+
+  if (newData.length === 0) {
+    return [{}];
+  }
+
+  return newData;
+}
+
+function filterDataByNumericValues(data, column, comparison, value) {
+  if (value === '' || column === '') {
+    return data;
+  }
+
+  const newData = data.filter((item) => (
+    !(item[column] === 'unknown') && comparaValores(Number(item[column]), Number(value), comparison)),
+  );
+
+  return newData;
+}
+
+function filterData(filters, data, name) {
+  const arrayColumns = filters.slice(1).map((item) => item.numericValues.column);
+  const objectStates = filters.slice(1).reduce((acc, current, i) => ({
+    ...acc,
+    [`valueSelectedColumn${i + 1}`]: current.numericValues.column,
+    [`valueSelectedComparison${i + 1}`]: current.numericValues.comparison,
+    [`valueNumber${i + 1}`]: current.numericValues.value,
+  }), {});
+
+  let newData = data;
+  for (let i = 0; i < arrayColumns.length; i += 1) {
+    newData = filterDataByNumericValues(
+      newData,
+      objectStates[`valueSelectedColumn${i + 1}`],
+      objectStates[`valueSelectedComparison${i + 1}`],
+      objectStates[`valueNumber${i + 1}`],
+    );
+  }
+
+  return filterDataByName(newData, name);
+}
+
+function renderizaATabela(dataTable, indexResidents, keysPlanet) {
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            {keysPlanet.map((key) => <th key={key}>{acertaTexto(key)}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {dataTable.map((planet) => {
+            const valuesPlanet = Object.values(planet);
+            valuesPlanet.splice(indexResidents, 1);
+            return (
+              <tr key={planet.name}>
+                {valuesPlanet.map((valueColumn, index) => <td key={valueColumn} data-testid={`coluna-${index + 1}`}>{valueColumn}</td>)}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function ordenaPorLetra(filteredData, columnToBeSorted, order) {
+  const filteredColumns = filteredData.map((object) => object[columnToBeSorted]);
+  filteredColumns.sort();
+  const sortedData = filteredColumns.map((column) => (
+    filteredData.find((object) => object[columnToBeSorted] === column)
+  ));
+
+  if (order === 'DESC') {
+    sortedData.reverse();
+  }
+
+  return sortedData;
+}
+
+function setSortingRules(obj1, obj2, columnToBeSorted, order) {
+  if (obj1[columnToBeSorted] === 'unknown'
+    || (Number(obj1[columnToBeSorted]) > Number(obj2[columnToBeSorted]) && order === 'ASC')
+    || (Number(obj1[columnToBeSorted]) < Number(obj2[columnToBeSorted]) && order === 'DESC')) {
+    return 1;
+  }
+
+  return -1;
+}
+
+function filterAndSortData(filters, data, name, columnToBeSorted, order) {
+  const filteredData = filterData(filters, data, name);
+
+  if (columnToBeSorted === 'name') return ordenaPorLetra(filteredData, columnToBeSorted, order);
+
+  filteredData.sort((obj1, obj2) => setSortingRules(obj1, obj2, columnToBeSorted, order));
+
+  return filteredData;
+}
+
+export default function Table() {
+  const {
+    data,
+    updateData,
+    filters,
+    filters: [
+      {
+        name,
+      },
+    ],
+    sorting: {
+      column: columnToBeSorted,
+      order,
+    },
+  } = useContext(Context);
+
+  useEffect(
+    updateData,
+    [],
+  );
+
+  const dataTable = filterAndSortData(filters, data, name, columnToBeSorted, order);
+  const keysPlanet = Object.keys(dataTable[0]);
+  const indexResidents = keysPlanet.indexOf('residents');
+  keysPlanet.splice(indexResidents, 1);
+
+  return renderizaATabela(dataTable, indexResidents, keysPlanet);
+}
