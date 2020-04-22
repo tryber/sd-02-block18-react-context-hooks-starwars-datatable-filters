@@ -8,6 +8,8 @@ const SWProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState('');
   const [error, setError] = useState(null);
+  const [text, setText] = useState('');
+  const [filterText, setFilterText] = useState(null);
   // functions
   const handleSWSuccess = (response) => {
     const { results } = response;
@@ -26,16 +28,51 @@ const SWProvider = ({ children }) => {
         (response) => handleSWFailure(response),
       );
   }, []);
+  const filterByText = (string) => {
+    setText(string);
+    setFilterText(
+      data.some((planet) => planet.name.toLowerCase().includes(string))
+        ? data.filter((planet) => planet.name.toLowerCase().includes(string))
+        : null,
+    );
+    console.log(filterText);
+  };
+  const generateBody = () => (
+    data
+      .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
+      .map((values) => (
+        <tbody key={values.name}>
+          <tr>
+            {Object.values(values).map((box, index) => (index !== 9
+              ? <td className="tableData" data-testid={box} key={box}>{box}</td>
+              : null))}
+          </tr>
+        </tbody>
+      )));
+  const generateTable = () => {
+    if (!loading && data) {
+      return (
+        <table>
+          <thead>
+            <tr>
+              {Object.keys(data[0]).map((item) => (item !== 'residents'
+                ? <th className="tableHeader" key={item}>{item}</th>
+                : null))}
+            </tr>
+          </thead>
+          {!filterText
+            ? generateBody(data, text)
+            : generateBody(filterText, text)}
+        </table>
+      );
+    }
+    if (error) { return <div>{error}</div>; }
+    return <div>Loading...</div>;
+  };
   // export
   const context = {
-    loading,
-    setLoading,
-    data,
-    setData,
-    error,
-    setError,
-    handleSWSuccess,
-    handleSWFailure,
+    generateTable,
+    filterByText,
   };
   // render
   return (
