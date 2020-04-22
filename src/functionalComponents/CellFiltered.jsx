@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { StarWarsContext } from '../context/StarWarsContext';
 
-const CellTable = () => {
-  const { dataMock } = useContext(StarWarsContext);
-  console.log(dataMock);
+const CellFiltered = () => {
+  const { dataMockFilter } = useContext(StarWarsContext);
   return (
-    dataMock.map((result) => (
+    dataMockFilter.map((result) => (
       <tbody key={result.name}>
         <tr>
           {Object.values(result).map((item, index) => {
@@ -22,4 +21,4 @@ const CellTable = () => {
   );
 };
 
-export default CellTable;
+export default CellFiltered;

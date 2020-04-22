@@ -11,7 +11,7 @@ const Headtable = () => {
       <tr>
         {Object.keys(data[0]).map((result) => {
           const head = (result !== 'residents')
-            ? <th className="headTable" key={result.replace(/_/g, ' ')}>{result}</th>
+            ? <th className="headTable" key={result}>{result.replace(/_/g, ' ')}</th>
             : null;
           return head;
         })
