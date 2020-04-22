@@ -20,6 +20,6 @@ const ConditionDropDown = () => {
       </label>
     </form>
   );
-}
+};
 
 export default ConditionDropDown;

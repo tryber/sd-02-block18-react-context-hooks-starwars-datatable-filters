@@ -101,14 +101,14 @@ const StarWarsProvider = ({ children }) => {
     !Object.keys(element).includes('name'));
     setDataMockFilterOn(true);
     const mappedMockResult = data.filter((result) => {
-        let isValid = true;
-        filterStore.forEach((filter) => {
-            isValid = isValid && conditionFunction(Number(result[filter.numericValues.column]),
-                                                filter.numericValues.comparisson,
-                                                Number(filter.numericValues.value));
-          });
-          return isValid;
-        });
+      let isValid = true;
+      filterStore.forEach((filter) => {
+        isValid = isValid && conditionFunction(Number(result[filter.numericValues.column]),
+                                              filter.numericValues.comparisson,
+                                              Number(filter.numericValues.value));
+      });
+      return isValid;
+    });
     setDataMock(mappedMockResult);
     return setDataMockFilter(mappedMockResult);
   };

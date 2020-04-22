@@ -14,6 +14,6 @@ const InputNumber = () => {
       />
     </div>
   );
-}
+};
 
 export default InputNumber;

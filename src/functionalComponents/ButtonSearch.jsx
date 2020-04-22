@@ -11,9 +11,9 @@ const ButtonSearch = () => {
           ? <button onClick={() => updateFilters()}>Search</button>
           : <button disabled>Search</button>
       }
-      {/* {dataMockFilterOn ? allFilters() : <div style={{display: 'none'}}></div>} */}
+      {dataMockFilterOn ? allFilters() : <div style={{display: 'none'}}></div>}
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default ButtonSearch;
