@@ -21,7 +21,9 @@ const Table = () => {
   return (
     <React.Fragment>
       <div className="container-header">
-        <input type="text" onChange={(e) =>
+        <input
+          type="text"
+          onChange={(e) =>
           planetAction(e.target.value, data, dataMock,
             setFilters, setDataMockFilter, setDataMock, filters, dataMockFilterOn)}
         />
