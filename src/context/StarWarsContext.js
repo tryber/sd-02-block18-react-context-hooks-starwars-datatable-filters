@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import propTypes from 'prop-types';
-import conditionFunction from '../conditionFunction/conditionFunction';
+import filterCondition from '../conditionFunction/filterCondition';
 import getEndPointSwAPI from '../service/SwAPI';
 
 const StarWarsContext = createContext();
@@ -39,22 +39,6 @@ const StarWarsProvider = ({ children }) => {
     setOnLoad(true);
   };
 
-  const filterCondition = (newNumeric) => {
-    const filterStore = newNumeric.filter((element) =>
-      !Object.keys(element).includes('name'));
-    const mappedMockResult = data.filter((result) => {
-      let isValid = true;
-      filterStore.forEach((filter) => {
-        isValid = isValid && conditionFunction(Number(result[filter.numericValues.column]),
-                                              filter.numericValues.comparisson,
-                                              Number(filter.numericValues.value));
-      });
-      return isValid;
-    });
-    setDataMock(mappedMockResult);
-    return setDataMockFilter(mappedMockResult);
-  };
-
   const removeFilter = (valColumn) => {
     const newNumeric = filters.filter((element) => {
       const isValid = (Object.keys(element).includes('numericValues'))
@@ -62,7 +46,7 @@ const StarWarsProvider = ({ children }) => {
       : element;
       return isValid;
     });
-    filterCondition(newNumeric);
+    filterCondition(newNumeric, data, setDataMock, setDataMockFilter);
     setFilters([...newNumeric]);
     setArrDrop([valColumn, ...arrDrop]);
   };
@@ -78,7 +62,7 @@ const StarWarsProvider = ({ children }) => {
     const newNumeric = [...filters, { numericValues }];
     setFilters(newNumeric);
     const setArr = updateArrDrop(column);
-    filterCondition(newNumeric);
+    filterCondition(newNumeric, data, setDataMock, setDataMockFilter);
     setColumn('');
     setValue('');
     setColumnOn(false);
