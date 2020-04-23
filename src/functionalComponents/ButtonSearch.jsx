@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import { StarWarsContext } from '../context/StarWarsContext';
+import AllFilters from './AllFilters';
 
 const ButtonSearch = () => {
   const { valueOn, columnOn, comparissonOn, updateFilters,
-    dataMockFilterOn, allFilters } = useContext(StarWarsContext);
+    dataMockFilterOn } = useContext(StarWarsContext);
 
   return (
     <React.Fragment>
@@ -11,7 +12,7 @@ const ButtonSearch = () => {
           ? <button onClick={() => updateFilters()}>Search</button>
           : <button disabled>Search</button>
       }
-      {dataMockFilterOn ? allFilters() : <div style={{display: 'none'}}></div>}
+      {dataMockFilterOn ? <AllFilters /> : <div style={{display: 'none'}}></div>}
     </React.Fragment>
   );
 };

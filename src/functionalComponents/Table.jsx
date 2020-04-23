@@ -5,16 +5,16 @@ import SelectDropDown from './SelectDropDown';
 import ConditionDropDown from './ConditionDropDown';
 import InputNumber from './InputNumber';
 import CellFiltered from './CellFiltered';
+import CellTable from './CellTable';
 import ButtonSearch from './ButtonSearch';
 import './style/Table.css';
 
 const Table = () => {
-  const { onLoad, callAPI, planetAction, cellTable, dataMockFilterOn } = useContext(StarWarsContext);
+  const { onLoad, callAPI, planetAction, dataMockFilterOn, filters } = useContext(StarWarsContext);
 
   useEffect(() => {
     callAPI();
   }, []);
-  
   if (!onLoad) return (<div style={{ textAlign: 'center' }}><h1>Loading...</h1></div>);
   return (
     <React.Fragment>
@@ -28,7 +28,7 @@ const Table = () => {
       </div>
       <table>
         <HeadTable />
-        {dataMockFilterOn ? <CellFiltered /> : cellTable()}
+        {dataMockFilterOn ? <CellFiltered /> : <CellTable />}
       </table>
     </React.Fragment>
   );

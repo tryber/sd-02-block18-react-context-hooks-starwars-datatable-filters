@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import conditionFunction from '../conditionFunction/conditionFunction';
 import propTypes from 'prop-types';
 import getEndPointSwAPI from '../service/SwAPI';
@@ -39,78 +39,51 @@ const StarWarsProvider = ({ children }) => {
     setOnLoad(true);
   };
 
-  const allFilters = () => {
-    if (filters !== undefined) {
-      return (
-        <React.Fragment>
-          {filters.map((filter) => {
-            const { column, comparisson, value } = filter.numericValues;
-            return (
-              <div key={column}>
-                <p>{column}</p>
-                <p>{comparisson}</p>
-                <p>{value}</p>
-                <button>X</button>
-              </div>
-            );
-          })}
-        </React.Fragment>
-      );
-    }
-  };
-
-  const cellTable = () => {
-    return (
-      dataMock.map((result) => (
-        <tbody key={result.name}>
-          <tr>
-            {Object.values(result).map((item, index) => {
-              if (index !== 9) {
-                return (
-                  <td key={item}>{item}</td>
-                );
-              }
-              return null;
-            })}
-          </tr>
-        </tbody>
-      ))
-    );
+  const removeFilter = (valColumn) => {
+    const newNumeric = filters.filter((element) => {
+      const isValid = (Object.keys(element).includes('numericValues'))
+      ? element.numericValues.column !== valColumn
+      : element;
+      return isValid;
+    });
+    filterCondition(newNumeric);
+    setFilters([...newNumeric ]);
+    setArrDrop([valColumn, ...arrDrop]);
   };
 
   const updateFilters = () => {
+    setDataMockFilterOn(true);
     const numericValues = { column, comparisson, value };
-    const newFilters = [...filters, { numericValues }];
-    setFilters(newFilters);
-    filterCondition(newFilters);
+    const newNumeric = [...filters, { numericValues }];
+    setFilters(newNumeric);
     const setArr = updateArrDrop(column);
+    filterCondition(newNumeric);
     setColumn('');
     setValue('');
     setColumnOn(false);
     setValueOn(false);
     setArrDrop(setArr);
-  }
+  };
+
+  const filterCondition = (newNumeric) => {
+    const filterStore = newNumeric.filter((element) =>
+      !Object.keys(element).includes('name'));
+      const mappedMockResult = data.filter((result) => {
+        let isValid = true;
+        filterStore.forEach((filter) => {
+          isValid = isValid && conditionFunction(Number(result[filter.numericValues.column]),
+                                                filter.numericValues.comparisson,
+                                                Number(filter.numericValues.value));
+        });
+        return isValid;
+      });
+    setDataMock(mappedMockResult);
+    return setDataMockFilter(mappedMockResult);
+  };
 
   const updateArrDrop = (currColumn) => {
     const newArr = arrDrop.filter((arr) => arr !== currColumn);
     return newArr;
-  }
-
-  const filterCondition = (newFilters) => {
-    const filterStore = newFilters.filter((element) =>
-    !Object.keys(element).includes('name'));
-    setDataMockFilterOn(true);
-    const mappedMockResult = data.filter((result) => {
-      let isValid = true;
-      filterStore.forEach((filter) => {
-        isValid = isValid && conditionFunction(Number(result[filter.numericValues.column]),
-                                              filter.numericValues.comparisson,
-                                              Number(filter.numericValues.value));
-      });
-      return isValid;
-    });
-    setDataMock(mappedMockResult);
-    return setDataMockFilter(mappedMockResult);
   };
 
   const filterResults = (whosFilter, planet) => {
@@ -132,30 +105,27 @@ const StarWarsProvider = ({ children }) => {
     const filterWithoutUndefined = filteredResult.filter((element) => element.length !== 0);
     const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
     if (dataMockFilterOn) {
-      const [, ...rest] = filters;
-      setFilters([{ name: planetCase }, ...rest]);
+      setFilters([...filters, { name: planetCase }]);
       return setDataMockFilter(filterWithoutUndefined);
-    } else {
-      const [, ...rest] = filters;
-      setFilters([{ name: planetCase }, ...rest]);
-      return setDataMock(filterWithoutUndefined);
     }
+    setFilters([...filters, { name: planetCase }]);
+    return setDataMock(filterWithoutUndefined);
   };
 
   const updateValue = (e) => {
     setValue((e.target.value >= 0) ? e.target.value : 0);
     setValueOn(true);
-  }
+  };
 
   const updateDropDown = (dropDownValue) => {
     setColumn(dropDownValue);
     setColumnOn(true);
-  }
+  };
 
   const updateCondition = (conditionValue) => {
     setComparisson(conditionValue);
     setComparissonOn(true);
-  }
+  };
 
   const context = {
     data,
@@ -173,7 +143,6 @@ const StarWarsProvider = ({ children }) => {
     setFilters,
     callAPI,
     planetAction,
-    filterCondition,
     updateFilters,
     value,
     column,
@@ -184,9 +153,8 @@ const StarWarsProvider = ({ children }) => {
     valueOn,
     columnOn,
     comparissonOn,
-    allFilters,
-    cellTable,
     arrDrop,
+    removeFilter,
   };
 
   return (
