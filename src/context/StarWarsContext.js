@@ -70,32 +70,6 @@ const StarWarsProvider = ({ children }) => {
     setArrDrop(setArr);
   };
 
-  const filterResults = (whosFilter, planet) => {
-    const filteredResult = whosFilter.map((result) => {
-      const filter = (result.name.toUpperCase().includes(planet.toUpperCase()))
-    ? result
-    : [];
-      return filter;
-    });
-    return filteredResult;
-  };
-
-  const planetAction = (planet) => {
-    let whosFilter = data;
-    if (dataMockFilterOn) {
-      whosFilter = dataMock;
-    }
-    const filteredResult = filterResults(whosFilter, planet);
-    const filterWithoutUndefined = filteredResult.filter((element) => element.length !== 0);
-    const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
-    if (dataMockFilterOn) {
-      setFilters([...filters, { name: planetCase }]);
-      return setDataMockFilter(filterWithoutUndefined);
-    }
-    setFilters([...filters, { name: planetCase }]);
-    return setDataMock(filterWithoutUndefined);
-  };
-
   const updateValue = (e) => {
     setValue((e.target.value >= 0) ? e.target.value : 0);
     setValueOn(true);
@@ -126,7 +100,6 @@ const StarWarsProvider = ({ children }) => {
     filters,
     setFilters,
     callAPI,
-    planetAction,
     updateFilters,
     value,
     column,

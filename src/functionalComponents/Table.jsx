@@ -7,10 +7,12 @@ import InputNumber from './InputNumber';
 import CellFiltered from './CellFiltered';
 import CellTable from './CellTable';
 import ButtonSearch from './ButtonSearch';
+import planetAction from '../conditionFunction/planetAction';
 import './style/Table.css';
 
 const Table = () => {
-  const { onLoad, callAPI, planetAction, dataMockFilterOn } = useContext(StarWarsContext);
+  const { onLoad, callAPI, data, dataMockFilterOn,
+   dataMock, setFilters, setDataMockFilter, setDataMock, filters } = useContext(StarWarsContext);
 
   useEffect(() => {
     callAPI();
@@ -19,7 +21,7 @@ const Table = () => {
   return (
     <React.Fragment>
       <div className="container-header">
-        <input type="text" onChange={(e) => planetAction(e.target.value)} />
+        <input type="text" onChange={(e) => planetAction(e.target.value, data, dataMock, setFilters, setDataMockFilter, setDataMock, filters, dataMockFilterOn)} />
         <SelectDropDown />
         <ConditionDropDown />
         <InputNumber />
