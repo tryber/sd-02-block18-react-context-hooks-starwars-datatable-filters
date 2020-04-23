@@ -8,15 +8,16 @@ const filterResults = (whosFilter, planet) => {
   return filteredResult;
 };
 
-const planetAction = (planet, data, dataMock, setFilters, setDataMockFilter, setDataMock, filters, dataMockFilterOn) => {
+const planetAction =
+  (planet, data, dataMock, setFilters, setDataMockFilter, setDataMock, filters, MockFilterOn) => {
   let whosFilter = data;
-  if (dataMockFilterOn) {
+  if (MockFilterOn) {
     whosFilter = dataMock;
   }
   const filteredResult = filterResults(whosFilter, planet);
   const filterWithoutUndefined = filteredResult.filter((element) => element.length !== 0);
   const planetCase = planet.charAt(0).toUpperCase() + planet.substring(1);
-  if (dataMockFilterOn) {
+  if (MockFilterOn) {
     setFilters([...filters, { name: planetCase }]);
     return setDataMockFilter(filterWithoutUndefined);
   }
