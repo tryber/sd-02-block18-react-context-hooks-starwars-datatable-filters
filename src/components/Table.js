@@ -15,7 +15,7 @@ const generateBody = (data, text) => (
       </tbody>
     )));
 
-const generateTable = (loading, data, error, filterText, text) => {
+const generateTable = (loading, data, error, text) => {
   if (!loading && data) {
     return (
       <table>
@@ -26,9 +26,7 @@ const generateTable = (loading, data, error, filterText, text) => {
               : null))}
           </tr>
         </thead>
-        {!filterText
-          ? generateBody(data, text)
-          : generateBody(filterText, text)}
+        {generateBody(data, text)}
       </table>
     );
   }
@@ -38,7 +36,6 @@ const generateTable = (loading, data, error, filterText, text) => {
 
 const Table = () => {
   const [text, setText] = useState('');
-  const [filterText, setFilterText] = useState(null);
   const {
     loading,
     data,
@@ -46,17 +43,12 @@ const Table = () => {
   } = useContext(SWContext);
   const filterByText = (string) => {
     setText(string);
-    setFilterText(
-      data.some((planet) => planet.name.toLowerCase().includes(string))
-        ? data.filter((planet) => planet.name.toLowerCase().includes(string))
-        : null,
-    );
   };
   return (
     <div>
       <input onChange={(e) => filterByText(e.target.value)} />
       <h2>Filters:</h2>
-      {generateTable(loading, data, error, filterText, text)}
+      {generateTable(loading, data, error, text)}
     </div>
   );
 };
