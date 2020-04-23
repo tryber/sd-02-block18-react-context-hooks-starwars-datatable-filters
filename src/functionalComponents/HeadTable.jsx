@@ -14,7 +14,8 @@ const Headtable = () => {
             ? <th
               className="headTable"
               data-testid="headT"
-              key={result}>{result.replace(/_/g, ' ')}
+              key={result}
+            >{result.replace(/_/g, ' ')}
             </th>
             : null;
           return head;
