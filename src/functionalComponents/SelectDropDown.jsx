@@ -15,7 +15,7 @@ const SelectDropDown = () => {
           <option value="none" hidden>Choose Option</option>
           {
             arrDrop.map((arr) => (
-              <option key={arr} value={arr} name={`${arr.slice(0, 4)}On`}>{arr}</option>
+              <option key={arr} value={arr} data-testid="selectDropDown">{arr}</option>
             ))
           }
         </select>

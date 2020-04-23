@@ -11,6 +11,7 @@ const ConditionDropDown = () => {
           name="condition"
           onChange={(e) =>
           updateCondition(e.target.value)}
+          data-testid="comparisson"
         >
           <option value="none" hidden>Choose Option</option>
           <option value="Maior que">Maior que</option>

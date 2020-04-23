@@ -11,6 +11,7 @@ const InputNumber = () => {
         name="value"
         value={value}
         onChange={(e) => updateValue(e)}
+        data-testid="inputTest"
       />
     </div>
   );

@@ -23,6 +23,7 @@ const Table = () => {
       <div className="container-header">
         <input
           type="text"
+          data-testid="planet-search"
           onChange={(e) =>
           planetAction(e.target.value, data, dataMock,
             setFilters, setDataMockFilter, setDataMock, filters, dataMockFilterOn)}
