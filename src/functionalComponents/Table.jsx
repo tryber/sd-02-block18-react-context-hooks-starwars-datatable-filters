@@ -10,7 +10,7 @@ import ButtonSearch from './ButtonSearch';
 import './style/Table.css';
 
 const Table = () => {
-  const { onLoad, callAPI, planetAction, dataMockFilterOn, filters } = useContext(StarWarsContext);
+  const { onLoad, callAPI, planetAction, dataMockFilterOn } = useContext(StarWarsContext);
 
   useEffect(() => {
     callAPI();

@@ -6,7 +6,6 @@ const AllFilters = () => {
   const { filters, removeFilter } = useContext(StarWarsContext);
   const filterStore = filters.filter((element) =>
     Object.keys(element).includes('numericValues'));
-    console.log(filterStore.length)
   if (filters !== undefined && filterStore.length !== 0) {
     return (
       <React.Fragment>
@@ -24,7 +23,7 @@ const AllFilters = () => {
       </React.Fragment>
     );
   }
-  return (<div style={{display: 'none'}}></div>)
+  return (<div style={{ display: 'none' }} />);
 };
 
 export default AllFilters;

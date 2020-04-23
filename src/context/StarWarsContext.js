@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
-import conditionFunction from '../conditionFunction/conditionFunction';
+import React, { createContext, useState } from 'react';
 import propTypes from 'prop-types';
+import conditionFunction from '../conditionFunction/conditionFunction';
 import getEndPointSwAPI from '../service/SwAPI';
 
 const StarWarsContext = createContext();
@@ -21,10 +21,10 @@ const StarWarsProvider = ({ children }) => {
   const [comparisson, setComparisson] = useState('');
   const [comparissonOn, setComparissonOn] = useState(false);
   const [arrDrop, setArrDrop] = useState(['population',
-                                          'orbital_period',
-                                          'diameter',
-                                          'rotation_period',
-                                          'surface_water']);
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water']);
 
   const callAPI = () => {
     getEndPointSwAPI()
@@ -39,6 +39,22 @@ const StarWarsProvider = ({ children }) => {
     setOnLoad(true);
   };
 
+  const filterCondition = (newNumeric) => {
+    const filterStore = newNumeric.filter((element) =>
+      !Object.keys(element).includes('name'));
+    const mappedMockResult = data.filter((result) => {
+      let isValid = true;
+      filterStore.forEach((filter) => {
+        isValid = isValid && conditionFunction(Number(result[filter.numericValues.column]),
+                                              filter.numericValues.comparisson,
+                                              Number(filter.numericValues.value));
+      });
+      return isValid;
+    });
+    setDataMock(mappedMockResult);
+    return setDataMockFilter(mappedMockResult);
+  };
+
   const removeFilter = (valColumn) => {
     const newNumeric = filters.filter((element) => {
       const isValid = (Object.keys(element).includes('numericValues'))
@@ -47,8 +63,13 @@ const StarWarsProvider = ({ children }) => {
       return isValid;
     });
     filterCondition(newNumeric);
-    setFilters([...newNumeric ]);
+    setFilters([...newNumeric]);
     setArrDrop([valColumn, ...arrDrop]);
+  };
+
+  const updateArrDrop = (currColumn) => {
+    const newArr = arrDrop.filter((arr) => arr !== currColumn);
+    return newArr;
   };
 
   const updateFilters = () => {
@@ -63,27 +84,6 @@ const StarWarsProvider = ({ children }) => {
     setColumnOn(false);
     setValueOn(false);
     setArrDrop(setArr);
-  };
-
-  const filterCondition = (newNumeric) => {
-    const filterStore = newNumeric.filter((element) =>
-      !Object.keys(element).includes('name'));
-      const mappedMockResult = data.filter((result) => {
-        let isValid = true;
-        filterStore.forEach((filter) => {
-          isValid = isValid && conditionFunction(Number(result[filter.numericValues.column]),
-                                                filter.numericValues.comparisson,
-                                                Number(filter.numericValues.value));
-        });
-        return isValid;
-      });
-    setDataMock(mappedMockResult);
-    return setDataMockFilter(mappedMockResult);
-  };
-
-  const updateArrDrop = (currColumn) => {
-    const newArr = arrDrop.filter((arr) => arr !== currColumn);
-    return newArr;
   };
 
   const filterResults = (whosFilter, planet) => {

@@ -12,7 +12,7 @@ const ButtonSearch = () => {
           ? <button onClick={() => updateFilters()}>Search</button>
           : <button disabled>Search</button>
       }
-      {dataMockFilterOn ? <AllFilters /> : <div style={{display: 'none'}}></div>}
+      {dataMockFilterOn ? <AllFilters /> : <div style={{ display: 'none' }} />}
     </React.Fragment>
   );
 };
