@@ -101,7 +101,6 @@ const FilterProvider = ({ children }) => {
   const [params] = useState(params2);
   const [typeParam, setTypeParam] = useState(typeParam2);
   const [filters, setFilters] = useState(filtersParams);
-  const [autoAddFilter, setAutoAddFilter] = useState(false);
 
   const switchName = (filterPlanets, name) => ((filterPlanets.length > 0)
     ? filterPlanets
@@ -258,8 +257,8 @@ const FilterProvider = ({ children }) => {
     planets,
     params,
     typeParam,
-    autoAddFilter,
-    setAutoAddFilter,
+    setTypeParam,
+    filters,
   };
 
   return (

@@ -1,10 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import StarWarsContext from '../context/StarWarsContext';
 import Dropdown from './Dropdown';
 import FilterCondition from './FilterCondition';
-
 
 const conditions = ['Maior que', 'Menor que', 'Igual a'];
 
@@ -34,19 +33,19 @@ const renderDropDownCond = (index, filterConditionFunc) => (
 
 function Filter(props) {
   const {
-    filters,
-    typeParam,
-    filterTypeFunc,
-    filterConditionFunc,
-    autoAddFilter,
-    setAutoAddFilter,
+    filters, typeParam, filterTypeFunc, filterConditionFunc,
   } = useContext(StarWarsContext);
+  const [autoAddFilter, setAutoAddFilter] = useState(false);
+  const { index, removeFilter2, add } = props;
 
-  useEffect(() => {
-    setAutoAddFilter(false);
-  }, [autoAddFilter]);
+  useEffect(() => { autoAddFilter && add() }, [autoAddFilter]);
 
-  const { index, removeFilter2 } = props;
+  // useEffect(() => {
+  //   const { numericValues = {} } = { [filters.filters[index]]: undefined };
+  //   const { column = '', comparison = '', value = '' } = numericValues;
+  //   if (column && comparison && value) setAutoAddFilter(true);
+  // }, [filters]);
+
   return (
     <div className="filter" data-testid="filter">
       <button type="button" onClick={() => handleClick(removeFilter2, index)}>

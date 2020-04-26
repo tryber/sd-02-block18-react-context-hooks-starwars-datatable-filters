@@ -6,16 +6,17 @@ import FilterName from './FilterName';
 import Filter from './Filter';
 
 function Filters() {
-  const { addFilter, removeFilter } = useContext(StarWarsContext);
+  const { addFilter, removeFilter, filters, setTypeParam, typeParam } = useContext(StarWarsContext);
   const [filters2, setFilters2] = useState([shortid.generate()]);
   
-  const handleClick = () => {
+  const add = () => {
     setFilters2([...filters2, shortid.generate()]);
     addFilter();
-  };
+  }
 
   const removeFilter2 = (index) => {
-    filters2.splice(index - 1, 1);
+    setTypeParam([...typeParam, filters.filters[index].numericValues.column]);
+    filters2.splice(index - 2, 1);
     setFilters2([...filters2]);
     removeFilter(index);
   };
@@ -28,11 +29,12 @@ function Filters() {
           key={filter}
           index={inx + 2}
           removeFilter2={removeFilter2}
+          add={add}
         />
       ))}
       <button
         type="button"
-        onClick={() => handleClick()}
+        onClick={() => add()}
       >
         Add filter
       </button>
