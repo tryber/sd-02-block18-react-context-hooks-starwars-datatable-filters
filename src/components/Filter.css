@@ -26,3 +26,11 @@
   border-width: 1px;
   margin-top: 2%;
 }
+
+.comp_order {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 2%;
+  width: 30%;
+}

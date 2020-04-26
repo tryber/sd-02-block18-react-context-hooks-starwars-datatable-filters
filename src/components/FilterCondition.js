@@ -19,7 +19,7 @@ function FilterCondition(props) {
       <input
         id="inputCondition"
         name="inputCondition"
-        type="text"
+        type="number"
         onChange={(e) => handleChange(e)}
       />
     </div>

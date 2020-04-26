@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import shortid from 'shortid';
 
 import StarWarsContext from '../context/StarWarsContext';
@@ -7,16 +7,16 @@ import Filter from './Filter';
 
 function Filters() {
   const { addFilter, removeFilter } = useContext(StarWarsContext);
-  const [filters2, setFilters] = useState([shortid.generate()]);
-
+  const [filters2, setFilters2] = useState([shortid.generate()]);
+  
   const handleClick = () => {
-    setFilters([...filters2, shortid.generate()]);
+    setFilters2([...filters2, shortid.generate()]);
     addFilter();
   };
 
   const removeFilter2 = (index) => {
     filters2.splice(index - 1, 1);
-    setFilters([...filters2]);
+    setFilters2([...filters2]);
     removeFilter(index);
   };
 
@@ -26,7 +26,7 @@ function Filters() {
       {filters2.map((filter, inx) => (
         <Filter
           key={filter}
-          index={inx + 1}
+          index={inx + 2}
           removeFilter2={removeFilter2}
         />
       ))}

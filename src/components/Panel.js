@@ -1,32 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import StarWarsContext from '../context/StarWarsContext';
+import Order from './Order';
+import Table from './Table';
 import Filters from './Filters';
 
 function Panel() {
-  const { planets, params } = useContext(StarWarsContext);
-
   return (
     <div className="complete-panel">
       <Filters />
-      <table data-testid="table">
-        <thead>
-          <tr>
-            {params.map((key) => (
-              <td key={`thead-${key}`}>{key}</td>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {planets.map((planet) => (
-            <tr key={planet.name}>
-              {Object.keys(planet).map((key) => (
-                <td key={planet.name + key}>{planet[key]}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Order />
+      <Table />
     </div>
   );
 }

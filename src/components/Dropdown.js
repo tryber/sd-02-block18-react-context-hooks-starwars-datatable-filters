@@ -34,7 +34,7 @@ function DropDown(props) {
         </button>
       </div>
       <div className="list" ref={(node) => { list = node; }}>
-        {arr.map((param) => (<DropDownElement param={param} call={call} />))}
+        {arr.map((param) => (<DropDownElement key={param} param={param} call={call} />))}
       </div>
     </div>
   );
@@ -46,8 +46,12 @@ DropDown.propTypes = {
   ).isRequired,
   func: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
   testid: PropTypes.string.isRequired,
 };
+
+DropDown.defaultProps = {
+  index: undefined,
+}
 
 export default DropDown;
