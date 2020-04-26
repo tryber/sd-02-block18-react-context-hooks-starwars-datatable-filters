@@ -70,7 +70,7 @@ describe('Panel', () => {
 
   test('Filter by condition', async () => {
     const { getAllByTestId, queryByText, getByText } = await tableRender();
-
+    await wait();
     const add = getByText('Add filter');
     fireEvent.click(add);
     const allfilter = getAllByTestId('filter');
@@ -92,5 +92,23 @@ describe('Panel', () => {
 
     expect(queryByText(/Yavin IV/)).not.toBeInTheDocument();
     expect(queryByText(/Alderaan/)).toBeInTheDocument();
+  });
+
+  test('Filter by order', async () => {
+    const { getByTestId } = await tableRender();
+
+    const table = getByTestId('table');
+    const comp_order = getByTestId('comp_order');
+    const btnAsc = comp_order.querySelector("button[name*='ASC']");
+    fireEvent.click(btnAsc);
+
+    const order = getByTestId('order');
+    const name = order.querySelector("button[name*='name']");
+    fireEvent.click(name);
+
+    const tbody = table.querySelector('tbody');
+    const trs = tbody.querySelectorAll('tr');
+
+    expect(trs[0].querySelectorAll('td')[0].innerHTML).toBe('Alderaan');
   });
 });

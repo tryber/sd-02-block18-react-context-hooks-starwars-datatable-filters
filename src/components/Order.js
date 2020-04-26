@@ -13,12 +13,12 @@ function Orders() {
   }
 
   return (
-    <div className="comp_order">
+    <div className="comp_order" data-testid="comp_order">
       <Dropdown
         name="Order:"
         arr={params}
         func={filterOrderTagFunc}
-        testid="type"
+        testid="order"
       />
       <div>
         <button type="button" name="ASC" onClick={(e) => handle(e)}>Asc</button>
