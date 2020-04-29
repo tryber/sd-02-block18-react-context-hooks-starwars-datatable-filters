@@ -40,24 +40,6 @@ const typeParam2 = [
   'population',
 ];
 
-const filtersParams = {
-  filters: [
-    {
-      name: '',
-    },
-    {
-      column: '',
-      order: '',
-    },
-    {
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    },
-  ],
-};
 
 const switchComparison = (filterPlanets, column, comparison, value) => {
   switch (comparison) {

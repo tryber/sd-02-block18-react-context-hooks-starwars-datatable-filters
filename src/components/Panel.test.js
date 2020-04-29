@@ -4,7 +4,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import Panel from './Panel';
+import App from '../App';
 import Provider from '../context/Provider';
 import data from './data';
 
@@ -25,10 +25,10 @@ const tableRender = async () => {
     }));
 
   const {
-    getByTestId, getByText, queryByText, getAllByTestId,
+    getByTestId, getByText, queryByText, getAllByTestId, queryByTestId,
   } = render(
     <Provider>
-      <Panel />
+      <App />
     </Provider>,
   );
   const api = 'https://cors-anywhere.herokuapp.com/https://swapi-trybe.herokuapp.com/api/planets';
@@ -40,6 +40,7 @@ const tableRender = async () => {
     getByTestId,
     getByText,
     queryByText,
+    queryByTestId,
     getAllByTestId,
   };
 };
@@ -123,5 +124,11 @@ describe('Panel', () => {
 
     expect(trs[0].querySelectorAll('td')[1].innerHTML).toBe('42');
     expect(trs[1].querySelectorAll('td')[1].innerHTML).toBe('24');
+  });
+
+  test('FIlter close', async () => {
+    const { getByTestId, queryByTestId } = await tableRender();
+    fireEvent.click(getByTestId('2-close'));
+    expect(queryByTestId('filter')).not.toBeInTheDocument();
   });
 });
