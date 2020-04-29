@@ -4,7 +4,6 @@ import StarWarsContext from '../context/StarWarsContext';
 
 function Panel() {
   const { planets, params } = useContext(StarWarsContext);
-
   return (
     <table data-testid="table">
       <thead>

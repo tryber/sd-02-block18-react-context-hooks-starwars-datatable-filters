@@ -100,7 +100,26 @@ const FilterProvider = ({ children }) => {
   const [data, setData] = useState(planetsParams);
   const [params] = useState(params2);
   const [typeParam, setTypeParam] = useState(typeParam2);
-  const [filters, setFilters] = useState(filtersParams);
+  const [filters, setFilters] = useState(
+    {
+      filters: [
+        {
+          name: '',
+        },
+        {
+          column: '',
+          order: '',
+        },
+        {
+          numericValues: {
+            column: '',
+            comparison: '',
+            value: '',
+          },
+        },
+      ],
+    }
+  );
 
   const switchName = (filterPlanets, name) => ((filterPlanets.length > 0)
     ? filterPlanets
@@ -146,7 +165,7 @@ const FilterProvider = ({ children }) => {
   const filterByOrder = (filterPlanets) => {
     const column = filters.filters[1].column;
     const order = filters.filters[1].order;
-    return switchOrder(filterPlanets, column, order);
+    return (column) ? switchOrder(filterPlanets, column, order) : filterPlanets;
   };
 
   useEffect(() => {

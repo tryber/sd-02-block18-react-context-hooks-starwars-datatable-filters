@@ -8,7 +8,10 @@ import Panel from './Panel';
 import Provider from '../context/Provider';
 import data from './data';
 
-afterEach(cleanup);
+afterEach(() => { 
+  cleanup();
+  jest.restoreAllMocks();
+});
 
 const tableRender = async () => {
   jest.spyOn(global, 'fetch')
@@ -17,6 +20,7 @@ const tableRender = async () => {
       ok: true,
       json: () => Promise.resolve({
         results: [...data],
+
       }),
     }));
 
@@ -99,8 +103,8 @@ describe('Panel', () => {
 
     const table = getByTestId('table');
     const comp_order = getByTestId('comp_order');
-    const btnAsc = comp_order.querySelector("button[name*='ASC']");
-    fireEvent.click(btnAsc);
+    const btnDesc = comp_order.querySelector("button[name*='DESC']");
+    fireEvent.click(btnDesc);
 
     const order = getByTestId('order');
     const name = order.querySelector("button[name*='name']");
@@ -109,6 +113,15 @@ describe('Panel', () => {
     const tbody = table.querySelector('tbody');
     const trs = tbody.querySelectorAll('tr');
 
-    expect(trs[0].querySelectorAll('td')[0].innerHTML).toBe('Alderaan');
+    expect(trs[0].querySelectorAll('td')[0].innerHTML).toBe('Yavin IV');
+    expect(trs[1].querySelectorAll('td')[0].innerHTML).toBe('Alderaan');
+
+    const btnAsc = comp_order.querySelector("button[name*='ASC']");
+    fireEvent.click(btnAsc);
+    const rotation_period = order.querySelector("button[name*='rotation_period']");
+    fireEvent.click(rotation_period);
+
+    expect(trs[0].querySelectorAll('td')[1].innerHTML).toBe('42');
+    expect(trs[1].querySelectorAll('td')[1].innerHTML).toBe('24');
   });
 });

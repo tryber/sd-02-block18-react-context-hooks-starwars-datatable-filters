@@ -40,11 +40,11 @@ function Filter(props) {
 
   useEffect(() => { autoAddFilter && add() }, [autoAddFilter]);
 
-  // useEffect(() => {
-  //   const { numericValues = {} } = { [filters.filters[index]]: undefined };
-  //   const { column = '', comparison = '', value = '' } = numericValues;
-  //   if (column && comparison && value) setAutoAddFilter(true);
-  // }, [filters]);
+  useEffect(() => {
+    const { numericValues = {} } = { [filters.filters[index]]: undefined };
+    const { column = '', comparison = '', value = '' } = numericValues;
+    if (column && comparison && value) setAutoAddFilter(true);
+  }, [filters]);
 
   return (
     <div className="filter" data-testid="filter">
