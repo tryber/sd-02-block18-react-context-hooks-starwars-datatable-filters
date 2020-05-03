@@ -1,7 +1,7 @@
-const SWAPI = 'https://swapi.co/api/planets';
+const SWAPI = 'https://swapi-trybe.herokuapp.com/api/planets';
 
-export const fetchPlanets = () => (
-  fetch(SWAPI).then((response) => response.json().then((results) => results))
+const fetchPlanets = () => (
+  fetch(SWAPI).then((response) => response.json()).then((results) => results)
 );
 
 export default fetchPlanets;
