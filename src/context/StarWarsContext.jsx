@@ -23,6 +23,11 @@ export const StarWarsProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState([{ name: input }]);
+  const [numericFilter, setNumericFilter] = useState({
+    column: '',
+    comparison: '',
+    value: '',
+  });
 
   const filterByColumn = (
     name, results, column, comparison, value, allFilters, filteredPlanets,
@@ -57,6 +62,8 @@ export const StarWarsProvider = ({ children }) => {
     filterByColumn,
     setFilteredData,
     setFilters,
+    numericFilter,
+    setNumericFilter,
   };
 
   return (
