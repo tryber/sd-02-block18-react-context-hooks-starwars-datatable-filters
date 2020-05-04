@@ -29,29 +29,6 @@ export const StarWarsProvider = ({ children }) => {
     value: '',
   });
 
-  const filterByColumn = (
-    name, results, column, comparison, value, allFilters, filteredPlanets,
-  ) => {
-    const [, ...rest] = allFilters;
-    let filteredResults = [];
-    if (rest.length) {
-      filteredResults = filterAll(name, filteredPlanets, column, comparison, value);
-    } else {
-      filteredResults = filterAll(name, results, column, comparison, value);
-    }
-    setFilteredData(filteredResults);
-    setFilters([
-      ...filters,
-      {
-        numericValues: {
-          column,
-          comparison,
-          value,
-        },
-      },
-    ]);
-  };
-
   const context = {
     input,
     setInput,
@@ -59,7 +36,6 @@ export const StarWarsProvider = ({ children }) => {
     data,
     setData,
     filteredData,
-    filterByColumn,
     setFilteredData,
     setFilters,
     numericFilter,
