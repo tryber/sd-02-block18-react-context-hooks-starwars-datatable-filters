@@ -12,11 +12,7 @@ const SearchBar = () => {
     let filteredResults = results;
     if (rest.length) {
       rest.forEach(({
-        numericValues: {
-          column,
-          comparison,
-          value,
-        },
+        numericValues: { column, comparison, value },
       }) => {
         filteredResults = filterAll(name, filteredResults, column, comparison, value);
       });
@@ -29,8 +25,6 @@ const SearchBar = () => {
 
   useEffect(() => {
     filterByName(input, data, filters);
-    // const [, ...rest] = filters;
-    // setFilters([{ name: input, ...rest }]);
   }, [input]);
 
   return (
