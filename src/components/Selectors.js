@@ -10,15 +10,15 @@ const Selectors = () => {
     column: '',
     comparison: '',
     value: '',
-  })
+  });
 
   useEffect(() => {
     return (() => setNumericFilter({
       column: '',
       comparison: '',
       value: '',
-    }))
-  }, [])
+    }));
+  }, []);
 
   // deleteClick(event) {
   //   const { name } = event.target;
@@ -34,12 +34,18 @@ const Selectors = () => {
     return (
       <div>
         <span className="selector-label">Choose a column:</span>
-        <select name="column" onChange={({ target: { name, value } }) => setNumericFilter({ [name]: value })} required>
+        <select
+          name="column"
+          onChange={({
+            target: { name, value },
+          }) => setNumericFilter({ ...numericFilter, [name]: value })}
+          required
+        >
           <option value="" label=" " />
           {columns.map((element) => (
             selectedColumn.includes(element)
               ? false
-              : <option value={element}>{element.replace('_', ' ')}</option>
+              : <option value={element} key={element}>{element.replace('_', ' ')}</option>
           ))}
         </select>
       </div>
@@ -55,7 +61,7 @@ const Selectors = () => {
         onClick={() => filterByColumn(
           filters[0].name, data, column, comparison, value, filters, filteredData,
         )}
-        disabled={(column && comparison && value) && false}
+        disabled={!(column && comparison && value)}
       />
     );
   }
@@ -84,7 +90,13 @@ const Selectors = () => {
         {renderColumnSelector()}
         <div>
           <span className="selector-label">Choose a comparison:</span>
-          <select name="comparison" onChange={({ target: { name, value } }) => setNumericFilter({ [name]: value })} required>
+          <select
+            name="comparison"
+            onChange={({
+              target: { name, value },
+            }) => setNumericFilter({ ...numericFilter, [name]: value })}
+            required
+          >
             <option value="" label=" " />
             <option value="Maior que">Maior que</option>
             <option value="Menor que">Menor que</option>
@@ -95,7 +107,9 @@ const Selectors = () => {
           <input
             type="number"
             name="value"
-            onChange={({ target: { name, value } }) => setNumericFilter({ [name]: value })}
+            onChange={({
+              target: { name, value },
+            }) => setNumericFilter({ ...numericFilter, [name]: value })}
             required
             id="number-bar"
           />
@@ -108,6 +122,6 @@ const Selectors = () => {
       {renderFilters()}
     </div>
   );
-}
+};
 
 export default Selectors;

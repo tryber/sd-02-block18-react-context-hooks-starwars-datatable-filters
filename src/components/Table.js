@@ -41,6 +41,7 @@ const Table = () => {
   const { filteredData, state, data, setData } = useContext(StarWarsContext);
   const { filters } = state;
   const [isFetching, setIsFetching] = useState(false);
+  // console.log(filters)
 
   useEffect(() => {
     if (!data.length) {

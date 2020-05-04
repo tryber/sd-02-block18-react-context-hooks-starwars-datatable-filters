@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export const StarWarsContext = createContext();
@@ -15,6 +15,8 @@ export const StarWarsProvider = ({ children }) => {
       },
     ],
   };
+
+  let filteredResults = [];
 
   const filterAll = (name, results, column, comparison, value) => {
     const filtered = name
@@ -33,7 +35,7 @@ export const StarWarsProvider = ({ children }) => {
 
   const filterByName = (name, results, allFilters) => {
     const [, ...rest] = allFilters;
-    let filteredResults = results;
+    filteredResults = results;
     if (rest.length) {
       rest.forEach(({
         numericValues: {
@@ -58,7 +60,7 @@ export const StarWarsProvider = ({ children }) => {
     name, results, column, comparison, value, allFilters, filteredPlanets,
   ) => {
     const [, ...rest] = allFilters;
-    let filteredResults = [];
+    // let filteredResults = [];
     if (rest.length) {
       filteredResults = filterAll(name, filteredPlanets, column, comparison, value);
     } else {
@@ -66,7 +68,6 @@ export const StarWarsProvider = ({ children }) => {
     }
     setFilteredData(filteredResults);
     state = {
-      ...state,
       filters: [
         ...state.filters,
         {
