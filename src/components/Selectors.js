@@ -1,24 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { StarWarsContext } from '../context/StarWarsContext';
 import './Selectors.css';
 
 
 const Selectors = () => {
-  const { data, state, filteredData, filterByColumn } = useContext(StarWarsContext);
-  const { filters } = state;
+  const { data, filters, filteredData, filterByColumn } = useContext(StarWarsContext);
+  // const { filters: allFilters } = filters;
   const [numericFilter, setNumericFilter] = useState({
     column: '',
     comparison: '',
     value: '',
   });
-
-  useEffect(() => {
-    return (() => setNumericFilter({
-      column: '',
-      comparison: '',
-      value: '',
-    }));
-  }, []);
 
   // deleteClick(event) {
   //   const { name } = event.target;
@@ -58,9 +50,16 @@ const Selectors = () => {
       <input
         type="reset"
         value="Filtrar"
-        onClick={() => filterByColumn(
-          filters[0].name, data, column, comparison, value, filters, filteredData,
-        )}
+        onClick={() => {
+          filterByColumn(
+            filters[0].name, data, column, comparison, value, filters, filteredData,
+          );
+          setNumericFilter({
+            column: '',
+            comparison: '',
+            value: '',
+          });
+        }}
         disabled={!(column && comparison && value)}
       />
     );
@@ -68,20 +67,16 @@ const Selectors = () => {
 
   function renderFilters() {
     const [, ...rest] = filters;
-    // if (rest.length) {
-
-    // }
     return (
       <section>
         {rest.map(({ numericValues: { column, comparison, value } }) => (
-          <div className="column-filters">
+          <div className="column-filters" key={column}>
             <p className="column-filter" name={column}>{`☉ ${column.replace('_', ' ')} ${comparison.toLowerCase()} ${value}`}</p>
             {/* <button type="button" name={column} onClick={this.deleteClick}>X</button> */}
           </div>
         ))}
       </section>
     );
-    // return false;
   }
 
   return (

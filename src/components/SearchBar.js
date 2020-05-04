@@ -1,23 +1,14 @@
 import React, { useContext, useEffect } from 'react';
-// import PropTypes from 'prop-types';
-// import { filterByName } from '../actions/filterPlanets';
 import './SearchBar.css';
 import { StarWarsContext } from '../context/StarWarsContext';
 
 const SearchBar = () => {
-  const { input, setInput, data, state, filterByName } = useContext(StarWarsContext);
-  const { filters } = state;
+  const { input, setInput, data, filters, filterByName } = useContext(StarWarsContext);
+  // const { filters: allFilters } = filters;
 
   useEffect(() => {
     filterByName(input, data, filters);
   }, [input]);
-
-  // function onChangeHandler(event) {
-  //   const { value } = event.target;
-  //   const { filterPlanetsByName, data, filters } = this.props;
-
-  //   filterPlanetsByName(value, data, filters);
-  // }
 
   return (
     <div className="group search-bar">
@@ -28,21 +19,5 @@ const SearchBar = () => {
     </div>
   );
 };
-
-// SearchBar.propTypes = {
-//   data: PropTypes.instanceOf(Array).isRequired,
-//   filterPlanetsByName: PropTypes.func.isRequired,
-//   filters: PropTypes.instanceOf(Array).isRequired,
-// };
-
-// const mapStateToProps = ({ planetsData: { data }, planetsFilters: { filteredData, filters } }) => ({
-//   data,
-//   filteredData,
-//   filters,
-// });
-
-// const mapDispatchToProps = (dispatch) => ({
-//   filterPlanetsByName: (name, data, filters) => dispatch(filterByName(name, data, filters)),
-// });
 
 export default SearchBar;

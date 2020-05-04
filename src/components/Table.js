@@ -1,6 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-// import PropTypes from 'prop-types';
-// import { getPlanets } from '../actions/getPlanets';
 import { StarWarsContext } from '../context/StarWarsContext';
 import SearchBar from './SearchBar';
 import Selectors from './Selectors';
@@ -38,10 +36,9 @@ function renderTableBody(planets) {
 }
 
 const Table = () => {
-  const { filteredData, state, data, setData } = useContext(StarWarsContext);
-  const { filters } = state;
+  const { filteredData, filters, data, setData } = useContext(StarWarsContext);
+  // const { filters: allFilters } = filters;
   const [isFetching, setIsFetching] = useState(false);
-  // console.log(filters)
 
   useEffect(() => {
     if (!data.length) {
@@ -60,7 +57,6 @@ const Table = () => {
     }
   }, [data.length, setData]);
 
-  // const { data, isFetching, filteredData, filters } = this.props;
   if (isFetching) return <div className="spinner" />;
   return (
     <section>
@@ -79,25 +75,5 @@ const Table = () => {
     </section>
   );
 };
-
-// Table.propTypes = {
-//   data: PropTypes.instanceOf(Array).isRequired,
-//   isFetching: PropTypes.bool.isRequired,
-//   fetchPlanets: PropTypes.func.isRequired,
-//   filteredData: PropTypes.instanceOf(Array),
-//   filters: PropTypes.instanceOf(Array).isRequired,
-// };
-
-// Table.defaultProps = {
-//   filteredData: [],
-// };
-
-// const mapStateToProps = (
-//   { planetsData: { data, isFetching }, planetsFilters: { filteredData, filters } },
-// ) => ({ data, isFetching, filteredData, filters });
-
-// const mapDispatchToProps = (dispatch) => ({
-//   fetchPlanets: () => dispatch(getPlanets()),
-// });
 
 export default Table;

@@ -7,16 +7,7 @@ export const StarWarsProvider = ({ children }) => {
   const [input, setInput] = useState('');
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-
-  let state = {
-    filters: [
-      {
-        name: input,
-      },
-    ],
-  };
-
-  let filteredResults = [];
+  const [filters, setFilters] = useState([{ name: input }]);
 
   const filterAll = (name, results, column, comparison, value) => {
     const filtered = name
@@ -35,7 +26,7 @@ export const StarWarsProvider = ({ children }) => {
 
   const filterByName = (name, results, allFilters) => {
     const [, ...rest] = allFilters;
-    filteredResults = results;
+    let filteredResults = results;
     if (rest.length) {
       rest.forEach(({
         numericValues: {
@@ -50,41 +41,36 @@ export const StarWarsProvider = ({ children }) => {
       filteredResults = filterAll(name, results);
     }
     setFilteredData(filteredResults);
-    state = {
-      ...state,
-      filters: [{ name }, ...rest],
-    };
+    setFilters([{ name }, ...rest]);
   };
 
   const filterByColumn = (
     name, results, column, comparison, value, allFilters, filteredPlanets,
   ) => {
     const [, ...rest] = allFilters;
-    // let filteredResults = [];
+    let filteredResults = [];
     if (rest.length) {
       filteredResults = filterAll(name, filteredPlanets, column, comparison, value);
     } else {
       filteredResults = filterAll(name, results, column, comparison, value);
     }
     setFilteredData(filteredResults);
-    state = {
-      filters: [
-        ...state.filters,
-        {
-          numericValues: {
-            column,
-            comparison,
-            value,
-          },
+    setFilters([
+      ...filters,
+      {
+        numericValues: {
+          column,
+          comparison,
+          value,
         },
-      ],
-    };
+      },
+    ]);
   };
 
   const context = {
     input,
     setInput,
-    state,
+    filters,
     data,
     setData,
     filteredData,
