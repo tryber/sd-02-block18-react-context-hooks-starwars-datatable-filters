@@ -37,40 +37,30 @@ function renderTableBody(planets) {
 
 const Table = () => {
   const { filteredData, filters, data, setData } = useContext(StarWarsContext);
-  // const { filters: allFilters } = filters;
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     if (!data.length) {
       setIsFetching(true);
       fetchPlanets()
-        .then(
-          ({ results }) => {
-            setIsFetching(false);
-            setData(results);
-          },
-          (error) => {
-            setIsFetching(false);
-            setData(error);
-          },
-        );
+        .then(({ results }) => {
+          setIsFetching(false);
+          setData(results);
+        }, (error) => {
+          setIsFetching(false);
+          setData(error);
+        });
     }
   }, [data.length, setData]);
 
   if (isFetching) return <div className="spinner" />;
   return (
     <section>
-      <section>
-        <SearchBar />
-      </section>
-      <section>
-        <Selectors />
-      </section>
+      <section><SearchBar /></section>
+      <section><Selectors /></section>
       <table>
         {renderTableHead(data)}
-        {filters[0].name || filters[1]
-          ? renderTableBody(filteredData)
-          : renderTableBody(data)}
+        {filters[0].name || filters[1] ? renderTableBody(filteredData) : renderTableBody(data)}
       </table>
     </section>
   );

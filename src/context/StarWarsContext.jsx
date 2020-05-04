@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export const StarWarsContext = createContext();
 
-const filterAll = (name, results, column, comparison, value) => {
+export const filterAll = (name, results, column, comparison, value) => {
   const filtered = name
     ? results.filter((planet) => planet.name.toLowerCase().match(name))
     : results;
@@ -23,26 +23,6 @@ export const StarWarsProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState([{ name: input }]);
-
-  const filterByName = (name, results, allFilters) => {
-    const [, ...rest] = allFilters;
-    let filteredResults = results;
-    if (rest.length) {
-      rest.forEach(({
-        numericValues: {
-          column,
-          comparison,
-          value,
-        },
-      }) => {
-        filteredResults = filterAll(name, filteredResults, column, comparison, value);
-      });
-    } else {
-      filteredResults = filterAll(name, results);
-    }
-    setFilteredData(filteredResults);
-    setFilters([{ name }, ...rest]);
-  };
 
   const filterByColumn = (
     name, results, column, comparison, value, allFilters, filteredPlanets,
@@ -74,8 +54,9 @@ export const StarWarsProvider = ({ children }) => {
     data,
     setData,
     filteredData,
-    filterByName,
     filterByColumn,
+    setFilteredData,
+    setFilters,
   };
 
   return (
