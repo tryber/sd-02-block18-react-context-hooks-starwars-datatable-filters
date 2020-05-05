@@ -38,7 +38,7 @@ function Filter(props) {
   const [autoAddFilter, setAutoAddFilter] = useState(false);
   const { index, removeFilter2, add } = props;
 
-  useEffect(() => { autoAddFilter && add() }, [autoAddFilter]);
+  useEffect(() => { if (autoAddFilter) add(); }, [autoAddFilter]);
 
   useEffect(() => {
     const { numericValues = {} } = { [filters.filters[index]]: undefined };
@@ -63,6 +63,7 @@ function Filter(props) {
 Filter.propTypes = {
   index: PropTypes.number.isRequired,
   removeFilter2: PropTypes.func.isRequired,
+  add: PropTypes.func.isRequired,
 };
 
 export default Filter;

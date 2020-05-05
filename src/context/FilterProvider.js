@@ -32,6 +32,34 @@ const params2 = [
   'url',
 ];
 
+
+const paramTypeInit = [
+  'rotation_period',
+  'orbital_period',
+  'diameter',
+  'surface_water',
+  'population',
+];
+
+const filtersInit = {
+  filters: [
+    {
+      name: '',
+    },
+    {
+      column: '',
+      order: '',
+    },
+    {
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    },
+  ],
+};
+
 const switchComparison = (filterPlanets, column, comparison, value) => {
   switch (comparison) {
     case '':
@@ -72,35 +100,8 @@ const FilterProvider = ({ children }) => {
   const [planets, setPlanets] = useState(planetsParams);
   const [data, setData] = useState(planetsParams);
   const [params] = useState(params2);
-  const [typeParam, setTypeParam] = useState(
-    [
-      'rotation_period',
-      'orbital_period',
-      'diameter',
-      'surface_water',
-      'population',
-    ],
-  );
-  const [filters, setFilters] = useState(
-    {
-      filters: [
-        {
-          name: '',
-        },
-        {
-          column: '',
-          order: '',
-        },
-        {
-          numericValues: {
-            column: '',
-            comparison: '',
-            value: '',
-          },
-        },
-      ],
-    }
-  );
+  const [typeParam, setTypeParam] = useState(paramTypeInit);
+  const [filters, setFilters] = useState(filtersInit);
 
   const switchName = (filterPlanets, name) => ((filterPlanets.length > 0)
     ? filterPlanets
@@ -123,24 +124,24 @@ const FilterProvider = ({ children }) => {
       .reduce((acc, val, index) => filterByNumber(acc, index + 2), filterPlanets);
   };
 
-  const switchOrder = (filterPlanets, column, order) => {
-    switch (order) {
-      case 'ASC':
-        return filterPlanets.sort((a, b) =>
-          (switchNumberName(a[column], b[column])) ? 1 : -1);
-      case 'DESC':
-        return filterPlanets.sort((a, b) =>
-          (switchNumberName(a[column], b[column])) ? -1 : 1);
-      default:
-        return filterPlanets;
-    }
-  };
-
   const switchNumberName = (a, b) => {
     if (Number(a)) {
       return (Number(a) > Number(b));
     }
     return a > b;
+  };
+
+  const switchOrder = (filterPlanets, column, order) => {
+    switch (order) {
+      case 'ASC':
+        return filterPlanets.sort((a, b) =>
+          ((switchNumberName(a[column], b[column])) ? 1 : -1));
+      case 'DESC':
+        return filterPlanets.sort((a, b) =>
+          ((switchNumberName(a[column], b[column])) ? -1 : 1));
+      default:
+        return filterPlanets;
+    }
   };
 
   const filterByOrder = (filterPlanets) => {
@@ -237,13 +238,13 @@ const FilterProvider = ({ children }) => {
     const filters2 = { ...filters };
     filters2.filters[1].column = tag;
     setFilters(filters2);
-  }
+  };
 
   const filterOrderTypeFunc = (type) => {
     const filters2 = { ...filters };
     filters2.filters[1].order = type;
     setFilters(filters2);
-  }
+  };
 
   const contextValue = {
     filterConditionFunc,

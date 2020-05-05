@@ -5,15 +5,27 @@ import StarWarsContext from '../context/StarWarsContext';
 import FilterName from './FilterName';
 import Filter from './Filter';
 
+function render1(add, typeParam) {
+  return (
+    <React.Fragment>
+      {(typeParam.length > 0) ? <button
+        type="button"
+        onClick={() => add()}
+      >
+        Add filter
+      </button> : <div />}
+    </React.Fragment>
+  );
+}
 
 function Filters() {
   const { addFilter, removeFilter, filters, setTypeParam, typeParam } = useContext(StarWarsContext);
   const [filters2, setFilters2] = useState([shortid.generate()]);
-  
+
   const add = () => {
     setFilters2([...filters2, shortid.generate()]);
     addFilter();
-  }
+  };
 
   const removeFilter2 = (index) => {
     setTypeParam([...typeParam, filters.filters[index].numericValues.column]);
@@ -33,12 +45,7 @@ function Filters() {
           add={add}
         />
       ))}
-      {(typeParam.length > 0) ? <button
-        type="button"
-        onClick={() => add()}
-      >
-        Add filter
-      </button> : <div />}
+      {render1(add, typeParam)}
     </div>
   );
 }

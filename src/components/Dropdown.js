@@ -30,7 +30,7 @@ function DropDown(props) {
           <p name={`tag${testid}`}>{selected}</p>
         </button>
       </div>
-      <div className="list" style={(dropped) ? { display: 'flex' } : { display: 'none' } }>
+      <div className="list" style={(dropped) ? { display: 'flex' } : { display: 'none' }}>
         {arr.map((param) => (<DropDownElement key={param} param={param} call={call} />))}
       </div>
     </div>
@@ -49,6 +49,6 @@ DropDown.propTypes = {
 
 DropDown.defaultProps = {
   index: undefined,
-}
+};
 
 export default DropDown;
