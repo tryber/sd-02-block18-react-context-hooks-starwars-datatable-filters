@@ -9,8 +9,9 @@ function FilterCondition(props) {
   const { filterNumberFunc } = useContext(StarWarsContext);
 
   const handleChange = (e) => {
-    const name = e.target.value;
-    filterNumberFunc(name, index);
+    console.log(e.target.value)
+    const { value } = e.target;
+    filterNumberFunc(value, index);
   };
 
   return (

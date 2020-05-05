@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import DropDownElement from './DropDownElement';
@@ -8,32 +8,29 @@ function DropDown(props) {
   const {
     arr, func, name, index, testid,
   } = props;
+  const [selected, setSelected] = useState(arr[0]);
+  const [dropped, setDropped] = useState(false);
 
-  let list;
-  let selected;
-  let dropped = false;
-
-  const toggle = () => {
-    dropped = !dropped;
-    list.style.display = (dropped) ? 'none' : 'flex';
-  };
+  useEffect(() => {
+    func(arr[0], index);
+  }, []);
 
   const call = (e) => {
     const type = e.target.name;
+    setSelected(type);
     func(type, index);
-    selected.innerHTML = type;
-    toggle();
+    setDropped((currDropped) => !currDropped);
   };
 
   return (
     <div className="comp_dropdown" data-testid={testid}>
       <p className="selectedTag">{name}</p>
       <div className="selected">
-        <button type="button" onClick={() => toggle()}>
-          <p name={`tag${testid}`} ref={(node) => { selected = node; }} />
+        <button type="button" onClick={() => setDropped((currDropped) => !currDropped)}>
+          <p name={`tag${testid}`}>{selected}</p>
         </button>
       </div>
-      <div className="list" ref={(node) => { list = node; }}>
+      <div className="list" style={(dropped) ? { display: 'flex' } : { display: 'none' } }>
         {arr.map((param) => (<DropDownElement key={param} param={param} call={call} />))}
       </div>
     </div>

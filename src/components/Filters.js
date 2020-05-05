@@ -1,9 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import shortid from 'shortid';
 
 import StarWarsContext from '../context/StarWarsContext';
 import FilterName from './FilterName';
 import Filter from './Filter';
+
 
 function Filters() {
   const { addFilter, removeFilter, filters, setTypeParam, typeParam } = useContext(StarWarsContext);
@@ -32,12 +33,12 @@ function Filters() {
           add={add}
         />
       ))}
-      <button
+      {(typeParam.length > 0) ? <button
         type="button"
         onClick={() => add()}
       >
         Add filter
-      </button>
+      </button> : <div />}
     </div>
   );
 }

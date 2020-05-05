@@ -1,4 +1,4 @@
-const API = 'https://cors-anywhere.herokuapp.com/https://swapi-trybe.herokuapp.com/api/planets';
+const API = 'https://swapi-trybe.herokuapp.com/api/planets';
 
 const fetchApi = () => (
   fetch(API)

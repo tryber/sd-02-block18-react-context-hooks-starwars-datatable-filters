@@ -31,7 +31,7 @@ const tableRender = async () => {
       <App />
     </Provider>,
   );
-  const api = 'https://cors-anywhere.herokuapp.com/https://swapi-trybe.herokuapp.com/api/planets';
+  const api = 'https://swapi-trybe.herokuapp.com/api/planets';
 
   await wait();
   expect(global.fetch).toHaveBeenCalledWith(api);
@@ -81,10 +81,11 @@ describe('Panel', () => {
     const allfilter = getAllByTestId('filter');
     expect(allfilter.length).toBe(2);
 
-    const rotationPeriod = allfilter[0].querySelector("button[name*='rotation_period']");
     const selectType = allfilter[0].querySelector("p[name*='tagtype']");
-    fireEvent.click(rotationPeriod);
     expect(selectType.innerHTML).toBe('rotation_period');
+    const diameter = allfilter[0].querySelector("button[name*='diameter']");
+    fireEvent.click(diameter);
+    expect(selectType.innerHTML).toBe('diameter');
 
     const menorQue = allfilter[0].querySelector("button[name*='Menor que']");
     const selectCond = allfilter[0].querySelector("p[name*='tagcondition']");
@@ -94,9 +95,18 @@ describe('Panel', () => {
     const inputCondition = allfilter[0].querySelector("input[name*='inputCondition']");
     fireEvent.change(inputCondition, { target: { value: '25' } });
     expect(inputCondition.value).toBe('25');
-
     expect(queryByText(/Yavin IV/)).not.toBeInTheDocument();
+
+    const maiorQue = allfilter[0].querySelector("button[name*='Maior que']");
+    fireEvent.click(maiorQue);
+    expect(queryByText(/Yavin IV/)).toBeInTheDocument();
     expect(queryByText(/Alderaan/)).toBeInTheDocument();
+
+    const igualQue = allfilter[0].querySelector("button[name*='Igual a']");
+    fireEvent.click(igualQue);
+    fireEvent.change(inputCondition, { target: { value: '24' } });
+    expect(queryByText(/Alderaan/)).not.toBeInTheDocument();
+
   });
 
   test('Filter by order', async () => {

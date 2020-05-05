@@ -32,15 +32,6 @@ const params2 = [
   'url',
 ];
 
-const typeParam2 = [
-  'rotation_period',
-  'orbital_period',
-  'diameter',
-  'surface_water',
-  'population',
-];
-
-
 const switchComparison = (filterPlanets, column, comparison, value) => {
   switch (comparison) {
     case '':
@@ -81,7 +72,15 @@ const FilterProvider = ({ children }) => {
   const [planets, setPlanets] = useState(planetsParams);
   const [data, setData] = useState(planetsParams);
   const [params] = useState(params2);
-  const [typeParam, setTypeParam] = useState(typeParam2);
+  const [typeParam, setTypeParam] = useState(
+    [
+      'rotation_period',
+      'orbital_period',
+      'diameter',
+      'surface_water',
+      'population',
+    ],
+  );
   const [filters, setFilters] = useState(
     {
       filters: [
