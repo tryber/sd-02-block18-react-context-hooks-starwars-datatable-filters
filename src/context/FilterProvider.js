@@ -135,10 +135,10 @@ const FilterProvider = ({ children }) => {
     switch (order) {
       case 'ASC':
         return filterPlanets.sort((a, b) =>
-          ((switchNumberName(a[column], b[column])) ? 1 : -1));
+          (switchNumberName(a[column], b[column]) ? 1 : -1));
       case 'DESC':
         return filterPlanets.sort((a, b) =>
-          ((switchNumberName(a[column], b[column])) ? -1 : 1));
+          (switchNumberName(a[column], b[column]) ? -1 : 1));
       default:
         return filterPlanets;
     }
