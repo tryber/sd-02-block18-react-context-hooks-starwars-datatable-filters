@@ -10,7 +10,7 @@ const Thead = () => {
   return (
     <thead>
       <tr>
-        {tableTitle.map((title) => <th>{title}</th>)}
+        {tableTitle.map((title) => <th key={`${title} column`}>{title}</th>)}
       </tr>
     </thead>
   );

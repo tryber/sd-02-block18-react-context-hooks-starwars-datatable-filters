@@ -2,9 +2,9 @@ import React from 'react';
 import Thead from '../Components/Thead';
 
 const Table = () => (
-  <div>
+  <table>
     <Thead />
-  </div>
+  </table>
 );
 
 export default Table;

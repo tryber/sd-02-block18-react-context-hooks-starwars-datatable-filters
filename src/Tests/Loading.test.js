@@ -13,6 +13,6 @@ describe('Loading', () => {
     const loadingComp = getByText(/Loading.../i);
     expect(loadingComp).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText(/Bão/i)).toBeInTheDocument();
+    expect(loadingComp).not.toBeInTheDocument();
   });
 });
