@@ -7,10 +7,11 @@ const MyContext = ({ children }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [planets, setPlanets] = useState([]);
   const [errorRequest, setErrorRequest] = useState('');
-
+  const [planetsToFilter, setPlanetsToFilter] = useState([]);
 
   const successPlanets = (data) => {
-    setPlanets(data);
+    setPlanets(data.results);
+    setPlanetsToFilter(data.results);
     setIsFetching(false);
   };
 
@@ -28,6 +29,8 @@ const MyContext = ({ children }) => {
     setIsFetching,
     planets,
     errorRequest,
+    planetsToFilter,
+    setPlanetsToFilter,
   };
 
   return (

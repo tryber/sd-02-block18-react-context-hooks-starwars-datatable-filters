@@ -3,7 +3,7 @@ import SwContext from './Context';
 import './App.css';
 import Title from './Components/Title';
 import Loading from './Loading';
-import Table from './Table';
+import Table from './Pages/Table';
 
 const App = () => {
   const { isFetching } = useContext(SwContext);
