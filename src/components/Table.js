@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
@@ -25,15 +25,9 @@ const TableHeaders = () => (
   </tr>
 );
 
-const PlanetRows = () => {
-  const {
-    data: [planetsData],
-    filters: [filters, setFilters],
-  } = useContext(PlanetsDBContext);
-  const filteredPlanets = usePlanetsFiltering(planetsData, filters, setFilters);
-
+const planetRows = (planetsData) => {
   return (
-    filteredPlanets !== undefined ? filteredPlanets.map(({
+    planetsData !== undefined ? planetsData.map(({
       name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
       climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
       edited, url,
@@ -58,9 +52,12 @@ const PlanetRows = () => {
 };
 
 export default function Table() {
+  const { loading: [isLoading], data: [planetsData] } = useContext(PlanetsDBContext);
+
   useSWAPI();
 
-  const { loading: [isLoading] } = useContext(PlanetsDBContext);
+  usePlanetsFiltering();
+
   return (
     <div>
       <h1>StarWars Datatable with Filters</h1>
@@ -70,19 +67,17 @@ export default function Table() {
       <div>
         <NumericFilters />
       </div>
-      {isLoading ? <span>Loading...</span>
-        : (
-          <div data-testid="table-container" className="table-container">
-            <table className="table">
-              <thead>
-                <TableHeaders />
-              </thead>
-              <tbody>
-                <PlanetRows />
-              </tbody>
-            </table>
-          </div>
-        )}
+      {isLoading && <span>Loading...</span> }
+      <div data-testid="table-container" className="table-container">
+        <table className="table">
+          <thead>
+            <TableHeaders />
+          </thead>
+          <tbody>
+            {planetRows(planetsData)}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

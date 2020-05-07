@@ -54,36 +54,30 @@ const sortColumns = (filteredPlanets, filters) => {
   return sortedPlanets;
 };
 
-export default function usePlanetsFiltering(planetsData, filters, setFilters) {
-  const [filteredPlanets, setFilteredPlanets] = useState(planetsData);
+export default function usePlanetsFiltering() {
+  const {
+    filters: [filters, setFilters], data: [planetsData, setPlanetsData],
+  } = useContext(PlanetsDBContext);
 
-  useEffect(() => {
-    const numericFilters = filters.filter((filter) => 'numericValues' in filter);
-    let newFilteredPlanets = planetsData;
-    console.log('newFilteredPlanets: ', newFilteredPlanets);
-    const [{ name: nameFilter }] = filters;
-    if (nameFilter !== '') {
-      console.log('text filter ran');
-      newFilteredPlanets = filterByName(nameFilter, newFilteredPlanets);
+
+  let newFilteredPlanets = planetsData;
+  const numericFilters = filters.filter((filter) => 'numericValues' in filter);
+
+  if ('name' in filters && filters.name !== '') {
+    console.log('text filter ran');
+    newFilteredPlanets = filterByName(filters.name, newFilteredPlanets);
+  }
+
+  numericFilters.map(({ numericValues, numericValues: { column, comparison, value } }) => {
+    if (numericValues && column !== '' && comparison !== '' && value !== '') {
+      console.log('numeric filter ran');
+      newFilteredPlanets = filterByNumericValues(newFilteredPlanets, numericValues);
     }
+    return { numericValues };
+  });
 
-    numericFilters.map((filter) => {
-      const { numericValues, numericValues: { column, comparison, value } } = filter;
-      if (column !== '' && comparison !== '' && value !== '') {
-        console.log('numeric filter ran');
-        newFilteredPlanets = filterByNumericValues(newFilteredPlanets, numericValues);
-      }
-      return filter;
-    });
+  newFilteredPlanets = sortColumns(newFilteredPlanets, filters);
 
-    newFilteredPlanets = sortColumns(newFilteredPlanets, filters);
-    console.log('filtered planets: ', newFilteredPlanets);
-
-    addNewFilterRow(filters, setFilters);
-
-    setFilteredPlanets(newFilteredPlanets);
-  }, [filters, planetsData, setFilters, setFilteredPlanets]);
-
-
-  return filteredPlanets;
+  addNewFilterRow(filters, setFilters);
+  return setPlanetsData(newFilteredPlanets);
 }
