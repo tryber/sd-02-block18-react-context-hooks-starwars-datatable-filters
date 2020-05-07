@@ -31,8 +31,9 @@ const PlanetRows = () => {
     filters: [filters, setFilters],
   } = useContext(PlanetsDBContext);
   const filteredPlanets = usePlanetsFiltering(planetsData, filters, setFilters);
+
   return (
-    filteredPlanets.map(({
+    filteredPlanets !== undefined ? filteredPlanets.map(({
       name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
       climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
       edited, url,
@@ -52,7 +53,7 @@ const PlanetRows = () => {
         <td>{edited}</td>
         <td>{url}</td>
       </tr>
-    ))
+    )) : null
   );
 };
 

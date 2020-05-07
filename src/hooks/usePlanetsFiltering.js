@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import useSortedColumns from './useSortedColumns';
-
+import { useEffect, useState, useContext } from 'react';
+import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
 const filterByName = (nameFilter, newFilteredPlanets) => {
   const newNameFilter = `.*${nameFilter}.*`;
@@ -31,32 +30,60 @@ const addNewFilterRow = (filters, setFilters) => {
   }
 };
 
+const sortColumns = (filteredPlanets, filters) => {
+  let sortedPlanets = [];
+  filters.forEach(({ order, column }) => {
+    if (order && order === 'ASC') {
+      sortedPlanets = filteredPlanets.sort(
+        (planetA, planetB) => {
+          console.log('ordering asc: ', order, column, planetA[column], planetB[column]);
+          return (planetA[column] > planetB[column] ? 1 : -1);
+        },
+      );
+    }
+    if (order && order === 'DESC') {
+      sortedPlanets = filteredPlanets.sort(
+        (planetA, planetB) => {
+          console.log('ordering desc: ', order, column, planetA[column], planetB[column]);
+          return (planetA[column] < planetB[column] ? 1 : -1);
+        },
+      );
+    }
+    sortedPlanets = filteredPlanets;
+  });
+  return sortedPlanets;
+};
+
 export default function usePlanetsFiltering(planetsData, filters, setFilters) {
   const [filteredPlanets, setFilteredPlanets] = useState(planetsData);
-  const sortedFilteredPlanets = useSortedColumns(filteredPlanets, filters);
-
 
   useEffect(() => {
     const numericFilters = filters.filter((filter) => 'numericValues' in filter);
     let newFilteredPlanets = planetsData;
+    console.log('newFilteredPlanets: ', newFilteredPlanets);
     const [{ name: nameFilter }] = filters;
-    if (nameFilter) newFilteredPlanets = filterByName(nameFilter, newFilteredPlanets);
+    if (nameFilter !== '') {
+      console.log('text filter ran');
+      newFilteredPlanets = filterByName(nameFilter, newFilteredPlanets);
+    }
 
     numericFilters.map((filter) => {
       const { numericValues, numericValues: { column, comparison, value } } = filter;
       if (column !== '' && comparison !== '' && value !== '') {
+        console.log('numeric filter ran');
         newFilteredPlanets = filterByNumericValues(newFilteredPlanets, numericValues);
       }
       return filter;
     });
 
+    newFilteredPlanets = sortColumns(newFilteredPlanets, filters);
+    console.log('filtered planets: ', newFilteredPlanets);
 
     addNewFilterRow(filters, setFilters);
-
 
     setFilteredPlanets(newFilteredPlanets);
   }, [filters, planetsData, setFilters, setFilteredPlanets]);
 
 
-  return sortedFilteredPlanets;
+  return filteredPlanets;
 }
