@@ -5,6 +5,24 @@ import ArrowUp from '../images/arrow up.png';
 import ArrowDown from '../images/arrow down.svg';
 import '../styles/SortButton.css';
 
+function setSorting(filters, columnName, setSortOrder, setFilters) {
+  const switchOrder = (order) => (order === 'ASC' ? 'DESC' : 'ASC');
+
+  if (!filters.some(({ column }) => column === columnName)) {
+    setSortOrder('ASC');
+    return setFilters([...filters, { column: columnName, order: 'ASC' }]);
+  }
+  return setFilters(filters.map(
+    (sortFilter) => {
+      if ('column' in sortFilter && sortFilter.column === columnName) {
+        setSortOrder(switchOrder(sortFilter.order));
+        return { ...sortFilter, order: switchOrder(sortFilter.order) };
+      }
+      return sortFilter;
+    },
+  ));
+}
+
 export default function SortButton({ children, columnName }) {
   const {
     filters: [filters, setFilters],
@@ -12,27 +30,10 @@ export default function SortButton({ children, columnName }) {
 
   const [sortOrder, setSortOrder] = useState('');
   const [isSorting, setIsSorting] = useState(false);
-  const switchOrder = (order) => (order === 'ASC' ? 'DESC' : 'ASC');
 
   const toggleSortOrder = () => {
     setIsSorting(true);
-
-    function setSorting() {
-      if (!filters.some(({ column }) => column === columnName)) {
-        setSortOrder('ASC');
-        return setFilters([...filters, { column: columnName, order: 'ASC' }]);
-      }
-      return setFilters(filters.map(
-        (sortFilter) => {
-          if ('column' in sortFilter && sortFilter.column === columnName) {
-            setSortOrder(switchOrder(sortFilter.order));
-            return { ...sortFilter, order: switchOrder(sortFilter.order) };
-          }
-          return sortFilter;
-        },
-      ));
-    }
-    setSorting();
+    setSorting(filters, columnName, setSortOrder, setFilters);
   };
 
   const removeSorting = () => {
