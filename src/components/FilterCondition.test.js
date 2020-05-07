@@ -47,10 +47,10 @@ const tableRender = async () => {
   };
 };
 
-
 test('Filter by condition', async () => {
   const { getAllByTestId, queryByText, getByText } = await tableRender();
   await wait();
+
 
   const add = getByText('Add filter');
   fireEvent.click(add);

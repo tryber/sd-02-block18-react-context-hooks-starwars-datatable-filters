@@ -32,13 +32,12 @@ const params2 = [
   'url',
 ];
 
-
 const paramTypeInit = [
   'rotation_period',
+  'population',
   'orbital_period',
   'diameter',
   'surface_water',
-  'population',
 ];
 
 const filtersInit = {
@@ -47,8 +46,8 @@ const filtersInit = {
       name: '',
     },
     {
-      column: '',
-      order: '',
+      column: 'name',
+      order: 'ASC',
     },
     {
       numericValues: {
@@ -100,8 +99,32 @@ const FilterProvider = ({ children }) => {
   const [planets, setPlanets] = useState(planetsParams);
   const [data, setData] = useState(planetsParams);
   const [params] = useState(params2);
-  const [typeParam, setTypeParam] = useState(paramTypeInit);
-  const [filters, setFilters] = useState(filtersInit);
+  const [typeParam, setTypeParam] = useState(
+    [
+      'rotation_period',
+      'population',
+      'orbital_period',
+      'diameter',
+      'surface_water',
+    ]
+  );
+  const [filters, setFilters] = useState({
+    filters: [
+    {
+      name: '',
+    },
+    {
+      column: 'name',
+      order: 'ASC',
+    },
+    {
+      numericValues: {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    },
+  ],});
 
   const switchName = (filterPlanets, name) => ((filterPlanets.length > 0)
     ? filterPlanets

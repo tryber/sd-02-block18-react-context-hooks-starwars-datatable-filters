@@ -21,8 +21,8 @@ function Orders() {
         testid="order"
       />
       <div>
-        <button type="button" name="ASC" onClick={(e) => handle(e)}>Asc</button>
-        <button type="button" name="DESC" onClick={(e) => handle(e)}>Desc</button>
+        <button type="button" name="ASC" onClick={(e) => handle(e)}>ASC</button>
+        <button type="button" name="DESC" onClick={(e) => handle(e)}>DESC</button>
       </div>
     </div>
   );

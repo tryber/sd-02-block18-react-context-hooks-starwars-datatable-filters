@@ -11,7 +11,10 @@ import data from './data';
 
 afterEach(() => { 
   cleanup();
-  jest.restoreAllMocks();
+});
+
+beforeEach(() => {
+  jest.resetModules();
 });
 
 const tableRender = async () => {
@@ -46,6 +49,8 @@ const tableRender = async () => {
   };
 };
 
+
+
 describe('Panel', () => {
   test('Panel render', async () => {
     const { getByTestId, getByText } = await tableRender();
@@ -74,8 +79,6 @@ describe('Panel', () => {
     expect(queryByText(/Yavin IV/)).not.toBeInTheDocument();
   });
 
-
-
   test('Filter by order', async () => {
     const { getByTestId } = await tableRender();
 
@@ -93,7 +96,7 @@ describe('Panel', () => {
 
     expect(trs[0].querySelectorAll('td')[0].innerHTML).toBe('Yavin IV');
     expect(trs[1].querySelectorAll('td')[0].innerHTML).toBe('Alderaan');
-
+    
     const btnAsc = comp_order.querySelector("button[name*='ASC']");
     fireEvent.click(btnAsc);
     const rotation_period = order.querySelector("button[name*='rotation_period']");

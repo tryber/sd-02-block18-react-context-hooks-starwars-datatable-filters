@@ -21,7 +21,6 @@ function render1(add, typeParam) {
 function Filters() {
   const { addFilter, removeFilter, filters, setTypeParam, typeParam } = useContext(StarWarsContext);
   const [filters2, setFilters2] = useState([shortid.generate()]);
-
   const add = () => {
     setFilters2([...filters2, shortid.generate()]);
     addFilter();
