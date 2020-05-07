@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 
 const filterByName = (nameFilter, newFilteredPlanets) => {
@@ -35,18 +35,12 @@ const sortColumns = (filteredPlanets, filters) => {
   filters.forEach(({ order, column }) => {
     if (order && order === 'ASC') {
       sortedPlanets = filteredPlanets.sort(
-        (planetA, planetB) => {
-          // console.log('ordering asc: ', order, column, planetA[column], planetB[column]);
-          return (planetA[column] > planetB[column] ? 1 : -1);
-        },
+        (planetA, planetB) => (planetA[column] > planetB[column] ? 1 : -1),
       );
     }
     if (order && order === 'DESC') {
       sortedPlanets = filteredPlanets.sort(
-        (planetA, planetB) => {
-          // console.log('ordering desc: ', order, column, planetA[column], planetB[column]);
-          return (planetA[column] < planetB[column] ? 1 : -1);
-        },
+        (planetA, planetB) => (planetA[column] < planetB[column] ? 1 : -1),
       );
     }
     sortedPlanets = filteredPlanets;

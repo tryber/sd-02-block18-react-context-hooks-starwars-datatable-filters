@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 import ArrowUp from '../images/arrow up.png';
 import ArrowDown from '../images/arrow down.svg';
@@ -56,3 +57,8 @@ export default function SortButton({ children, columnName }) {
     </div>
   );
 }
+
+SortButton.propTypes = {
+  children: PropTypes.string.isRequired,
+  columnName: PropTypes.string.isRequired,
+};

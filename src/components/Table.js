@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
 import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
@@ -25,31 +25,29 @@ const TableHeaders = () => (
   </tr>
 );
 
-const planetRows = (planetsData) => {
-  return (
-    planetsData !== undefined ? planetsData.map(({
-      name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
-      climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
-      edited, url,
-    }) => (
-      <tr data-testid="table-row" key={name}>
-        <td>{name}</td>
-        <td className="rotation-period">{rotationPeriod}</td>
-        <td className="orbital-period">{orbitalPeriod}</td>
-        <td className="diameter">{diameter}</td>
-        <td>{climate}</td>
-        <td>{gravity}</td>
-        <td>{terrain}</td>
-        <td className="surface-water">{surfaceWater}</td>
-        <td className="population">{population}</td>
-        <td className="films">{films}</td>
-        <td>{created}</td>
-        <td>{edited}</td>
-        <td>{url}</td>
-      </tr>
-    )) : null
-  );
-};
+const planetRows = (planetsData) => (
+  planetsData !== undefined ? planetsData.map(({
+    name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
+    climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
+    edited, url,
+  }) => (
+    <tr data-testid="table-row" key={name}>
+      <td>{name}</td>
+      <td className="rotation-period">{rotationPeriod}</td>
+      <td className="orbital-period">{orbitalPeriod}</td>
+      <td className="diameter">{diameter}</td>
+      <td>{climate}</td>
+      <td>{gravity}</td>
+      <td>{terrain}</td>
+      <td className="surface-water">{surfaceWater}</td>
+      <td className="population">{population}</td>
+      <td className="films">{films}</td>
+      <td>{created}</td>
+      <td>{edited}</td>
+      <td>{url}</td>
+    </tr>
+  )) : null
+);
 
 export default function Table() {
   const { loading: [isLoading] } = useContext(PlanetsDBContext);
