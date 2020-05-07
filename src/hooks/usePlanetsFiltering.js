@@ -3,7 +3,8 @@ import useSortedColumns from './useSortedColumns';
 
 
 const filterByName = (nameFilter, newFilteredPlanets) => {
-  const regExpFilter = new RegExp(nameFilter, 'yi');
+  const newNameFilter = `.*${nameFilter}.*`;
+  const regExpFilter = new RegExp(newNameFilter, 'yi');
   return newFilteredPlanets.filter(
     (planet) => planet.name.match(regExpFilter),
   );
