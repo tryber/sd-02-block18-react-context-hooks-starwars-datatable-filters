@@ -1,31 +1,58 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
-
+import ArrowUp from '../images/arrow up.png';
+import ArrowDown from '../images/arrow down.svg';
+import '../styles/SortButton.css';
 
 export default function SortButton({ children, columnName }) {
   const {
     filters: [filters, setFilters],
   } = useContext(PlanetsDBContext);
 
+  const [sortOrder, setSortOrder] = useState('');
+  const [isSorting, setIsSorting] = useState(false);
+  const switchOrder = (order) => (order === 'ASC' ? 'DESC' : 'ASC');
+
   const toggleSortOrder = () => {
-    const switchOrder = (order) => (order === 'ASC' ? 'DESC' : 'ASC');
+    setIsSorting(true);
 
     function setSorting() {
       if (!filters.some(({ column }) => column === columnName)) {
+        setSortOrder('ASC');
         return setFilters([...filters, { column: columnName, order: 'ASC' }]);
       }
       return setFilters(filters.map(
         (sortFilter) => {
           if ('column' in sortFilter && sortFilter.column === columnName) {
+            setSortOrder(switchOrder(sortFilter.order));
             return { ...sortFilter, order: switchOrder(sortFilter.order) };
           }
           return sortFilter;
         },
       ));
     }
-
     setSorting();
   };
 
-  return (<button type="button" key={columnName} onClick={toggleSortOrder}>{children}</button>);
+  const removeSorting = () => {
+    const otherFilters = filters.filter((filter) => !('column' in filter && filter.column === columnName));
+    setFilters(otherFilters);
+    setIsSorting(false);
+  };
+
+  return (
+    <div className="sorting-container">
+      <button type="button" key={columnName} onClick={toggleSortOrder}>{children}</button>
+      {isSorting && (
+      <span>
+        {
+        sortOrder === 'ASC'
+          ? <img src={ArrowUp} alt="ASC sorting" />
+          : <img src={ArrowDown} alt="DESC sorting" />
+        }
+      </span>
+      )}
+      {isSorting && <button type="button" key={`del_${columnName}`} onClick={removeSorting}>X</button>}
+    </div>
+  );
 }

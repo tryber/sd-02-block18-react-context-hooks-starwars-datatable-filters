@@ -57,7 +57,6 @@ const sortColumns = (filteredPlanets, filters) => {
 export default function usePlanetsFiltering() {
   const {
     filters: [filters, setFilters], data: [planetsData],
-    nameFilter: [isFilteredByName, setIsFilteredByName],
   } = useContext(PlanetsDBContext);
 
   let newFilteredPlanets = planetsData;
@@ -69,10 +68,6 @@ export default function usePlanetsFiltering() {
   filters.forEach((filter) => {
     if ('name' in filter && filter.name !== '') {
       newFilteredPlanets = filterByName(filters[0].name, newFilteredPlanets);
-      setIsFilteredByName(true);
-    }
-    if ('name' in filter && filter.name === '') {
-      setIsFilteredByName(false);
     }
   });
 

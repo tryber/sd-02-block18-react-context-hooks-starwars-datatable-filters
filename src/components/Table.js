@@ -4,7 +4,7 @@ import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
 import SortButton from './SortButton';
 import usePlanetsFiltering from '../hooks/usePlanetsFiltering';
-import '../style/Table.css';
+import '../styles/Table.css';
 import useSWAPI from '../services/useSWAPI';
 
 const TableHeaders = () => (
@@ -52,9 +52,11 @@ const planetRows = (planetsData) => {
 };
 
 export default function Table() {
-  const { loading: [isLoading], data: [planetsData] } = useContext(PlanetsDBContext);
+  const { loading: [isLoading] } = useContext(PlanetsDBContext);
 
   useSWAPI();
+
+  const filteredPlanets = usePlanetsFiltering();
 
   return (
     <div>
@@ -72,7 +74,7 @@ export default function Table() {
             <TableHeaders />
           </thead>
           <tbody>
-            {planetRows(usePlanetsFiltering())}
+            {planetRows(filteredPlanets)}
           </tbody>
         </table>
       </div>
