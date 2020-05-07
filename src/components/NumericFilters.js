@@ -60,7 +60,7 @@ function renderNumberInput(filterIndex, actualValue, setFilter) {
 }
 
 function renderRemoveButton(filterIndex, filters, setFilters) {
-  const [, ...numericFilters] = filters;
+  const numericFilters = filters.filter((filter) => 'numericValues' in filter);
   const removeFilterRow = () => numericFilters.length > 1 && setFilters(
     [...filters.filter((filter, index) => index !== filterIndex)],
   );
@@ -94,11 +94,12 @@ export default function NumericFilters() {
   const numericFilters = filters.filter((filter) => 'numericValues' in filter);
 
   return (
-    numericFilters.map(({
-      numericValues:
-      { column: actualColumn, comparison: actualComparison, value: actualValue },
-    }, index) => {
-      const filterIndex = index + 1;
+    numericFilters.map((filter) => {
+      const {
+        numericValues:
+        { column: actualColumn, comparison: actualComparison, value: actualValue },
+      } = filter;
+      const filterIndex = filters.indexOf(filter);
       return (
         <div key={`row_${filterIndex + 1}`}>
           {renderColumnsOptions(filterIndex, actualColumn, filters, setFilter)}

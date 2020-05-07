@@ -36,7 +36,7 @@ const sortColumns = (filteredPlanets, filters) => {
     if (order && order === 'ASC') {
       sortedPlanets = filteredPlanets.sort(
         (planetA, planetB) => {
-          console.log('ordering asc: ', order, column, planetA[column], planetB[column]);
+          // console.log('ordering asc: ', order, column, planetA[column], planetB[column]);
           return (planetA[column] > planetB[column] ? 1 : -1);
         },
       );
@@ -44,7 +44,7 @@ const sortColumns = (filteredPlanets, filters) => {
     if (order && order === 'DESC') {
       sortedPlanets = filteredPlanets.sort(
         (planetA, planetB) => {
-          console.log('ordering desc: ', order, column, planetA[column], planetB[column]);
+          // console.log('ordering desc: ', order, column, planetA[column], planetB[column]);
           return (planetA[column] < planetB[column] ? 1 : -1);
         },
       );
@@ -56,28 +56,35 @@ const sortColumns = (filteredPlanets, filters) => {
 
 export default function usePlanetsFiltering() {
   const {
-    filters: [filters, setFilters], data: [planetsData, setPlanetsData],
+    filters: [filters, setFilters], data: [planetsData],
+    nameFilter: [isFilteredByName, setIsFilteredByName],
   } = useContext(PlanetsDBContext);
 
-
   let newFilteredPlanets = planetsData;
+
+  newFilteredPlanets = sortColumns(newFilteredPlanets, filters);
+
   const numericFilters = filters.filter((filter) => 'numericValues' in filter);
 
-  if ('name' in filters && filters.name !== '') {
-    console.log('text filter ran');
-    newFilteredPlanets = filterByName(filters.name, newFilteredPlanets);
-  }
+  filters.forEach((filter) => {
+    if ('name' in filter && filter.name !== '') {
+      newFilteredPlanets = filterByName(filters[0].name, newFilteredPlanets);
+      setIsFilteredByName(true);
+    }
+    if ('name' in filter && filter.name === '') {
+      setIsFilteredByName(false);
+    }
+  });
 
   numericFilters.map(({ numericValues, numericValues: { column, comparison, value } }) => {
     if (numericValues && column !== '' && comparison !== '' && value !== '') {
       console.log('numeric filter ran');
       newFilteredPlanets = filterByNumericValues(newFilteredPlanets, numericValues);
+      addNewFilterRow(filters, setFilters);
     }
-    return { numericValues };
+    return { ...numericValues };
   });
 
-  newFilteredPlanets = sortColumns(newFilteredPlanets, filters);
 
-  addNewFilterRow(filters, setFilters);
-  return setPlanetsData(newFilteredPlanets);
+  return newFilteredPlanets;
 }

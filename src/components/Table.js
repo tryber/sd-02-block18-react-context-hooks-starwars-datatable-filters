@@ -56,8 +56,6 @@ export default function Table() {
 
   useSWAPI();
 
-  usePlanetsFiltering();
-
   return (
     <div>
       <h1>StarWars Datatable with Filters</h1>
@@ -74,7 +72,7 @@ export default function Table() {
             <TableHeaders />
           </thead>
           <tbody>
-            {planetRows(planetsData)}
+            {planetRows(usePlanetsFiltering())}
           </tbody>
         </table>
       </div>
