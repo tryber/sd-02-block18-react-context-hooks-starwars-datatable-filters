@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from './components/Table';
-import { SWProvider } from './context/starWarsContext';
+import SWProvider from './context/SWProvider';
 import './App.css';
 
 function App() {

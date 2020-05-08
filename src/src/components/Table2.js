@@ -12,20 +12,21 @@ class Table extends Component {
     const { column, comparison, value } = numericValues;
     const columnValue = (column !== '' && value !== '');
     if (comparison === 'more than' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) > Number(value));
+      return array.filter((planet) => planet[column] > value);
     }
     if (comparison === 'less than' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) < Number(value));
+      return array.filter((planet) => planet[column] < value);
     }
     if (comparison === 'equal to' && columnValue) {
-      return array.filter((planet) => Number(planet[column]) === Number(value));
+      return array.filter((planet) => planet[column] === value);
     }
     return array;
   }
 
-  static generateBody(data, text, filterCriteria) {
+  static generateBody(data, text, filters) {
+    console.log(data);
     let firstFilter = data;
-    filterCriteria.forEach((x) => { firstFilter = Table.numericFilters(firstFilter, x); });
+    filters.forEach((x) => { firstFilter = Table.numericFilters(firstFilter, x); });
     return (
       firstFilter
         .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
@@ -40,7 +41,7 @@ class Table extends Component {
         )));
   }
 
-  static generateTable(loadInfo, data, failLoad, filtered, text, filterCriteria) {
+  static generateTable(loadInfo, data, failLoad, filtered, text, filters) {
     if (!loadInfo && data) {
       return (
         <table>
@@ -52,13 +53,31 @@ class Table extends Component {
             </tr>
           </thead>
           {!filtered
-            ? Table.generateBody(data, text, filterCriteria)
-            : Table.generateBody(filtered, text, filterCriteria)}
+            ? Table.generateBody(data, text, filters)
+            : Table.generateBody(filtered, text, filters)}
         </table>
       );
     }
     if (failLoad) { return <div>{failLoad}</div>; }
     return <div>Loading...</div>;
+  }
+
+  static sortStrings(data, column, order) {
+    if (order === 'ASC') {
+      data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+    }
+    if ((order === 'DESC')) {
+      data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+    }
+  }
+
+  static sortNumbers(data, column, order) {
+    if (order === 'ASC') {
+      data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1));
+    }
+    if ((order === 'DESC')) {
+      data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1));
+    }
   }
 
   constructor(props) {
@@ -102,13 +121,14 @@ class Table extends Component {
   changeOrderandState(e) {
     const { importchangeOrder, sFilters, data } = this.props;
     const { column, order } = sFilters[0];
-    if (order === 'ASC') {
-      data.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+    const arrayStrings = ['name', 'climate', 'gravity', 'terrain', 'films', 'url'];
+    if (arrayStrings.some((param) => param === column)) {
+      Table.sortStrings(data, column, order);
+    } else {
+      Table.sortNumbers(data, column, order);
     }
-    if ((order === 'DESC')) {
-      data.sort((a, b) => (a[column] > b[column] ? 1 : -1));
-    }
-    importchangeOrder(e.target.value);
+    importchangeOrder(e);
+    return data;
   }
 
   changeOrder(data) {
@@ -123,7 +143,7 @@ class Table extends Component {
               </option>
             ))}
         </select>
-        <button type="button" value={sFilters[0].order === 'ASC' ? 'DESC' : 'ASC'} onClick={(e) => this.changeOrderandState(e)}>Ascending/descending</button>
+        <button type="button" value={sFilters[0].order === 'ASC' ? 'DESC' : 'ASC'} onClick={(e) => this.changeOrderandState(e.target.value)}>{sFilters[0].order === 'ASC' ? 'Descending' : 'Ascending'}</button>
       </div>
     );
   }
