@@ -25,27 +25,24 @@ const GenerateTable = () => {
         (response) => handleSWFailure(response),
       );
   }, []);
-  const numericFilters = () => {
-    console.log(filters);
-    const { column, comparison, value } = filters;
-    console.log(column);
+  const numericFilters = (firstFilter, { numericValues }) => {
+    const { column, comparison, value } = numericValues;
     const columnBool = (column !== '' && value !== '');
     if (comparison === 'more than' && columnBool) {
-      console.log('hi!');
-      return data.filter((planet) => planet[column] > value);
+      return firstFilter.filter((planet) => planet[column] > value);
     }
     if (comparison === 'less than' && columnBool) {
-      return data.filter((planet) => planet[column] < value);
+      return firstFilter.filter((planet) => planet[column] < value);
     }
     if (comparison === 'equal to' && columnBool) {
-      return data.filter((planet) => planet[column] === value);
+      return firstFilter.filter((planet) => planet[column] === value);
     }
-    return data;
+    return firstFilter;
   };
   const generateBody = () => {
-    const firstFilter = data;
-    // filters.forEach((x) => { firstFilter = numericFilters(firstFilter, x); });
-    // console.log(firstFilter);
+    let firstFilter = data;
+    filters.forEach((x) => { firstFilter = numericFilters(firstFilter, x); });
+    console.log(firstFilter);
     return (
       firstFilter
         .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
