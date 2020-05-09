@@ -9,18 +9,21 @@ const Dropdowns = () => {
     setColumnOptions,
   } = useContext(SWContext);
   const [newNumericValues, setNewNumericValues] = useState({ numericValues: { column: '', comparison: '', value: '' } });
+  const changeNewNumericValues = (value, e) => {
+    setNewNumericValues({
+      ...newNumericValues,
+      numericValues: {
+        ...newNumericValues.numericValues,
+        [value]: e.target.value,
+      },
+    });
+  };
   const generateColumns = () => {
     if (columnOptions.length !== 0) {
       return (
         <div>
           <select
-            onChange={(e) => setNewNumericValues({
-              ...newNumericValues,
-              numericValues: {
-                ...newNumericValues.numericValues,
-                column: e.target.value,
-              },
-            })}
+            onChange={(e) => changeNewNumericValues('column', e)}
           >
             <option value="" hidden>Select Column</option>
             {columnOptions.map((option) => <option key={option} name="column" value={option}>{option}</option>)}
@@ -34,14 +37,7 @@ const Dropdowns = () => {
     if (columnOptions.length !== 0) {
       const comparison = ['more than', 'equal to', 'less than'];
       return (
-        <select onChange={(e) => setNewNumericValues({
-          ...newNumericValues,
-          numericValues: {
-            ...newNumericValues.numericValues,
-            comparison: e.target.value,
-          },
-        })}
-        >
+        <select onChange={(e) => changeNewNumericValues('comparison', e)}>
           <option value="">Select Comparison</option>
           {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
         </select>
@@ -55,13 +51,7 @@ const Dropdowns = () => {
         <input
           type="number"
           placeholder="type a number here!"
-          onChange={(e) => setNewNumericValues({
-            ...newNumericValues,
-            numericValues: {
-              ...newNumericValues.numericValues,
-              value: e.target.value,
-            },
-          })}
+          onChange={(e) => changeNewNumericValues('value', e)}
         />
       );
     }
