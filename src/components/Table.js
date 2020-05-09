@@ -5,9 +5,7 @@ import Dropdowns from './Dropdowns';
 import './Table.css';
 
 const Table = () => {
-  const {
-    filterByText,
-  } = useContext(SWContext);
+  const { filterByText } = useContext(SWContext);
 
   return (
     <div>

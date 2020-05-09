@@ -18,45 +18,36 @@ const Dropdowns = () => {
       },
     });
   };
-  const generateColumns = () => {
-    if (columnOptions.length !== 0) {
-      return (
-        <div>
-          <select
-            onChange={(e) => changeNewNumericValues('column', e)}
-          >
-            <option value="" hidden>Select Column</option>
-            {columnOptions.map((option) => <option key={option} name="column" value={option}>{option}</option>)}
-          </select>
-        </div>
-      );
-    }
-    return null;
-  };
-  const generateComparison = () => {
-    if (columnOptions.length !== 0) {
-      const comparison = ['more than', 'equal to', 'less than'];
-      return (
-        <select onChange={(e) => changeNewNumericValues('comparison', e)}>
-          <option value="">Select Comparison</option>
-          {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
+  const generateColumns = () => (
+    columnOptions.length !== 0 && (
+      <div>
+        <select
+          onChange={(e) => changeNewNumericValues('column', e)}
+        >
+          <option value="" hidden>Select Column</option>
+          {columnOptions.map((option) => <option key={option} name="column" value={option}>{option}</option>)}
         </select>
-      );
-    }
-    return null;
+      </div>
+    )
+  );
+  const generateComparison = () => {
+    const comparison = ['more than', 'equal to', 'less than'];
+    return columnOptions.length !== 0 && (
+      <select onChange={(e) => changeNewNumericValues('comparison', e)}>
+        <option value="">Select Comparison</option>
+        {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
+      </select>
+    );
   };
-  const generateNumeric = () => {
-    if (columnOptions.length !== 0) {
-      return (
-        <input
-          type="number"
-          placeholder="type a number here!"
-          onChange={(e) => changeNewNumericValues('value', e)}
-        />
-      );
-    }
-    return null;
-  };
+  const generateNumeric = () => (
+    columnOptions.length !== 0 && (
+      <input
+        type="number"
+        placeholder="type a number here!"
+        onChange={(e) => changeNewNumericValues('value', e)}
+      />
+    )
+  );
   const createFilter = () => {
     if (columnOptions.length > 0) {
       setFilters(filters[0].numericValues.column === ''
