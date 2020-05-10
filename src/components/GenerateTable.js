@@ -29,20 +29,19 @@ const GenerateTable = () => {
     const { column, comparison, value } = numericValues;
     const columnBool = (column !== '' && value !== '');
     if (comparison === 'more than' && columnBool) {
-      return firstFilter.filter((planet) => planet[column] > value);
+      return firstFilter.filter((planet) => planet[column] > parseInt(value, 10));
     }
     if (comparison === 'less than' && columnBool) {
-      return firstFilter.filter((planet) => planet[column] < value);
+      return firstFilter.filter((planet) => planet[column] < parseInt(value, 10));
     }
     if (comparison === 'equal to' && columnBool) {
-      return firstFilter.filter((planet) => planet[column] === value);
+      return firstFilter.filter((planet) => planet[column] === parseInt(value, 10));
     }
     return firstFilter;
   };
   const generateBody = () => {
     let firstFilter = data;
     filters.forEach((x) => { firstFilter = numericFilters(firstFilter, x); });
-    console.log(firstFilter);
     return (
       firstFilter
         .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))

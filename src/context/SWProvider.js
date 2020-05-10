@@ -12,6 +12,7 @@ const SWProvider = ({ children }) => {
   const [comparisonValue, setComparisonValue] = useState('');
   const [numberValue, setNumberValue] = useState('');
   const [filters, setFilters] = useState([{ numericValues: { column: '', comparison: '', value: '' } }]);
+  const [sFilters, setSFilters] = useState([{ column: 'Name', order: 'ASC' }]);
   const filterByText = (string) => {
     setText(string);
   };
@@ -34,6 +35,8 @@ const SWProvider = ({ children }) => {
     setNumberValue,
     columnOptions,
     setColumnOptions,
+    sFilters,
+    setSFilters,
   };
   // render
   return (

@@ -51,7 +51,7 @@ const Dropdowns = () => {
   const createFilter = () => {
     if (columnOptions.length > 0) {
       setFilters(filters[0].numericValues.column === ''
-        ? filters.splice(1).concat(newNumericValues)
+        ? [newNumericValues]
         : filters.concat(newNumericValues));
     }
     const columnFilter = columnOptions

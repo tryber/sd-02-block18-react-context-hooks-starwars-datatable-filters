@@ -1,17 +1,25 @@
 import React, { useContext } from 'react';
 import SWContext from '../context/starWarsContext';
-import GenerateTable from './GenerateTable';
 import Dropdowns from './Dropdowns';
+import ShowFilters from './ShowFilters';
+import SortFilters from './SortFilters';
+import GenerateTable from './GenerateTable';
 import './Table.css';
 
 const Table = () => {
-  const { filterByText } = useContext(SWContext);
+  const { filterByText, data } = useContext(SWContext);
 
   return (
     <div>
-      <input onChange={(e) => filterByText(e.target.value)} />
-      <Dropdowns />
-      <h2>Filters:</h2>
+      {data && (
+        <div>
+          <input onChange={(e) => filterByText(e.target.value)} />
+          <Dropdowns />
+          <SortFilters />
+          <h2>Filters:</h2>
+          <ShowFilters />
+        </div>
+      )}
       <GenerateTable />
     </div>
   );
