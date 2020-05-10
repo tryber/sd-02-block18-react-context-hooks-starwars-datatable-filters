@@ -25,7 +25,8 @@ const Dropdowns = () => {
           onChange={(e) => changeNewNumericValues('column', e)}
         >
           <option value="" hidden>Select Column</option>
-          {columnOptions.map((option) => <option key={option} name="column" value={option}>{option}</option>)}
+          {columnOptions
+            .map((option) => <option key={option} name="column" value={option}>{option}</option>)}
         </select>
       </div>
     )

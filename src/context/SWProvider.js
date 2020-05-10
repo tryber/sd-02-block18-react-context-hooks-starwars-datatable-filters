@@ -16,6 +16,36 @@ const SWProvider = ({ children }) => {
   const filterByText = (string) => {
     setText(string);
   };
+  const sortColumn = (e) => {
+    setSFilters([{
+      ...sFilters[0],
+      column: e.target.value,
+    }]);
+  };
+  const sortOrder = (e) => {
+    setSFilters([{
+      ...sFilters[0],
+      order: e.target.value,
+    }]);
+  };
+  const sortStrings = () => {
+    const { column, order } = sFilters[0];
+    if (order === 'ASC') {
+      setData(data.sort((a, b) => (a[column] < b[column] ? 1 : -1)));
+    }
+    if ((order === 'DESC')) {
+      setData(data.sort((a, b) => (a[column] > b[column] ? 1 : -1)));
+    }
+  };
+  const sortNumbers = () => {
+    const { column, order } = sFilters[0];
+    if (order === 'ASC') {
+      setData(data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1)));
+    }
+    if ((order === 'DESC')) {
+      setData(data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1)));
+    }
+  };
   // export
   const context = {
     data,
@@ -37,6 +67,10 @@ const SWProvider = ({ children }) => {
     setColumnOptions,
     sFilters,
     setSFilters,
+    sortColumn,
+    sortOrder,
+    sortStrings,
+    sortNumbers,
   };
   // render
   return (
