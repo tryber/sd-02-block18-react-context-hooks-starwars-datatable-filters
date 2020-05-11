@@ -19,13 +19,21 @@ function renderColumnsOptions(filterIndex, actualColumn, filters, setFilter) {
 
   return (
     <select
-      data-testid="column-selector"
+      data-testid={`column-selector-${filterIndex}`}
       onChange={(e) => setFilter(e, filterIndex)}
       id="column"
       value={actualColumn}
     >
       {availableSelectors.map(
-        ([value, label]) => <option key={`${label}_selector`} value={value}>{label}</option>,
+        ([value, label]) => (
+          <option
+            key={`${label}_selector`}
+            value={value}
+            data-testid={`column-${value}-${filterIndex}`}
+          >
+            {label}
+          </option>
+        ),
       )}
     </select>
   );
@@ -34,14 +42,15 @@ function renderColumnsOptions(filterIndex, actualColumn, filters, setFilter) {
 function renderComparisonOptions(filterIndex, actualComparison, setFilter) {
   return (
     <select
+      data-testid={`comparison-selector-${filterIndex}`}
       onChange={(e) => setFilter(e, filterIndex)}
       id="comparison"
       value={actualComparison}
     >
-      <option label=" " value="" defaultValue />
-      <option value="lesserThan">{'<'}</option>
-      <option value="equalsThan">=</option>
-      <option value="higherThan">{'>'}</option>
+      <option data-testid={`null-comparison-${filterIndex}`} label=" " value="" defaultValue />
+      <option data-testid={`lesserThan-comparison-${filterIndex}`} value="lesserThan">{'<'}</option>
+      <option data-testid={`equalsThan-comparison-${filterIndex}`} value="equalsThan">=</option>
+      <option data-testid={`higherThan-comparison-${filterIndex}`} value="higherThan">{'>'}</option>
     </select>
 
   );
@@ -50,6 +59,7 @@ function renderComparisonOptions(filterIndex, actualComparison, setFilter) {
 function renderNumberInput(filterIndex, actualValue, setFilter) {
   return (
     <input
+      data-testid={`value-selector-${filterIndex}`}
       onChange={(e) => setFilter(e, filterIndex)}
       type="number"
       id="value"
@@ -67,6 +77,7 @@ function renderRemoveButton(filterIndex, filters, setFilters) {
 
   return (
     <button
+      data-testid={`remove-filter-button-${filterIndex}`}
       type="button"
       onClick={() => removeFilterRow()}
       id="remove"
@@ -79,9 +90,11 @@ function renderRemoveButton(filterIndex, filters, setFilters) {
 
 export default function NumericFilters() {
   const { filters: [filters, setFilters] } = useContext(PlanetsDBContext);
+  const numericFilters = filters.filter((filter) => 'numericValues' in filter);
+
   const setFilter = (event, filterIndex) => setFilters(
-    filters.map((filter, index) => {
-      if ('numericValues' in filter && filterIndex === index) {
+    filters.map((filter) => {
+      if ('numericValues' in filter && numericFilters.indexOf(filter) === filterIndex) {
         return {
           numericValues:
           { ...filter.numericValues, [event.target.id]: event.target.value },
@@ -91,17 +104,16 @@ export default function NumericFilters() {
     }),
   );
 
-  const numericFilters = filters.filter((filter) => 'numericValues' in filter);
 
   return (
-    numericFilters.map((filter) => {
+    numericFilters.map((filter, index) => {
       const {
         numericValues:
         { column: actualColumn, comparison: actualComparison, value: actualValue },
       } = filter;
-      const filterIndex = filters.indexOf(filter);
+      const filterIndex = index;
       return (
-        <div key={`row_${filterIndex + 1}`}>
+        <div key={`row_${filterIndex + 1}`} data-testid={`filter-row-${filterIndex}`}>
           {renderColumnsOptions(filterIndex, actualColumn, filters, setFilter)}
           {renderComparisonOptions(filterIndex, actualComparison, setFilter)}
           {renderNumberInput(filterIndex, actualValue, setFilter)}
