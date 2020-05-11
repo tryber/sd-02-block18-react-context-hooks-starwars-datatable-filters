@@ -1,0 +1,36 @@
+.filter {
+  border-color: black;
+  border-style: solid;
+  border-width: 0.5px;
+  position: relative;
+  width: 30%;
+}
+
+.filter button {
+  background-color: white;
+  border-style: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+}
+
+.comp_condition {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.comp_condition > input {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 2%;
+}
+
+.comp_order {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 2%;
+  width: 30%;
+}
