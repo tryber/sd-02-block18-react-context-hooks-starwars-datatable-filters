@@ -1,63 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  paramTypeInit,
+  filtersInit,
+  planetsParams,
+  params2,
+} from '../services/initParams';
 import StarWarsContext from './StarWarsContext';
 import fetchApi from '../services/api';
 
-const planetsParams = [{
-  name: '',
-  rotation_period: '',
-  orbital_period: '',
-  diameter: '',
-  climate: '',
-  gravity: '',
-  terrain: '',
-  surface_water: '',
-  population: '',
-}];
-
-const params2 = [
-  'name',
-  'rotation_period',
-  'orbital_period',
-  'diameter',
-  'climate',
-  'gravity',
-  'terrain',
-  'surface_water',
-  'population',
-  'films',
-  'created',
-  'edited',
-  'url',
-];
-
-const paramTypeInit = [
-  'rotation_period',
-  'population',
-  'orbital_period',
-  'diameter',
-  'surface_water',
-];
-
-const filtersInit = {
-  filters: [
-    {
-      name: '',
-    },
-    {
-      column: 'name',
-      order: 'ASC',
-    },
-    {
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    },
-  ],
-};
 
 const switchComparison = (filterPlanets, column, comparison, value) => {
   switch (comparison) {
@@ -96,35 +48,11 @@ const switchColumn = (filterPlanets, column, comparison, value) => {
 };
 
 const FilterProvider = ({ children }) => {
-  const [planets, setPlanets] = useState(planetsParams);
-  const [data, setData] = useState(planetsParams);
-  const [params] = useState(params2);
-  const [typeParam, setTypeParam] = useState(
-    [
-      'rotation_period',
-      'population',
-      'orbital_period',
-      'diameter',
-      'surface_water',
-    ]
-  );
-  const [filters, setFilters] = useState({
-    filters: [
-    {
-      name: '',
-    },
-    {
-      column: 'name',
-      order: 'ASC',
-    },
-    {
-      numericValues: {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    },
-  ],});
+  const [planets, setPlanets] = useState([...planetsParams]);
+  const [data, setData] = useState([...planetsParams]);
+  const [params, setParams] = useState([...params2]);
+  const [typeParam, setTypeParam] = useState([...paramTypeInit]);
+  const [filters, setFilters] = useState({ ...filtersInit });
 
   const switchName = (filterPlanets, name) => ((filterPlanets.length > 0)
     ? filterPlanets
@@ -282,6 +210,7 @@ const FilterProvider = ({ children }) => {
     params,
     typeParam,
     setTypeParam,
+    setFilters,
     filters,
   };
 

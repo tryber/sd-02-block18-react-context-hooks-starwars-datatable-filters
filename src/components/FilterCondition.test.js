@@ -9,11 +9,12 @@ import Provider from '../context/Provider';
 import data from './data';
 
 
-
 afterEach(() => { 
   cleanup();
   jest.restoreAllMocks();
 });
+
+beforeEach(cleanup);
 
 const tableRender = async () => {
   jest.spyOn(global, 'fetch')
@@ -22,7 +23,6 @@ const tableRender = async () => {
       ok: true,
       json: () => Promise.resolve({
         results: [...data],
-
       }),
     }));
 
@@ -33,6 +33,7 @@ const tableRender = async () => {
       <App />
     </Provider>,
   );
+
   const api = 'https://swapi-trybe.herokuapp.com/api/planets';
 
   await wait();
@@ -50,7 +51,6 @@ const tableRender = async () => {
 test('Filter by condition', async () => {
   const { getAllByTestId, queryByText, getByText } = await tableRender();
   await wait();
-
 
   const add = getByText('Add filter');
   fireEvent.click(add);
@@ -82,5 +82,4 @@ test('Filter by condition', async () => {
   fireEvent.click(igualQue);
   fireEvent.change(inputCondition, { target: { value: '24' } });
   expect(queryByText(/Alderaan/)).not.toBeInTheDocument();
-
 });

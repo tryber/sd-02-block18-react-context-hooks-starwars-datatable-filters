@@ -14,6 +14,7 @@ afterEach(() => {
 });
 
 beforeEach(() => {
+  cleanup();
   jest.resetModules();
 });
 
@@ -77,6 +78,8 @@ describe('Panel', () => {
 
     expect(queryByText(/Alderaan/)).toBeInTheDocument();
     expect(queryByText(/Yavin IV/)).not.toBeInTheDocument();
+
+    fireEvent.change(inputName, { target: { value: '' } });
   });
 
   test('Filter by order', async () => {
@@ -106,7 +109,7 @@ describe('Panel', () => {
     expect(trs[1].querySelectorAll('td')[1].innerHTML).toBe('24');
   });
 
-  test('FIlter close', async () => {
+  test('Filter close', async () => {
     const { getByTestId, queryByTestId } = await tableRender();
     fireEvent.click(getByTestId('2-close'));
     expect(queryByTestId('filter')).not.toBeInTheDocument();
