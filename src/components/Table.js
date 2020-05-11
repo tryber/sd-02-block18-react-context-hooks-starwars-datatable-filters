@@ -46,7 +46,8 @@ const Table = () => {
         .then(({ results }) => {
           setIsFetching(false);
           setData(results);
-        }, (error) => {
+        })
+        .catch((error) => {
           setIsFetching(false);
           setData(error);
         });
@@ -60,7 +61,7 @@ const Table = () => {
       <section><Selectors /></section>
       <table>
         {renderTableHead(data)}
-        {filters[0].name || filters[1] ? renderTableBody(filteredData) : renderTableBody(data)}
+        {(filters[0].name || filters[1]) ? renderTableBody(filteredData) : renderTableBody(data)}
       </table>
     </section>
   );

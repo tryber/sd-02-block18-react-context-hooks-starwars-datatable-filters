@@ -1,9 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export const StarWarsContext = createContext();
 
-export const filterAll = (name, results, column, comparison, value) => {
+export const filterAll = (name, results, numericValues = {}) => {
+  const { column, comparison, value } = numericValues;
   const filtered = name
     ? results.filter((planet) => planet.name.toLowerCase().match(name))
     : results;
@@ -28,6 +29,25 @@ export const StarWarsProvider = ({ children }) => {
     comparison: '',
     value: '',
   });
+
+  const [, ...rest] = filters;
+  const filterByName = (name) => {
+    let filteredResults = data;
+    if (rest.length) {
+      rest.forEach(({ numericValues }) => {
+        filteredResults = filterAll(name, filteredResults, numericValues);
+      });
+    } else {
+      filteredResults = filterAll(name, filteredResults);
+    }
+    setFilteredData(filteredResults);
+    setFilters([{ name }, ...rest]);
+  };
+
+  useEffect(() => {
+    filterByName(input);
+  }, [input, rest.length]);
+
 
   const context = {
     input,
