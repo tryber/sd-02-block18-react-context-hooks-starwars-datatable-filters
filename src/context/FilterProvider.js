@@ -48,11 +48,11 @@ const switchColumn = (filterPlanets, column, comparison, value) => {
 };
 
 const FilterProvider = ({ children }) => {
-  const [planets, setPlanets] = useState([...planetsParams]);
-  const [data, setData] = useState([...planetsParams]);
-  const [params, setParams] = useState([...params2]);
-  const [typeParam, setTypeParam] = useState([...paramTypeInit]);
-  const [filters, setFilters] = useState({ ...filtersInit });
+  const [planets, setPlanets] = useState(planetsParams);
+  const [data, setData] = useState(planetsParams);
+  const [params] = useState(params2);
+  const [typeParam, setTypeParam] = useState(paramTypeInit);
+  const [filters, setFilters] = useState(filtersInit);
 
   const switchName = (filterPlanets, name) => ((filterPlanets.length > 0)
     ? filterPlanets

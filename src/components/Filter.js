@@ -45,7 +45,7 @@ function Filter(props) {
     const { column = '', comparison = '', value = '' } = numericValues;
     if (column && comparison && value) setAutoAddFilter(true);
   }, [filters]);
-  
+
   return (
     <div className="filter" data-testid="filter">
       <button type="button" onClick={() => handleClick(removeFilter2, index)}>
