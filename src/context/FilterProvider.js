@@ -54,7 +54,7 @@ const switchNumberName = (a, b) => {
   return a > b;
 };
 
-const sortPlanets1 = (filterPlanets, column) => 
+const sortPlanets1 = (filterPlanets, column) =>
   filterPlanets.sort((a, b) => (switchNumberName(a[column], b[column]) ? 1 : -1));
 
 const sortPlanets2 = (filterPlanets, column) =>
