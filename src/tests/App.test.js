@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import renderWithRouter from '../services/renderWithRouter';
 import PlanetsDBProvider from '../context/PlanetsDBContext';
 import App from '../App';

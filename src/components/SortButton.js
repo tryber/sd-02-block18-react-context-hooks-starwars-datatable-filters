@@ -7,7 +7,6 @@ import '../styles/SortButton.css';
 
 function setSorting(filters, columnName, setSortOrder, setFilters) {
   const switchOrder = (order) => (order === 'ASC' ? 'DESC' : 'ASC');
-
   if (!filters.some(({ column }) => column === columnName)) {
     setSortOrder('ASC');
     return setFilters([...filters, { column: columnName, order: 'ASC' }]);
@@ -44,17 +43,33 @@ export default function SortButton({ children, columnName }) {
 
   return (
     <div className="sorting-container">
-      <button type="button" key={columnName} onClick={toggleSortOrder}>{children}</button>
+      <button
+        data-testid={`toggle-sort-button-${columnName}`}
+        type="button"
+        key={columnName}
+        onClick={toggleSortOrder}
+      >
+        {children}
+      </button>
       {isSorting && (
       <span>
         {
         sortOrder === 'ASC'
-          ? <img src={ArrowUp} alt="ASC sorting" />
-          : <img src={ArrowDown} alt="DESC sorting" />
+          ? <img data-testid={`sorting-asc-arrow-${columnName}`} src={ArrowUp} alt="ASC sorting" />
+          : <img data-testid={`sorting-desc-arrow-${columnName}`} src={ArrowDown} alt="DESC sorting" />
         }
       </span>
       )}
-      {isSorting && <button type="button" key={`del_${columnName}`} onClick={removeSorting}>X</button>}
+      {isSorting && (
+        <button
+          type="button"
+          data-testid={`remove-sort-button-${columnName}`}
+          key={`del_${columnName}`}
+          onClick={removeSorting}
+        >
+          X
+        </button>
+      )}
     </div>
   );
 }
