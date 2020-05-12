@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, fireEvent, wait } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import renderWithRouter from '../services/renderWithRouter';
 import PlanetsDBProvider from '../context/PlanetsDBContext';
 import Table from '../components/Table';
@@ -8,7 +8,7 @@ import Table from '../components/Table';
 afterEach(cleanup);
 
 describe('Tests SortButton component', () => {
-  let columnNames = ['rotation_period', 'orbital_period', 'diameter', 'climate', 'gravity', 'terrain', 'surface_water', 'population', 'films', 'created', 'edited', 'url'];
+  const columnNames = ['rotation_period', 'orbital_period', 'diameter', 'climate', 'gravity', 'terrain', 'surface_water', 'population', 'films', 'created', 'edited', 'url'];
 
   it('document contains buttons for all columns to toggle sort', () => {
     expect.assertions(12);

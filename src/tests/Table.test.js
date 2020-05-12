@@ -5,10 +5,11 @@ import renderWithRouter from '../services/renderWithRouter';
 import PlanetsDBProvider from '../context/PlanetsDBContext';
 import useSWAPI from '../services/useSWAPI';
 import Table from '../components/Table';
+import NameFilter from '../components/NameFilter';
 
 afterEach(cleanup);
 
-describe.skip('Tests Table component', () => {
+describe('Tests Table component', () => {
   it('if planets are fetched, render table', async () => {
     const { getByTestId } = renderWithRouter(
       <PlanetsDBProvider>
@@ -44,7 +45,8 @@ describe.skip('Tests Table component', () => {
           return expect(rowsData[index])
             .toEqual(expect.stringContaining(`${planet[property]}`.replace(/,/g, '')));
         }
-        return expect(rowsData[index]).toEqual(expect.stringContaining(`${planet[property]}`));
+        console.log('planet-property: ', planet[property], 'rowsData: ', rowsData[index]);
+        return expect(planet[property].includes(rowsData[index])).toBeTruthy();
       },
     ));
   }, 60000);
@@ -52,6 +54,7 @@ describe.skip('Tests Table component', () => {
   it('if names is input, table filters by name', async () => {
     const { getByTestId, getAllByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NameFilter />
         <Table />
       </PlanetsDBProvider>,
     );

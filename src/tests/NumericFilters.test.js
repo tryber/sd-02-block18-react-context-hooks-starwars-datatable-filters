@@ -3,6 +3,8 @@ import { cleanup, fireEvent } from '@testing-library/react';
 import renderWithRouter from '../services/renderWithRouter';
 import PlanetsDBProvider from '../context/PlanetsDBContext';
 import Table from '../components/Table';
+import NumericFilters from '../components/NumericFilters';
+
 
 afterEach(cleanup);
 
@@ -13,6 +15,7 @@ describe('Tests Number Filter Inputs component', () => {
 
     const { getByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -33,6 +36,7 @@ describe('Tests Number Filter Inputs component', () => {
 
     const { getByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -47,6 +51,7 @@ describe('Tests Number Filter Inputs component', () => {
 
     const { getByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -59,6 +64,7 @@ describe('Tests Number Filter Inputs component', () => {
 
     const { getByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -70,6 +76,7 @@ describe('Tests Number Filter Inputs component', () => {
     expect.assertions(4);
     const { getByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -88,6 +95,7 @@ describe('Tests Number Filter Inputs component', () => {
     expect.assertions(20);
     const { getByTestId, queryByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -125,8 +133,11 @@ describe('Tests Number Filter Inputs component', () => {
   });
 
   it('erases filter rows properly', () => {
+    expect.assertions(4);
+
     const { getByTestId, queryByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -144,8 +155,11 @@ describe('Tests Number Filter Inputs component', () => {
   });
 
   it('will not delete the first filter row - I', () => {
+    expect.assertions(4);
+
     const { getByTestId, queryByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -162,6 +176,7 @@ describe('Tests Number Filter Inputs component', () => {
     expect.assertions(28);
     const { getByTestId, queryByTestId, getAllByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );
@@ -218,6 +233,7 @@ describe('Tests Number Filter Inputs component', () => {
     expect.assertions(8);
     const { getByTestId, queryByTestId } = renderWithRouter(
       <PlanetsDBProvider>
+        <NumericFilters />
         <Table />
       </PlanetsDBProvider>,
     );

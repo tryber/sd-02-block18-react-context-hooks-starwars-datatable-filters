@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
 import { PlanetsDBContext } from '../context/PlanetsDBContext';
-import NameFilter from './NameFilter';
-import NumericFilters from './NumericFilters';
 import SortButton from './SortButton';
 import usePlanetsFiltering from '../hooks/usePlanetsFiltering';
 import '../styles/Table.css';
@@ -26,7 +24,7 @@ const TableHeaders = () => (
 );
 
 const planetRows = (planetsData) => (
-  planetsData !== undefined ? planetsData.map(({
+  planetsData.map(({
     name, rotation_period: rotationPeriod, orbital_period: orbitalPeriod, diameter,
     climate, gravity, terrain, surface_water: surfaceWater, population, films, created,
     edited, url,
@@ -46,7 +44,7 @@ const planetRows = (planetsData) => (
       <td>{edited}</td>
       <td>{url}</td>
     </tr>
-  )) : null
+  ))
 );
 
 export default function Table() {
@@ -58,13 +56,6 @@ export default function Table() {
 
   return (
     <div>
-      <h1>StarWars Datatable with Filters</h1>
-      <div>
-        <NameFilter />
-      </div>
-      <div>
-        <NumericFilters />
-      </div>
       {isLoading && <span>Loading...</span> }
       <div data-testid="table-container" className="table-container">
         <table className="table">
