@@ -67,7 +67,7 @@ export default function usePlanetsFiltering() {
 
   numericFilters.map(({ numericValues, numericValues: { column, comparison, value } }) => {
     if (numericValues && column !== '' && comparison !== '' && value !== '') {
-      console.log('numeric filter ran');
+      // console.log('numeric filter ran');
       newFilteredPlanets = filterByNumericValues(newFilteredPlanets, numericValues);
       addNewFilterRow(filters, setFilters);
     }
