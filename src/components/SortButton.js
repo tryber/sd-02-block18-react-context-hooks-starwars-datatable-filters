@@ -10,14 +10,12 @@ const SortButton = ({ currentColumn }) => {
 
   const sortByColumn = (column) => {
     const planets = (filters[0].name || filters[1]) ? filteredData : data;
-
+    setFilteredData(planets.sort((a, b) => a[column] - b[column]
+      || a[column].toString().localeCompare(b[column].toString())));
     if (order === 'ASC') {
-      setFilteredData(planets.sort((a, b) => a[column] - b[column]
-        || a[column].toString().localeCompare(b[column].toString())));
-    } if (order === 'DESC') {
-      setFilteredData(planets.sort((a, b) => a[column] - b[column]
-        || a[column].toString().localeCompare(b[column].toString())).reverse());
+      return filteredData;
     }
+    return filteredData.reverse();
   };
 
   return (
