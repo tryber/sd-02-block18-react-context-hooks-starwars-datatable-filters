@@ -19,6 +19,13 @@ export const filterAll = (name, results, numericValues = {}) => {
   }
 };
 
+function sortPlanets(filteredResults, column, order) {
+  const sortedPlanets = filteredResults.sort((a, b) => a[column] - b[column]
+    || a[column].toString().localeCompare(b[column].toString()));
+  if (order === 'DESC') return sortedPlanets.reverse();
+  return sortedPlanets;
+}
+
 export const StarWarsProvider = ({ children }) => {
   const [input, setInput] = useState('');
   const [data, setData] = useState([]);
@@ -33,15 +40,6 @@ export const StarWarsProvider = ({ children }) => {
   });
   const [sortColumns, setSortColumns] = useState({ column: 'name', order: 'ASC' });
 
-
-  function sortPlanets(filteredResults) {
-    const { column, order } = sortColumns;
-    const sortedPlanets = filteredResults.sort((a, b) => a[column] - b[column]
-      || a[column].toString().localeCompare(b[column].toString()));
-    if (order === 'ASC') setFilteredData(sortedPlanets);
-    if (order === 'DESC') setFilteredData(sortedPlanets.reverse());
-  }
-
   const [, ...rest] = filters;
   const filterByName = () => {
     let filteredResults = data;
@@ -52,7 +50,9 @@ export const StarWarsProvider = ({ children }) => {
     } else {
       filteredResults = filterAll(input, filteredResults);
     }
-    sortPlanets(filteredResults);
+    const { column, order } = sortColumns;
+    filteredResults = sortPlanets(filteredResults, column, order);
+    setFilteredData(filteredResults);
     setFilters([{ name: input }, ...rest]);
   };
 
