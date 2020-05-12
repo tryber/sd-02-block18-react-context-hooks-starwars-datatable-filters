@@ -31,25 +31,34 @@ export const StarWarsProvider = ({ children }) => {
     comparison: '',
     value: '',
   });
-  const [sortColumns, setSortColumns] = useState({ column: 'Name', order: 'ASC' });
+  const [sortColumns, setSortColumns] = useState({ column: 'name', order: 'ASC' });
+
+
+  function sortPlanets(filteredResults) {
+    const { column, order } = sortColumns;
+    const sortedPlanets = filteredResults.sort((a, b) => a[column] - b[column]
+      || a[column].toString().localeCompare(b[column].toString()));
+    if (order === 'ASC') setFilteredData(sortedPlanets);
+    if (order === 'DESC') setFilteredData(sortedPlanets.reverse());
+  }
 
   const [, ...rest] = filters;
-  const filterByName = (name) => {
+  const filterByName = () => {
     let filteredResults = data;
     if (rest.length) {
       rest.forEach(({ numericValues }) => {
-        filteredResults = filterAll(name, filteredResults, numericValues);
+        filteredResults = filterAll(input, filteredResults, numericValues);
       });
     } else {
-      filteredResults = filterAll(name, filteredResults);
+      filteredResults = filterAll(input, filteredResults);
     }
-    setFilteredData(filteredResults);
-    setFilters([{ name }, ...rest]);
+    sortPlanets(filteredResults);
+    setFilters([{ name: input }, ...rest]);
   };
 
   useEffect(() => {
-    filterByName(input);
-  }, [input, rest.length]);
+    filterByName();
+  }, [input, rest.length, sortColumns]);
 
   const context = {
     input,
