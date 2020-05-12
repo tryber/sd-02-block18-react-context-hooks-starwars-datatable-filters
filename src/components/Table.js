@@ -4,6 +4,7 @@ import SearchBar from './SearchBar';
 import Selectors from './Selectors';
 import './Table.css';
 import fetchPlanets from '../services/fetchPlanets';
+import SortButton from './SortButton';
 
 function renderTableHead(planets) {
   return (
@@ -12,7 +13,12 @@ function renderTableHead(planets) {
         {Object.keys(planets[0] || []).map((key) => (
           key === 'residents'
             ? false
-            : <th key={key}>{key.replace(/_/, ' ').toUpperCase()}</th>
+            : (
+              <th key={key} className="table-head-cell">
+                {key.replace(/_/, ' ').toUpperCase()}
+                <SortButton currentColumn={key} />
+              </th>
+            )
         ))}
       </tr>
     </thead>
@@ -38,6 +44,7 @@ function renderTableBody(planets) {
 const Table = () => {
   const { filteredData, filters, data, setData } = useContext(StarWarsContext);
   const [isFetching, setIsFetching] = useState(false);
+  const planets = (filters[0].name || filters[1]) ? filteredData : data;
 
   useEffect(() => {
     if (!data.length) {
@@ -45,7 +52,7 @@ const Table = () => {
       fetchPlanets()
         .then(({ results }) => {
           setIsFetching(false);
-          setData(results);
+          setData(results.sort((a, b) => (a.name > b.name ? 1 : -1)));
         })
         .catch((error) => {
           setIsFetching(false);
@@ -61,7 +68,7 @@ const Table = () => {
       <section><Selectors /></section>
       <table>
         {renderTableHead(data)}
-        {(filters[0].name || filters[1]) ? renderTableBody(filteredData) : renderTableBody(data)}
+        {renderTableBody(planets)}
       </table>
     </section>
   );

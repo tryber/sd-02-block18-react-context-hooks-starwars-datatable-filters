@@ -23,12 +23,15 @@ export const StarWarsProvider = ({ children }) => {
   const [input, setInput] = useState('');
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [filters, setFilters] = useState([{ name: input }]);
+  const [filters, setFilters] = useState([
+    { name: input },
+  ]);
   const [numericFilter, setNumericFilter] = useState({
     column: '',
     comparison: '',
     value: '',
   });
+  const [sortColumns, setSortColumns] = useState({ column: 'Name', order: 'ASC' });
 
   const [, ...rest] = filters;
   const filterByName = (name) => {
@@ -48,7 +51,6 @@ export const StarWarsProvider = ({ children }) => {
     filterByName(input);
   }, [input, rest.length]);
 
-
   const context = {
     input,
     setInput,
@@ -60,6 +62,8 @@ export const StarWarsProvider = ({ children }) => {
     setFilters,
     numericFilter,
     setNumericFilter,
+    sortColumns,
+    setSortColumns,
   };
 
   return (
