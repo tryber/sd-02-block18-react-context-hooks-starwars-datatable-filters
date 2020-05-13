@@ -9,8 +9,10 @@ const Thead = () => {
 
   return (
     <thead>
-      <tr>
-        {tableTitle.map((title) => <th key={`${title} column`}>{title}</th>)}
+      <tr key="Row of column values">
+        {tableTitle.map((title) => (title !== 'residents'
+          ? <th key={`${title} column`}>{title}</th>
+          : null))}
       </tr>
     </thead>
   );

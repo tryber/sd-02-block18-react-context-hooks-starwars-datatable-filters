@@ -1,4 +1,4 @@
-{
+  {
   "name": "sd-01-week18-react-context-hooks-starwars-datatable-filters",
   "version": "0.1.0",
   "private": true,
@@ -23,6 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-coverage":"react-scripts test --coverage --watchAll=False",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
