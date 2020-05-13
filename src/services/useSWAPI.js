@@ -9,13 +9,16 @@ export default function useSWAPI() {
 
   useEffect(() => {
     const fetchPlanets = async () => {
-      const URL = 'https://cors-anywhere.herokuapp.com/https://swapi-trybe.herokuapp.com/api/planets';
+      const URL = 'https://swapi-trybe.herokuapp.com/api/planets';
 
       const data = await fetch(URL)
         .then((response) => response.json())
         .then(({ results }) => {
           setIsLoading(false);
           return [...results];
+        })
+        .catch((err) => {
+          throw new Error(err);
         });
       return setPlanetsData(data);
     };

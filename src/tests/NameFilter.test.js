@@ -49,6 +49,7 @@ describe('Tests Name Filter Input component', () => {
 
     await wait(() => getByText('Tatooine'));
 
+
     expect(getByText('Coruscant')).toBeInTheDocument();
     expect(getByText('Hoth')).toBeInTheDocument();
     expect(getByText('Tatooine')).toBeInTheDocument();

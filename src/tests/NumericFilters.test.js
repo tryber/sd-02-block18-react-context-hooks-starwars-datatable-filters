@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent, wait } from '@testing-library/react';
 import renderWithRouter from '../services/renderWithRouter';
 import PlanetsDBProvider from '../context/PlanetsDBContext';
 import Table from '../components/Table';
@@ -132,7 +132,7 @@ describe('Tests Number Filter Inputs component', () => {
     });
   });
 
-  it('erases filter rows properly', () => {
+  it('erases filter rows properly', async () => {
     expect.assertions(4);
 
     const { getByTestId, queryByTestId } = renderWithRouter(
@@ -146,7 +146,7 @@ describe('Tests Number Filter Inputs component', () => {
     fireEvent.change(getByTestId('comparison-selector-0'), { target: { value: 'lesserThan' } });
     fireEvent.change(getByTestId('value-selector-0'), { target: { value: '30000000' } });
 
-    fireEvent.click(getByTestId('remove-filter-button-1'));
+    fireEvent.click(getByTestId('remove-filter-button-0'));
 
     expect(queryByTestId('remove-filter-button-1')).toBeNull();
     expect(queryByTestId('column-selector-1')).toBeNull();
@@ -173,8 +173,8 @@ describe('Tests Number Filter Inputs component', () => {
   });
 
   it('will not delete the last filter row - II', () => {
-    expect.assertions(28);
-    const { getByTestId, queryByTestId, getAllByTestId } = renderWithRouter(
+    expect.assertions(29);
+    const { getByTestId, queryByTestId } = renderWithRouter(
       <PlanetsDBProvider>
         <NumericFilters />
         <Table />
@@ -216,11 +216,15 @@ describe('Tests Number Filter Inputs component', () => {
     });
 
     reverseArray.forEach((rowIndex) => {
-      fireEvent.click(getByTestId(`remove-filter-button-${rowIndex}`));
-      if (queryByTestId(`remove-filter-button-${rowIndex}`) !== null) {
+      if (rowIndex !== 0) {
         fireEvent.click(getByTestId(`remove-filter-button-${rowIndex}`));
+        fireEvent.click(getByTestId(`remove-filter-button-${rowIndex - 1}`));
+        expect(queryByTestId(`remove-filter-button-${rowIndex}`)).toBeNull();
+      } else {
+        fireEvent.click(getByTestId(`remove-filter-button-${rowIndex}`));
+        fireEvent.click(getByTestId(`remove-filter-button-${rowIndex}`));
+        expect(getByTestId(`remove-filter-button-${rowIndex}`)).toBeInTheDocument();
       }
-      if (rowIndex !== 0) expect(getAllByTestId(/remove-filter-button/g).length).toBe(rowIndex);
     });
 
     expect(queryByTestId('remove-filter-button-0')).toBeInTheDocument();
