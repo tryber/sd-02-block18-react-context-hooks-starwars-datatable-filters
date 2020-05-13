@@ -69,10 +69,11 @@ function renderNumberInput(filterIndex, actualValue, setFilter) {
   );
 }
 
-function renderRemoveButton(filterIndex, filters, setFilters) {
-  const numericFilters = filters.filter((filter) => 'numericValues' in filter);
+function renderRemoveButton(filterIndex, filter, filters, setFilters) {
+  const numericFilters = filters.filter((eachFilter) => 'numericValues' in eachFilter);
+
   const removeFilterRow = () => numericFilters.length > 1 && setFilters(
-    [...filters.filter((filter, index) => index !== filterIndex)],
+    [...filters.filter((el, index) => index !== filters.indexOf(filter))],
   );
 
   return (
@@ -117,7 +118,7 @@ export default function NumericFilters() {
           {renderColumnsOptions(filterIndex, actualColumn, filters, setFilter)}
           {renderComparisonOptions(filterIndex, actualComparison, setFilter)}
           {renderNumberInput(filterIndex, actualValue, setFilter)}
-          {renderRemoveButton(filterIndex, filters, setFilters)}
+          {renderRemoveButton(filterIndex, filter, filters, setFilters)}
         </div>
       );
     })

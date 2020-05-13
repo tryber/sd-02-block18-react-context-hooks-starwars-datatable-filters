@@ -28,6 +28,7 @@ describe('Tests Table component', () => {
         <Table />
       </PlanetsDBProvider>,
     );
+
     await wait(() => getAllByTestId('table-row'));
     const tableRows = getAllByTestId('table-row');
     const rowsData = tableRows.map((row) => String(row.innerHTML));
@@ -38,15 +39,14 @@ describe('Tests Table component', () => {
     );
     await waitForNextUpdate();
 
-    fetchedPlanets.current.forEach((planet, index) => Object.keys(planet).forEach(
+    fetchedPlanets.current.forEach((planet) => Object.keys(planet).forEach(
       (property) => {
         if (property === 'residents') return null;
         if (property === 'films') {
-          return expect(rowsData[index])
-            .toEqual(expect.stringContaining(`${planet[property]}`.replace(/,/g, '')));
+          return expect(rowsData.some((row) => row.includes(`${planet[property]}`.replace(/,/g, '')))).toBeTruthy();
         }
-        console.log('planet-property: ', planet[property], 'rowsData: ', rowsData[index]);
-        return expect(planet[property].includes(rowsData[index])).toBeTruthy();
+        // console.log('planet-property: ', planet[property], 'rowsData: ', rowsData);
+        return expect(rowsData.some((row) => row.includes(planet[property]))).toBeTruthy();
       },
     ));
   }, 60000);
@@ -64,10 +64,11 @@ describe('Tests Table component', () => {
 
     fireEvent.change(nameFilterInput, { target: { value: 'tatooine' } });
 
-    await wait(() => getAllByTestId('table-row'));
+    await wait(() => getByTestId('table-row'));
     const tableRows = getAllByTestId('table-row');
     const rowsData = tableRows.map((row) => String(row.innerHTML));
 
+    tableRows.forEach((row) => expect(row).toBeInTheDocument());
     expect(tableRows.length).toBe(1);
     expect(rowsData[0]).toMatch(/tatooine/i);
   }, 60000);
