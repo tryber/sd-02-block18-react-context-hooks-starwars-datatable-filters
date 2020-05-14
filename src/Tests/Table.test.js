@@ -23,6 +23,6 @@ describe('Table', () => {
     expect(dagobah).not.toBeInTheDocument();
 
     const alderaan = getByText(/alderaan/i);
-    expect(alderaan).not.toBeInTheDocument();
+    expect(alderaan).toBeInTheDocument();
   });
 });
