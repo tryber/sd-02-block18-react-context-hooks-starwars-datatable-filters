@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import SwContext from '../Context';
 
 const Thead = () => {
-  const { planetsToFilter } = useContext(SwContext);
-  const tableTitle = planetsToFilter
-    ? Object.keys(planetsToFilter[0])
+  const { planets } = useContext(SwContext);
+  const tableTitle = planets
+    ? Object.keys(planets[0])
     : [];
 
   return (
