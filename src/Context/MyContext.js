@@ -9,6 +9,9 @@ const MyContext = ({ children }) => {
   const [errorRequest, setErrorRequest] = useState('');
   const [planetsToFilter, setPlanetsToFilter] = useState([]);
   const [userInputName, setUserInputName] = useState('');
+  const [filters, setFilters] = useState([]);
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
 
   const successPlanets = (data) => {
     setPlanets(data.results);
@@ -43,6 +46,12 @@ const MyContext = ({ children }) => {
     setPlanetsToFilter,
     userInputName,
     setUserInputName,
+    filters,
+    setFilters,
+    column,
+    setColumn,
+    comparison,
+    setComparison,
   };
 
   return (
