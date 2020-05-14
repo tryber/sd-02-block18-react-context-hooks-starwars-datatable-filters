@@ -5,7 +5,7 @@ const NameInput = () => {
   const { setUserInputName } = useContext(SwContext);
   const setAlphaValue = (inputValue) => (
     inputValue.match(/[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/)
-      ? setUserInputName(inputValue) : null
+    && setUserInputName(inputValue)
   );
   return (
     <div>

@@ -3,10 +3,7 @@ import SwContext from '../Context';
 
 const Thead = () => {
   const { planets } = useContext(SwContext);
-  const tableTitle = planets
-    ? Object.keys(planets[0])
-    : [];
-
+  const tableTitle = planets && Object.keys(planets[0]);
   return (
     <thead>
       <tr key="Row of column values">
