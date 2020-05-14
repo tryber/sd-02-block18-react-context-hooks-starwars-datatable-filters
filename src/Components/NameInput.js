@@ -9,7 +9,11 @@ const NameInput = () => {
   );
   return (
     <div>
-      <input type="text" onChange={(e) => setAlphaValue(e.target.value)} />
+      <input
+        type="text"
+        data-testid="alpha-input-user-search"
+        onChange={(e) => setAlphaValue(e.target.value)}
+      />
     </div>
   );
 };

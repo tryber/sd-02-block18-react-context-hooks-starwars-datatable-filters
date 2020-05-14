@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, waitForDomChange } from '@testing-library/react';
+import { render, waitForDomChange, fireEvent } from '@testing-library/react';
 import MyContext from '../Context/MyContext';
 import App from '../App';
 
 describe('Table', () => {
   test('Table shows values', async () => {
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <MyContext>
         <App />
       </MyContext>,
@@ -15,5 +15,14 @@ describe('Table', () => {
     expect(name).toBeInTheDocument();
     const dagobah = getByText(/dagobah/i);
     expect(dagobah).toBeInTheDocument();
+
+    const inputName = getByTestId(/alpha-input-user-search/i);
+    expect(inputName).toBeInTheDocument();
+
+    fireEvent.change(inputName, { target: { value: 'aa' } });
+    expect(dagobah).not.toBeInTheDocument();
+
+    const alderaan = getByText(/alderaan/i);
+    expect(alderaan).not.toBeInTheDocument();
   });
 });
