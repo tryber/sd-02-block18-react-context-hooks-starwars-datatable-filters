@@ -16,6 +16,23 @@ const numericFilters = (firstFilter, { numericValues }) => {
   return firstFilter;
 };
 
+const generateBody = (data, text, filters) => {
+  let firstFilter = data;
+  filters.forEach((x) => { firstFilter = numericFilters(firstFilter, x); });
+  return (
+    firstFilter
+      .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
+      .map((values) => (
+        <tbody key={values.name}>
+          <tr>
+            {Object.values(values).map((box, index) => (index !== 9
+              && <td className="tableData" data-testid={box} key={box}>{box}</td>
+            ))}
+          </tr>
+        </tbody>
+      )));
+};
+
 const GenerateTable = () => {
   const {
     data,
@@ -23,22 +40,7 @@ const GenerateTable = () => {
     filters,
     text,
   } = useContext(SWContext);
-  const generateBody = () => {
-    let firstFilter = data;
-    filters.forEach((x) => { firstFilter = numericFilters(firstFilter, x); });
-    return (
-      firstFilter
-        .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
-        .map((values) => (
-          <tbody key={values.name}>
-            <tr>
-              {Object.values(values).map((box, index) => (index !== 9
-                && <td className="tableData" data-testid={box} key={box}>{box}</td>
-              ))}
-            </tr>
-          </tbody>
-        )));
-  };
+
   if (data) {
     return (
       <table>

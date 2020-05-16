@@ -11,6 +11,47 @@ const SWProvider = ({ children }) => {
   const [columnOptions, setColumnOptions] = useState(allColumns);
   const [filters, setFilters] = useState([{ numericValues: { column: '', comparison: '', value: '' } }]);
   const [sFilters, setSFilters] = useState([{ column: 'Name', order: 'ASC' }]);
+  const [newNumericValues, setNewNumericValues] = useState({ numericValues: { column: '', comparison: '', value: '' } });
+  const changeNewNumericValues = (value, e) => {
+    setNewNumericValues({
+      ...newNumericValues,
+      numericValues: {
+        ...newNumericValues.numericValues,
+        [value]: e.target.value,
+      },
+    });
+  };
+  const generateColumns = () => (
+    columnOptions.length !== 0 && (
+      <div>
+        <select
+          onChange={(e) => changeNewNumericValues('column', e)}
+        >
+          <option value="" hidden>Select Column</option>
+          {columnOptions
+            .map((option) => <option key={option} name="column" value={option}>{option}</option>)}
+        </select>
+      </div>
+    )
+  );
+  const generateComparison = () => {
+    const comparison = ['more than', 'equal to', 'less than'];
+    return columnOptions.length !== 0 && (
+      <select onChange={(e) => changeNewNumericValues('comparison', e)}>
+        <option value="">Select Comparison</option>
+        {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
+      </select>
+    );
+  };
+  const generateNumeric = () => (
+    columnOptions.length !== 0 && (
+      <input
+        type="number"
+        placeholder="type a number here!"
+        onChange={(e) => changeNewNumericValues('value', e)}
+      />
+    )
+  );
   const filterByText = (string) => {
     setText(string);
   };
@@ -57,6 +98,9 @@ const SWProvider = ({ children }) => {
     eraseColumn,
     sFilters,
     setSFilters,
+    generateColumns,
+    generateComparison,
+    generateNumeric,
   };
   // render
   return (
