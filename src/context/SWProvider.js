@@ -21,27 +21,23 @@ const SWProvider = ({ children }) => {
       },
     });
   };
-  const generateColumns = () => (
-    columnOptions.length !== 0 && (
-      <div>
-        <select
-          onChange={(e) => changeNewNumericValues('column', e)}
-        >
-          <option value="" hidden>Select Column</option>
-          {columnOptions
-            .map((option) => <option key={option} name="column" value={option}>{option}</option>)}
-        </select>
-      </div>
-    )
-  );
-  const generateComparison = () => {
-    const comparison = ['more than', 'equal to', 'less than'];
-    return columnOptions.length !== 0 && (
-      <select onChange={(e) => changeNewNumericValues('comparison', e)}>
-        <option value="">Select Comparison</option>
-        {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
-      </select>
-    );
+  const sortStrings = () => {
+    const { column, order } = sFilters[0];
+    if (order === 'ASC') {
+      setData(data.sort((a, b) => (a[column] < b[column] ? 1 : -1)));
+    }
+    if ((order === 'DESC')) {
+      setData(data.sort((a, b) => (a[column] > b[column] ? 1 : -1)));
+    }
+  };
+  const sortNumbers = () => {
+    const { column, order } = sFilters[0];
+    if (order === 'ASC') {
+      setData(data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1)));
+    }
+    if ((order === 'DESC')) {
+      setData(data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1)));
+    }
   };
   const generateNumeric = () => (
     columnOptions.length !== 0 && (
@@ -108,8 +104,9 @@ const SWProvider = ({ children }) => {
     eraseColumn,
     sFilters,
     setSFilters,
-    generateColumns,
-    generateComparison,
+    sortStrings,
+    sortNumbers,
+    changeNewNumericValues,
     generateNumeric,
     createFilter,
   };
