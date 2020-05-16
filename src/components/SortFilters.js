@@ -4,12 +4,40 @@ import SWContext from '../context/starWarsContext';
 const SortFilters = () => {
   const {
     data,
+    setData,
     sFilters,
-    sortColumn,
-    sortOrder,
-    sortStrings,
-    sortNumbers,
+    setSFilters,
   } = useContext(SWContext);
+  const sortColumn = (e) => {
+    setSFilters([{
+      ...sFilters[0],
+      column: e.target.value,
+    }]);
+  };
+  const sortOrder = (e) => {
+    setSFilters([{
+      ...sFilters[0],
+      order: e.target.value,
+    }]);
+  };
+  const sortStrings = () => {
+    const { column, order } = sFilters[0];
+    if (order === 'ASC') {
+      setData(data.sort((a, b) => (a[column] < b[column] ? 1 : -1)));
+    }
+    if ((order === 'DESC')) {
+      setData(data.sort((a, b) => (a[column] > b[column] ? 1 : -1)));
+    }
+  };
+  const sortNumbers = () => {
+    const { column, order } = sFilters[0];
+    if (order === 'ASC') {
+      setData(data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1)));
+    }
+    if ((order === 'DESC')) {
+      setData(data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1)));
+    }
+  };
   const changeOrderandState = (e) => {
     const { column, order } = sFilters[0];
     const arrayStrings = ['name', 'climate', 'gravity', 'terrain', 'films', 'url'];
