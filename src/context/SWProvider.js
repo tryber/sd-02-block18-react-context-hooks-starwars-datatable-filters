@@ -52,6 +52,16 @@ const SWProvider = ({ children }) => {
       />
     )
   );
+  const createFilter = () => {
+    if (columnOptions.length > 0) {
+      setFilters(filters[0].numericValues.column === ''
+        ? [newNumericValues]
+        : filters.concat(newNumericValues));
+    }
+    const columnFilter = columnOptions
+      .filter((item) => item !== newNumericValues.numericValues.column);
+    setColumnOptions(columnFilter);
+  };
   const filterByText = (string) => {
     setText(string);
   };
@@ -101,6 +111,7 @@ const SWProvider = ({ children }) => {
     generateColumns,
     generateComparison,
     generateNumeric,
+    createFilter,
   };
   // render
   return (
