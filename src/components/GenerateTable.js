@@ -1,44 +1,28 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import SWContext from '../context/starWarsContext';
-import fetchPlanetFromServices from '../services/swAPI';
+
+const numericFilters = (firstFilter, { numericValues }) => {
+  const { column, comparison, value } = numericValues;
+  const columnBool = (column !== '' && value !== '');
+  if (comparison === 'more than' && columnBool) {
+    return firstFilter.filter((planet) => planet[column] > parseInt(value, 10));
+  }
+  if (comparison === 'less than' && columnBool) {
+    return firstFilter.filter((planet) => planet[column] < parseInt(value, 10));
+  }
+  if (comparison === 'equal to' && columnBool) {
+    return firstFilter.filter((planet) => planet[column] === parseInt(value, 10));
+  }
+  return firstFilter;
+};
 
 const GenerateTable = () => {
   const {
     data,
-    setData,
     error,
-    setError,
     filters,
     text,
   } = useContext(SWContext);
-  const handleSWSuccess = (response) => {
-    const { results } = response;
-    setData(results.sort((a, b) => (a.name > b.name ? 1 : -1)));
-  };
-  const handleSWFailure = (response) => {
-    setError(response.message);
-  };
-  useEffect(() => {
-    fetchPlanetFromServices()
-      .then(
-        (response) => handleSWSuccess(response),
-        (response) => handleSWFailure(response),
-      );
-  }, []);
-  const numericFilters = (firstFilter, { numericValues }) => {
-    const { column, comparison, value } = numericValues;
-    const columnBool = (column !== '' && value !== '');
-    if (comparison === 'more than' && columnBool) {
-      return firstFilter.filter((planet) => planet[column] > parseInt(value, 10));
-    }
-    if (comparison === 'less than' && columnBool) {
-      return firstFilter.filter((planet) => planet[column] < parseInt(value, 10));
-    }
-    if (comparison === 'equal to' && columnBool) {
-      return firstFilter.filter((planet) => planet[column] === parseInt(value, 10));
-    }
-    return firstFilter;
-  };
   const generateBody = () => {
     let firstFilter = data;
     filters.forEach((x) => { firstFilter = numericFilters(firstFilter, x); });
