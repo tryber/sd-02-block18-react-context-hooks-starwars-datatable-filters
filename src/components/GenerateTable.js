@@ -40,7 +40,6 @@ const GenerateTable = () => {
     filters,
     text,
   } = useContext(SWContext);
-
   if (data) {
     return (
       <table>

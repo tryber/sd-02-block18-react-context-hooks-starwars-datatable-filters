@@ -8,17 +8,12 @@ const SortFilters = () => {
     sFilters,
     setSFilters,
     data,
+    sortOrder,
   } = useContext(SWContext);
   const sortColumn = (e) => {
     setSFilters([{
       ...sFilters[0],
       column: e.target.value,
-    }]);
-  };
-  const sortOrder = (e) => {
-    setSFilters([{
-      ...sFilters[0],
-      order: e.target.value,
     }]);
   };
   const changeOrderandState = (e) => {

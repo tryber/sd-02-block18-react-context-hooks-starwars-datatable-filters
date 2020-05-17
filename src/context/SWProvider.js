@@ -39,6 +39,28 @@ const SWProvider = ({ children }) => {
       setData(data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1)));
     }
   };
+  const generateColumns = () => (
+    columnOptions.length !== 0 && (
+      <div>
+        <select
+          onChange={(e) => changeNewNumericValues('column', e)}
+        >
+          <option value="" hidden>Select Column</option>
+          {columnOptions
+            .map((option) => <option key={option} name="column" value={option}>{option}</option>)}
+        </select>
+      </div>
+    )
+  );
+  const generateComparison = () => {
+    const comparison = ['more than', 'equal to', 'less than'];
+    return columnOptions.length !== 0 && (
+      <select onChange={(e) => changeNewNumericValues('comparison', e)}>
+        <option value="">Select Comparison</option>
+        {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
+      </select>
+    );
+  };
   const generateNumeric = () => (
     columnOptions.length !== 0 && (
       <input
@@ -90,6 +112,12 @@ const SWProvider = ({ children }) => {
     setFilters(restoreFilter.length === 0 ? [initialFilter.filters[0]] : restoreFilter);
     setColumnOptions([...columnOptions, column]);
   };
+  const sortOrder = (e) => {
+    setSFilters([{
+      ...sFilters[0],
+      order: e.target.value,
+    }]);
+  };
   // export
   const context = {
     data,
@@ -104,9 +132,11 @@ const SWProvider = ({ children }) => {
     eraseColumn,
     sFilters,
     setSFilters,
+    sortOrder,
     sortStrings,
     sortNumbers,
-    changeNewNumericValues,
+    generateColumns,
+    generateComparison,
     generateNumeric,
     createFilter,
   };
