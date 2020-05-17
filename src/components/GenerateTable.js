@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import SWContext from '../context/starWarsContext';
-import fetchPlanetFromServices from '../services/swAPI';
 
 const numericFilters = (firstFilter, { numericValues }) => {
   const { column, comparison, value } = numericValues;
@@ -38,18 +37,10 @@ const GenerateTable = () => {
   const {
     data,
     error,
-    handleSWFailure,
-    handleSWSuccess,
     filters,
     text,
   } = useContext(SWContext);
-  useEffect(() => {
-    fetchPlanetFromServices()
-      .then(
-        (response) => handleSWSuccess(response),
-        (response) => handleSWFailure(response),
-      );
-  }, []);
+
   if (data) {
     return (
       <table>

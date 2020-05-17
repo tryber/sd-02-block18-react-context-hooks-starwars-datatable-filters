@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import SWContext from './starWarsContext';
+import fetchPlanetFromServices from '../services/swAPI';
 
 const allColumns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
@@ -27,6 +28,13 @@ const SWProvider = ({ children }) => {
   const handleSWFailure = (response) => {
     setError(response.message);
   };
+  useEffect(() => {
+    fetchPlanetFromServices()
+      .then(
+        (response) => handleSWSuccess(response),
+        (response) => handleSWFailure(response),
+      );
+  }, []);
   const sortData = () => {
     const { column, order } = sFilters[0];
     const sortedArray = data.sort((a, b) => a[column] - b[column] || a[column]
@@ -104,8 +112,6 @@ const SWProvider = ({ children }) => {
   const context = {
     data,
     error,
-    handleSWFailure,
-    handleSWSuccess,
     filterByText,
     filters,
     text,
