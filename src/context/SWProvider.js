@@ -22,6 +22,7 @@ const SWProvider = ({ children }) => {
       },
     });
   };
+  
   const handleSWSuccess = (response) => {
     setData(response.results.sort((a, b) => (a.name > b.name ? 1 : -1)));
   };
@@ -96,18 +97,7 @@ const SWProvider = ({ children }) => {
     setFilters(restoreFilter.length === 0 ? [initialFilter.filters[0]] : restoreFilter);
     setColumnOptions([...columnOptions, column]);
   };
-  const sortOrder = (e) => {
-    setSFilters([{
-      ...sFilters[0],
-      order: e.target.value,
-    }]);
-  };
-  const sortColumn = (e) => {
-    setSFilters([{
-      ...sFilters[0],
-      column: e.target.value,
-    }]);
-  };
+
   // export
   const context = {
     data,
@@ -119,8 +109,7 @@ const SWProvider = ({ children }) => {
     eraseColumn,
     columnOptions,
     sFilters,
-    sortOrder,
-    sortColumn,
+    setSFilters,
     sortData,
     generateColumns,
     generateComparison,
