@@ -73,7 +73,21 @@ const SWProvider = ({ children }) => {
   const filterByText = (string) => {
     setText(string);
   };
-
+  const eraseColumn = (array, column) => {
+    const restoreFilter = array.filter(({ numericValues }) => (numericValues.column !== column));
+    const initialFilter = {
+      filters: [{
+        numericValues: {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      },
+      ],
+    };
+    setFilters(restoreFilter.length === 0 ? [initialFilter.filters[0]] : restoreFilter);
+    setColumnOptions([...columnOptions, column]);
+  };
   const sortOrder = (e) => {
     setSFilters([{
       ...sFilters[0],
@@ -94,11 +108,10 @@ const SWProvider = ({ children }) => {
     handleSWSuccess,
     filterByText,
     filters,
-    setFilters,
     text,
     setText,
+    eraseColumn,
     columnOptions,
-    setColumnOptions,
     sFilters,
     sortOrder,
     sortColumn,
