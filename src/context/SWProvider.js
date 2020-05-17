@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import SWContext from './starWarsContext';
 
+const allColumns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+
 const SWProvider = ({ children }) => {
   const [data, setData] = useState('');
   const [error, setError] = useState(null);
   const [text, setText] = useState('');
-  const allColumns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   const [columnOptions, setColumnOptions] = useState(allColumns);
   const [filters, setFilters] = useState([{ numericValues: { column: '', comparison: '', value: '' } }]);
   const [sFilters, setSFilters] = useState([{ column: 'Name', order: 'ASC' }]);
@@ -19,6 +20,12 @@ const SWProvider = ({ children }) => {
         [value]: e.target.value,
       },
     });
+  };
+  const handleSWSuccess = (response) => {
+    setData(response.results.sort((a, b) => (a.name > b.name ? 1 : -1)));
+  };
+  const handleSWFailure = (response) => {
+    setError(response.message);
   };
   const sortData = () => {
     const { column, order } = sFilters[0];
@@ -66,21 +73,7 @@ const SWProvider = ({ children }) => {
   const filterByText = (string) => {
     setText(string);
   };
-  const eraseColumn = (array, column) => {
-    const restoreFilter = array.filter(({ numericValues }) => (numericValues.column !== column));
-    const initialFilter = {
-      filters: [{
-        numericValues: {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      },
-      ],
-    };
-    setFilters(restoreFilter.length === 0 ? [initialFilter.filters[0]] : restoreFilter);
-    setColumnOptions([...columnOptions, column]);
-  };
+
   const sortOrder = (e) => {
     setSFilters([{
       ...sFilters[0],
@@ -96,9 +89,9 @@ const SWProvider = ({ children }) => {
   // export
   const context = {
     data,
-    setData,
     error,
-    setError,
+    handleSWFailure,
+    handleSWSuccess,
     filterByText,
     filters,
     setFilters,
@@ -106,7 +99,6 @@ const SWProvider = ({ children }) => {
     setText,
     columnOptions,
     setColumnOptions,
-    eraseColumn,
     sFilters,
     sortOrder,
     sortColumn,

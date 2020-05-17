@@ -37,19 +37,12 @@ const generateBody = (data, text, filters) => {
 const GenerateTable = () => {
   const {
     data,
-    setData,
     error,
-    setError,
+    handleSWFailure,
+    handleSWSuccess,
     filters,
     text,
   } = useContext(SWContext);
-  const handleSWSuccess = (response) => {
-    const { results } = response;
-    setData(results.sort((a, b) => (a.name > b.name ? 1 : -1)));
-  };
-  const handleSWFailure = (response) => {
-    setError(response.message);
-  };
   useEffect(() => {
     fetchPlanetFromServices()
       .then(
@@ -67,7 +60,7 @@ const GenerateTable = () => {
             ))}
           </tr>
         </thead>
-        {data && generateBody(data, text, filters)}
+        {generateBody(data, text, filters)}
       </table>
     );
   }
