@@ -10,17 +10,19 @@ const Dropdowns = () => {
     createFilter,
   } = useContext(SWContext);
 
-  const buttonFilters = () => (
-    <button type="button" onClick={() => columnOptions.length > 0 && createFilter()}>Filter!</button>
-  );
   return (
     <div>
       {columnOptions.length !== 0
         ? (
-          [generateColumns(),
-            generateComparison(),
-            generateNumeric(),
-            buttonFilters(),
+      [generateColumns(),
+        generateComparison(),
+        generateNumeric(),
+        <button
+          type="button"
+          onClick={() => createFilter()}
+        >
+        Filter!
+        </button>,
           ])
         : <div>No more filters available!</div>}
     </div>
