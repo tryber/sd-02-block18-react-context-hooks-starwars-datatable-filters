@@ -22,7 +22,6 @@ const SWProvider = ({ children }) => {
       },
     });
   };
-  
   const handleSWSuccess = (response) => {
     setData(response.results.sort((a, b) => (a.name > b.name ? 1 : -1)));
   };
