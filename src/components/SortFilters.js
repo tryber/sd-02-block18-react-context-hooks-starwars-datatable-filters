@@ -6,16 +6,10 @@ const SortFilters = () => {
     sortStrings,
     sortNumbers,
     sFilters,
-    setSFilters,
     data,
     sortOrder,
+    sortColumn,
   } = useContext(SWContext);
-  const sortColumn = (e) => {
-    setSFilters([{
-      ...sFilters[0],
-      column: e.target.value,
-    }]);
-  };
   const changeOrderandState = (e) => {
     const { column, order } = sFilters[0];
     const arrayStrings = ['name', 'climate', 'gravity', 'terrain', 'films', 'url'];

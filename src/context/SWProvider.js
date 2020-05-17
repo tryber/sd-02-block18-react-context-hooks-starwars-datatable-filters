@@ -118,6 +118,12 @@ const SWProvider = ({ children }) => {
       order: e.target.value,
     }]);
   };
+  const sortColumn = (e) => {
+    setSFilters([{
+      ...sFilters[0],
+      column: e.target.value,
+    }]);
+  };
   // export
   const context = {
     data,
@@ -131,8 +137,8 @@ const SWProvider = ({ children }) => {
     setColumnOptions,
     eraseColumn,
     sFilters,
-    setSFilters,
     sortOrder,
+    sortColumn,
     sortStrings,
     sortNumbers,
     generateColumns,
