@@ -23,7 +23,7 @@ const Dropdowns = () => {
         >
         Filter!
         </button>,
-          ])
+      ])
         : <div>No more filters available!</div>}
     </div>
 
