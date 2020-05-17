@@ -1,24 +1,17 @@
 import React, { useContext } from 'react';
 import SWContext from '../context/starWarsContext';
 
-const arrayStrings = ['name', 'climate', 'gravity', 'terrain', 'films', 'url'];
-
 const SortFilters = () => {
   const {
-    sortStrings,
-    sortNumbers,
     sFilters,
+    sortData,
     data,
     sortOrder,
     sortColumn,
   } = useContext(SWContext);
   const changeOrderandState = (e) => {
-    const { column, order } = sFilters[0];
     sortOrder(e);
-    return ((arrayStrings.some((param) => param === column))
-      ? sortStrings(data, column, order)
-      : sortNumbers(data, column, order)
-    );
+    sortData();
   };
   return (
     <div>

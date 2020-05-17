@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import SWContext from './starWarsContext';
-import fetchPlanetFromServices from '../services/swAPI';
 
 const SWProvider = ({ children }) => {
   const [data, setData] = useState('');
@@ -21,40 +20,28 @@ const SWProvider = ({ children }) => {
       },
     });
   };
-  const sortStrings = () => {
+  const sortData = () => {
     const { column, order } = sFilters[0];
-    if (order === 'ASC') {
-      setData(data.sort((a, b) => (a[column] < b[column] ? 1 : -1)));
-    }
-    if ((order === 'DESC')) {
-      setData(data.sort((a, b) => (a[column] > b[column] ? 1 : -1)));
-    }
-  };
-  const sortNumbers = () => {
-    const { column, order } = sFilters[0];
-    if (order === 'ASC') {
-      setData(data.sort((a, b) => (parseInt(a[column], 10) < parseInt(b[column], 10) ? 1 : -1)));
-    }
-    if ((order === 'DESC')) {
-      setData(data.sort((a, b) => (parseInt(a[column], 10) > parseInt(b[column], 10) ? 1 : -1)));
-    }
+    const sortedArray = data.sort((a, b) => a[column] - b[column] || a[column]
+      .toString().localeCompare(b[column].toString()));
+    return order === 'ASC'
+      ? setData(sortedArray)
+      : setData(sortedArray.reverse());
   };
   const generateColumns = () => (
-    columnOptions.length !== 0 && (
-      <div>
-        <select
-          onChange={(e) => changeNewNumericValues('column', e)}
-        >
-          <option value="" hidden>Select Column</option>
-          {columnOptions
-            .map((option) => <option key={option} name="column" value={option}>{option}</option>)}
-        </select>
-      </div>
-    )
+    <div>
+      <select
+        onChange={(e) => changeNewNumericValues('column', e)}
+      >
+        <option value="" hidden>Select Column</option>
+        {columnOptions
+          .map((option) => <option key={option} name="column" value={option}>{option}</option>)}
+      </select>
+    </div>
   );
   const generateComparison = () => {
     const comparison = ['more than', 'equal to', 'less than'];
-    return columnOptions.length !== 0 && (
+    return (
       <select onChange={(e) => changeNewNumericValues('comparison', e)}>
         <option value="">Select Comparison</option>
         {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
@@ -62,20 +49,16 @@ const SWProvider = ({ children }) => {
     );
   };
   const generateNumeric = () => (
-    columnOptions.length !== 0 && (
-      <input
-        type="number"
-        placeholder="type a number here!"
-        onChange={(e) => changeNewNumericValues('value', e)}
-      />
-    )
+    <input
+      type="number"
+      placeholder="type a number here!"
+      onChange={(e) => changeNewNumericValues('value', e)}
+    />
   );
   const createFilter = () => {
-    if (columnOptions.length > 0) {
-      setFilters(filters[0].numericValues.column === ''
-        ? [newNumericValues]
-        : filters.concat(newNumericValues));
-    }
+    setFilters(filters[0].numericValues.column === ''
+      ? [newNumericValues]
+      : filters.concat(newNumericValues));
     const columnFilter = columnOptions
       .filter((item) => item !== newNumericValues.numericValues.column);
     setColumnOptions(columnFilter);
@@ -83,20 +66,6 @@ const SWProvider = ({ children }) => {
   const filterByText = (string) => {
     setText(string);
   };
-  const handleSWSuccess = (response) => {
-    const { results } = response;
-    setData(results.sort((a, b) => (a.name > b.name ? 1 : -1)));
-  };
-  const handleSWFailure = (response) => {
-    setError(response.message);
-  };
-  useEffect(() => {
-    fetchPlanetFromServices()
-      .then(
-        (response) => handleSWSuccess(response),
-        (response) => handleSWFailure(response),
-      );
-  }, []);
   const eraseColumn = (array, column) => {
     const restoreFilter = array.filter(({ numericValues }) => (numericValues.column !== column));
     const initialFilter = {
@@ -127,7 +96,9 @@ const SWProvider = ({ children }) => {
   // export
   const context = {
     data,
+    setData,
     error,
+    setError,
     filterByText,
     filters,
     setFilters,
@@ -139,8 +110,7 @@ const SWProvider = ({ children }) => {
     sFilters,
     sortOrder,
     sortColumn,
-    sortStrings,
-    sortNumbers,
+    sortData,
     generateColumns,
     generateComparison,
     generateNumeric,
