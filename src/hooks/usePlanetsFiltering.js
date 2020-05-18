@@ -30,17 +30,23 @@ const addNewFilterRow = (filters, setFilters) => {
   }
 };
 
+
 const sortColumns = (filteredPlanets, filters) => {
+  const sortValue = (value) => {
+    const noUnknownValue = value === 'unknown' ? 99999999999999999999 : value;
+    return String(noUnknownValue).match(/[aA-zZ]/g) ? String(noUnknownValue) : Number(noUnknownValue);
+  };
+
   let sortedPlanets = [];
   filters.forEach(({ order, column }) => {
     if (order && order === 'ASC') {
       sortedPlanets = filteredPlanets.sort(
-        (planetA, planetB) => (planetA[column] > planetB[column] ? 1 : -1),
+        (planetA, planetB) => (sortValue(planetA[column]) > sortValue(planetB[column]) ? 1 : -1),
       );
     }
     if (order && order === 'DESC') {
       sortedPlanets = filteredPlanets.sort(
-        (planetA, planetB) => (planetA[column] < planetB[column] ? 1 : -1),
+        (planetA, planetB) => sortValue((planetA[column]) < sortValue(planetB[column]) ? 1 : -1),
       );
     }
     sortedPlanets = filteredPlanets;
