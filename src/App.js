@@ -1,24 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Table from './components/Table';
+import NameFilter from './components/NameFilter';
+import NumericFilters from './components/NumericFilters';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" data-testid="main-app">
+      <div data-testid="table-container-app">
+        <h1>StarWars Datatable with Filters</h1>
+        <div>
+          <NameFilter />
+        </div>
+        <div>
+          <NumericFilters />
+        </div>
+        <Table />
+      </div>
     </div>
   );
 }
