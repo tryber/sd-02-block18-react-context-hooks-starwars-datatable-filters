@@ -35,34 +35,6 @@ const SWProvider = ({ children }) => {
         (response) => handleSWFailure(response),
       );
   }, []);
-
-  const generateColumns = () => (
-    <div>
-      <select
-        onChange={(e) => changeNewNumericValues('column', e)}
-      >
-        <option value="" hidden>Select Column</option>
-        {columnOptions
-          .map((option) => <option key={option} name="column" value={option}>{option}</option>)}
-      </select>
-    </div>
-  );
-  const generateComparison = () => {
-    const comparison = ['more than', 'equal to', 'less than'];
-    return (
-      <select onChange={(e) => changeNewNumericValues('comparison', e)}>
-        <option value="">Select Comparison</option>
-        {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
-      </select>
-    );
-  };
-  const generateNumeric = () => (
-    <input
-      type="number"
-      placeholder="type a number here!"
-      onChange={(e) => changeNewNumericValues('value', e)}
-    />
-  );
   const createFilter = () => {
     setFilters(filters[0].numericValues.column === ''
       ? [newNumericValues]
@@ -99,9 +71,7 @@ const SWProvider = ({ children }) => {
     columnOptions,
     sFilters,
     setSFilters,
-    generateColumns,
-    generateComparison,
-    generateNumeric,
+    changeNewNumericValues,
     createFilter,
   };
   // render
