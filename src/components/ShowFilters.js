@@ -4,26 +4,8 @@ import SWContext from '../context/starWarsContext';
 const ShowFilters = () => {
   const {
     filters,
-    setFilters,
-    columnOptions,
-    setColumnOptions,
+    eraseColumn,
   } = useContext(SWContext);
-
-  const eraseColumn = (array, column) => {
-    const restoreFilter = array.filter(({ numericValues }) => (numericValues.column !== column));
-    const initialFilter = {
-      filters: [{
-        numericValues: {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      },
-      ],
-    };
-    setFilters(restoreFilter.length === 0 ? [initialFilter.filters[0]] : restoreFilter);
-    setColumnOptions([...columnOptions, column]);
-  };
 
   return filters[0].numericValues.column && (
     <div className="filterContainer">

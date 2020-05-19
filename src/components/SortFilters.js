@@ -10,10 +10,7 @@ const SortFilters = () => {
   } = useContext(SWContext);
   const sortOrder = (e) => { setSFilters([{ ...sFilters[0], order: e.target.value }]); };
   const sortColumn = (e) => { setSFilters([{ ...sFilters[0], column: e.target.value }]); };
-  const changeOrderandState = (e) => {
-    sortOrder(e);
-    sortData();
-  };
+  const changeOrderandState = (e) => { sortOrder(e); sortData(); };
   return (
     <div>
       <select onClick={(e) => sortColumn(e)}>
