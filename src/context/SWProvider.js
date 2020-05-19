@@ -35,14 +35,7 @@ const SWProvider = ({ children }) => {
         (response) => handleSWFailure(response),
       );
   }, []);
-  const sortData = () => {
-    const { column, order } = sFilters[0];
-    const sortedArray = data.sort((a, b) => a[column] - b[column] || a[column]
-      .toString().localeCompare(b[column].toString()));
-    return order === 'ASC'
-      ? setData(sortedArray)
-      : setData(sortedArray.reverse());
-  };
+
   const generateColumns = () => (
     <div>
       <select
@@ -100,6 +93,7 @@ const SWProvider = ({ children }) => {
   // export
   const context = {
     data,
+    setData,
     error,
     filterByText,
     filters,
@@ -109,7 +103,6 @@ const SWProvider = ({ children }) => {
     columnOptions,
     sFilters,
     setSFilters,
-    sortData,
     generateColumns,
     generateComparison,
     generateNumeric,
