@@ -7,13 +7,13 @@ import GenerateTable from './GenerateTable';
 import './Table.css';
 
 const Table = () => {
-  const { filterByText, data } = useContext(SWContext);
+  const { setText, data } = useContext(SWContext);
 
   return (
     <div>
       {data && (
         <div>
-          <input onChange={(e) => filterByText(e.target.value)} />
+          <input onChange={(e) => setText(e.target.value)} />
           <Dropdowns />
           <SortFilters />
           <h2>Filters:</h2>

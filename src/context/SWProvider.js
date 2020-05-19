@@ -71,9 +71,6 @@ const SWProvider = ({ children }) => {
       .filter((item) => item !== newNumericValues.numericValues.column);
     setColumnOptions(columnFilter);
   };
-  const filterByText = (string) => {
-    setText(string);
-  };
   const eraseColumn = (array, column) => {
     const restoreFilter = array.filter(({ numericValues }) => (numericValues.column !== column));
     const initialFilter = {
@@ -95,7 +92,6 @@ const SWProvider = ({ children }) => {
     data,
     setData,
     error,
-    filterByText,
     filters,
     text,
     setText,
