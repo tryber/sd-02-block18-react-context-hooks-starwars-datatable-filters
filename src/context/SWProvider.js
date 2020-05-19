@@ -63,6 +63,13 @@ const SWProvider = ({ children }) => {
       </select>
     );
   };
+  const generateNumeric = () => (
+    <input
+      type="number"
+      placeholder="type a number here!"
+      onChange={(e) => changeNewNumericValues('value', e)}
+    />
+  );
   const createFilter = () => {
     setFilters(filters[0].numericValues.column === ''
       ? [newNumericValues]
@@ -105,7 +112,7 @@ const SWProvider = ({ children }) => {
     sortData,
     generateColumns,
     generateComparison,
-    changeNewNumericValues,
+    generateNumeric,
     createFilter,
   };
   // render

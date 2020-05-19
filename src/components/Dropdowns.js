@@ -6,16 +6,10 @@ const Dropdowns = () => {
     columnOptions,
     generateColumns,
     generateComparison,
+    generateNumeric,
     createFilter,
-    changeNewNumericValues,
   } = useContext(SWContext);
-  const generateNumeric = () => (
-    <input
-      type="number"
-      placeholder="type a number here!"
-      onChange={(e) => changeNewNumericValues('value', e)}
-    />
-  );
+
   return (
     <div>
       {columnOptions.length !== 0
