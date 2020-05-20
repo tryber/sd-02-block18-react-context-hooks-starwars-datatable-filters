@@ -14,7 +14,7 @@ const SortFilters = () => {
     const { column, order } = sFilters[0];
     const sortedArray = data.sort((a, b) => a[column] - b[column] || a[column]
       .toString().localeCompare(b[column].toString()));
-    return order === 'ASC' ? setData(sortedArray) : setData(sortedArray.reverse());
+    return order === 'DESC' ? setData(sortedArray) : setData(sortedArray.reverse());
   };
   const changeOrderandState = (e) => { sortOrder(e); sortData(); };
   return (

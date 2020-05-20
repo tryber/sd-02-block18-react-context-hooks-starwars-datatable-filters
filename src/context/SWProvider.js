@@ -11,7 +11,7 @@ const SWProvider = ({ children }) => {
   const [text, setText] = useState('');
   const [columnOptions, setColumnOptions] = useState(allColumns);
   const [filters, setFilters] = useState([{ numericValues: { column: '', comparison: '', value: '' } }]);
-  const [sFilters, setSFilters] = useState([{ column: 'Name', order: 'ASC' }]);
+  const [sFilters, setSFilters] = useState([{ column: 'name', order: 'ASC' }]);
   const [newNumericValues, setNewNumericValues] = useState({ numericValues: { column: '', comparison: '', value: '' } });
   const changeNewNumericValues = (value, e) => {
     setNewNumericValues({
