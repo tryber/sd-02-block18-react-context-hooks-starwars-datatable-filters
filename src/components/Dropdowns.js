@@ -17,20 +17,20 @@ const Dropdowns = () => {
       : filters.concat(newNumericValues));
     setColumnOptions(columnOptions
       .filter((item) => item !== newNumericValues.numericValues.column));
-  }
+  };
   return (
     <div>
       {columnOptions.length !== 0
         ? (
-          [<GenerateColumns />,
-            <GenerateComparison />,
-            <button
-              type="button"
-              onClick={() => createFilter()}
-            >
-              Filter!
-            </button>,
-          ])
+      [<GenerateColumns />,
+        <GenerateComparison />,
+        <button
+          type="button"
+          onClick={() => createFilter()}
+        >
+          Filter!
+        </button>,
+      ])
         : <div>No more filters available!</div>}
     </div>
   );
