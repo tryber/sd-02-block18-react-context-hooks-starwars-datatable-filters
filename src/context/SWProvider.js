@@ -35,14 +35,7 @@ const SWProvider = ({ children }) => {
         (response) => handleSWFailure(response),
       );
   }, []);
-  const createFilter = () => {
-    setFilters(filters[0].numericValues.column === ''
-      ? [newNumericValues]
-      : filters.concat(newNumericValues));
-    const columnFilter = columnOptions
-      .filter((item) => item !== newNumericValues.numericValues.column);
-    setColumnOptions(columnFilter);
-  };
+
   const eraseColumn = (array, column) => {
     const restoreFilter = array.filter(({ numericValues }) => (numericValues.column !== column));
     const initialFilter = {
@@ -65,14 +58,16 @@ const SWProvider = ({ children }) => {
     setData,
     error,
     filters,
+    setFilters,
     text,
     setText,
     eraseColumn,
     columnOptions,
+    setColumnOptions,
     sFilters,
     setSFilters,
+    newNumericValues,
     changeNewNumericValues,
-    createFilter,
   };
   // render
   return (
