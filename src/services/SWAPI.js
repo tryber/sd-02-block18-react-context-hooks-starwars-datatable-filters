@@ -1,7 +1,7 @@
-const planetsApi = 'https://swapi-trybe.herokuapp.com/api/planets';
+const trybeAPI = 'https://swapi-trybe.herokuapp.com/api';
 
-const getCurrentSWPlanets = () => (
-  fetch(`${planetsApi}`)
+const getPlanets = () => (
+  fetch(`${trybeAPI}/planets`)
     .then((response) => (
       response
         .json()
@@ -9,4 +9,4 @@ const getCurrentSWPlanets = () => (
     ))
 );
 
-export default getCurrentSWPlanets;
+export default getPlanets;
