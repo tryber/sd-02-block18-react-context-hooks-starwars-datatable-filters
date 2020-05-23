@@ -9,6 +9,7 @@ const ComparisonSelect = () => {
       name="comparison"
       onChange={(element) => setComparison(element.target.value)}
       key="comparativeValue"
+      data-testid="comparison-insert"
     >
       <option hidden>Select a comparison</option>
       {comparativeValues.map((comparativeValue) => (

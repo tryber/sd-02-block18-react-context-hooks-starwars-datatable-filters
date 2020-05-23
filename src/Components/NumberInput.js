@@ -31,6 +31,7 @@ const NumberInput = () => {
 
   return (
     <DebounceInput
+      data-testid="value-insert"
       minLength={1}
       debounceTimeout={800}
       onChange={(e) => toFilterArray(e.target.value)}

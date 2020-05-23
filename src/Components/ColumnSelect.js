@@ -8,6 +8,7 @@ const ColumnSelect = () => {
       key="columnValue"
       name="column"
       onChange={(element) => setColumn(element.target.value)}
+      data-testid="column-insert"
     >
       <option hidden>Select a Column</option>
       {columns.map((column) => (

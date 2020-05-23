@@ -5,18 +5,19 @@ import App from '../App';
 
 describe('Table', () => {
   test('Table shows values', async () => {
-
-    const { getByText, getByTestId } = render(
+    const { getByText, getAllByText, getByTestId } = render(
       <MyContext>
         <App />
       </MyContext>,
     );
 
     await waitForDomChange();
-    const name = getByText(/name/i);
-    expect(name).toBeInTheDocument();
+    const name = getAllByText(/name/i);
+    expect(name[0]).toBeInTheDocument();
+    expect(name[1]).toBeInTheDocument();
     const dagobah = getByText(/dagobah/i);
     expect(dagobah).toBeInTheDocument();
+    expect(dagobah.tagName).toBe('TD');
 
     const inputName = getByTestId(/alpha-input-user-search/i);
     expect(inputName).toBeInTheDocument();
@@ -27,8 +28,7 @@ describe('Table', () => {
     const alderaan = getByText(/alderaan/i);
     expect(alderaan).toBeInTheDocument();
 
-    fireEvent.change(inputName, { target: { value: '' } });
-    expect(dagobah).toBeInTheDocument();
+    fireEvent.change(inputName, { target: { value: 'a' } });
 
     const insertColumn = getByTestId(/column-insert/i);
     const insertComparison = getByTestId(/comparison-insert/i);
