@@ -2,6 +2,15 @@ import React, { useContext } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import SwContext from '../Context';
 
+const inputWithDebounce = (toFilterArray) => (
+  <DebounceInput
+    data-testid="value-insert"
+    minLength={1}
+    debounceTimeout={800}
+    onChange={(e) => toFilterArray(e.target.value)}
+  />
+);
+
 const NumberInput = () => {
   const {
     filters,
@@ -29,14 +38,7 @@ const NumberInput = () => {
       ? setAndRemove(value) : alert('Preencha todos os campos')
   );
 
-  return (
-    <DebounceInput
-      data-testid="value-insert"
-      minLength={1}
-      debounceTimeout={800}
-      onChange={(e) => toFilterArray(e.target.value)}
-    />
-  );
+  return inputWithDebounce(toFilterArray);
 };
 
 export default NumberInput;

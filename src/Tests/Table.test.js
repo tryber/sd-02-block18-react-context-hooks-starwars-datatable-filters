@@ -24,22 +24,20 @@ describe('Table', () => {
 
     fireEvent.change(inputName, { target: { value: 'aa' } });
     expect(dagobah).not.toBeInTheDocument();
-
     const alderaan = getByText(/alderaan/i);
     expect(alderaan).toBeInTheDocument();
 
-    fireEvent.change(inputName, { target: { value: 'a' } });
+    fireEvent.change(inputName, { target: { value: '' } });
 
     const insertColumn = getByTestId(/column-insert/i);
     const insertComparison = getByTestId(/comparison-insert/i);
     const insertValue = getByTestId(/value-insert/i);
+    const endor = getByText(/endor/i);
+    expect(endor).toBeInTheDocument();
+    expect(endor.tagName).toBe('TD');
     fireEvent.change(insertColumn, { target: { value: 'diameter' } });
     fireEvent.change(insertComparison, { target: { value: 'bigger_than' } });
     fireEvent.change(insertValue, { target: { value: 10000 } });
 
-    setTimeout(() => {
-      expect(dagobah).not.toBeInTheDocument();
-      expect(alderaan).toBeInTheDocument();
-    }, 1000);
   });
 });
