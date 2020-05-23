@@ -19,13 +19,10 @@ const filterReturn = (numericValues, filteredData) => {
         ));
         return returnFiltered;
 
-      case 'equal_to':
-        returnFiltered = returnFiltered.filter((planet) => (
-          Number(planet[column]) === Number(value)
-        ));
+      default: returnFiltered = returnFiltered.filter((planet) => (
+        Number(planet[column]) === Number(value)
+      ));
         return returnFiltered;
-
-      default: return filteredData;
     }
   });
   return returnFiltered;
@@ -33,9 +30,7 @@ const filterReturn = (numericValues, filteredData) => {
 
 const isNumber = (cellValue) => {
   const cell = cellValue === 'unknown' ? 0 : cellValue;
-  return parseInt(cell, 10) >= 0
-    ? parseInt(cell, 10)
-    : cell;
+  return parseInt(cell, 10) || cell;
 };
 
 const allSort = (sorted, haveFilters) => {

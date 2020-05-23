@@ -18,6 +18,7 @@ const Thead = () => {
               {title}
               <button
                 type="button"
+                data-testid={`${title}-add-sorted`}
                 onClick={() => (asc === '▲'
                   ? changeOrder('▼', 'DESC', title)
                   : changeOrder('▲', 'ASC', title)

@@ -8,9 +8,15 @@ const ShowSort = () => {
       {sortFilters.column
         ? (
           <div className="Return_Filters-sort">
-            <p className="Return_Filter-text">{`${sortFilters.column} | ${sortFilters.order}`}</p>
+            <p
+              data-testid="show-column-sorted"
+              className="Return_Filter-text"
+            >
+              {`${sortFilters.column} | ${sortFilters.order}`}
+            </p>
             <button
               className="Return_Filter-button"
+              data-testid="show-sorted-value"
               type="button"
               onClick={() => setSortFilters({})}
             >

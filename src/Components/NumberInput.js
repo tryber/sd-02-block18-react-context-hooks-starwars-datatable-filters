@@ -5,7 +5,9 @@ import SwContext from '../Context';
 const inputWithDebounce = (toFilterArray) => (
   <DebounceInput
     data-testid="value-insert"
+    type="number"
     minLength={1}
+    onFocus={(e) => e.target.value = ""}
     debounceTimeout={800}
     onChange={(e) => toFilterArray(e.target.value)}
   />
@@ -16,6 +18,7 @@ const NumberInput = () => {
     filters,
     setFilters,
     column,
+    setColumn,
     comparison,
     columns,
     setColumns,
@@ -31,6 +34,7 @@ const NumberInput = () => {
       value,
     }]);
     setColumns(toSetColumns);
+    setColumn('');
   };
 
   const toFilterArray = (value) => (

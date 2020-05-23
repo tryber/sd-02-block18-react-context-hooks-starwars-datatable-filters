@@ -5,7 +5,13 @@ import App from '../App';
 
 describe('Table', () => {
   test('Table shows values', async () => {
-    const { getByText, getAllByText, getByTestId } = render(
+    const {
+      getByText,
+      queryByText,
+      getAllByText,
+      getByTestId,
+      findByTestId,
+    } = render(
       <MyContext>
         <App />
       </MyContext>,
@@ -18,6 +24,9 @@ describe('Table', () => {
     const dagobah = getByText(/dagobah/i);
     expect(dagobah).toBeInTheDocument();
     expect(dagobah.tagName).toBe('TD');
+
+    fireEvent.click(getByTestId(/show-sorted-value/i));
+    expect(queryByText('No Sorted')).toBeInTheDocument();
 
     const inputName = getByTestId(/alpha-input-user-search/i);
     expect(inputName).toBeInTheDocument();
@@ -34,10 +43,41 @@ describe('Table', () => {
     const insertValue = getByTestId(/value-insert/i);
     const endor = getByText(/endor/i);
     expect(endor).toBeInTheDocument();
-    expect(endor.tagName).toBe('TD');
     fireEvent.change(insertColumn, { target: { value: 'diameter' } });
     fireEvent.change(insertComparison, { target: { value: 'bigger_than' } });
     fireEvent.change(insertValue, { target: { value: 10000 } });
 
+    const diameterFilter = await findByTestId(/diameter-filter-show/i);
+    expect(diameterFilter).toBeInTheDocument();
+    expect(endor).not.toBeInTheDocument();
+
+    const kamino = getByText(/kamino/i);
+    expect(kamino).toBeInTheDocument();
+    fireEvent.change(insertColumn, { target: { value: 'surface_water' } });
+    fireEvent.change(insertComparison, { target: { value: 'less_than' } });
+    fireEvent.change(insertValue, { target: { value: 100 } });
+    const surfaceFilter = await findByTestId(/surface_water-filter-show/i);
+    expect(surfaceFilter).toBeInTheDocument();
+    expect(kamino).not.toBeInTheDocument();
+
+    const bespin = getByText(/Bespin/i);
+    expect(bespin).toBeInTheDocument();
+    fireEvent.change(insertColumn, { target: { value: 'rotation_period' } });
+    fireEvent.change(insertComparison, { target: { value: 'equal_to' } });
+    fireEvent.change(insertValue, { target: { value: 24 } });
+    const rotationFilter = await findByTestId(/rotation_period-filter-show/i);
+    expect(rotationFilter).toBeInTheDocument();
+    expect(bespin).not.toBeInTheDocument();
+
+    const addSorted = getByTestId(/name-add-sorted/i);
+    expect(addSorted).toBeInTheDocument();
+    fireEvent.click(addSorted);
+
+    expect(getByTestId(/show-column-sorted/i)).toBeInTheDocument();
+    expect(queryByText('No Sorted')).not.toBeInTheDocument();
+    expect(queryByText(/Name | DESC/i)).toBeInTheDocument();
+
+    fireEvent.click(addSorted);
+    expect(queryByText(/Name | ASC/i)).toBeInTheDocument();
   });
 });

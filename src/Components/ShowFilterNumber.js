@@ -5,6 +5,7 @@ const removeButton = (filter, removeFilters) => (
   <button
     className="Return_Filter-button"
     type="button"
+    data-testid={`${filter.column}-numeric-filter`}
     onClick={() => removeFilters(filter)}
   >
     X
@@ -32,7 +33,12 @@ const ShowFilterNumber = () => {
           className="Return_Filters-data"
           key={`show filter ${filter.column}`}
         >
-          <p className="Return_Filter-text">{`${filter.column} | ${filter.comparison} | ${filter.value}`}</p>
+          <p
+            data-testid={`${filter.column}-filter-show`}
+            className="Return_Filter-text"
+          >
+            {`${filter.column} | ${filter.comparison} | ${filter.value}`}
+          </p>
           {removeButton(filter, removeFilters)}
         </div>
       ))}
