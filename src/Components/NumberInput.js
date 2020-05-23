@@ -8,17 +8,29 @@ const NumberInput = () => {
     setFilters,
     column,
     comparison,
+    columns,
+    setColumns,
   } = useContext(SwContext);
+
+  const setAndRemove = (value) => {
+    const copyColumns = [...columns];
+    const i = copyColumns.indexOf(column);
+    const toSetColumns = copyColumns.slice(0, i)
+      .concat(copyColumns.slice(i + 1));
+    setFilters([...filters, {
+      column,
+      comparison,
+      value,
+    }]);
+    setColumns(toSetColumns);
+  };
 
   const toFilterArray = (value) => (
     column !== '' && comparison !== '' && value > -1
-      ? setFilters([...filters, {
-        column,
-        comparison,
-        value,
-      }])
+      ? setAndRemove(value)
       : alert('Preencha todos os campos')
   );
+
   return (
     <DebounceInput
       minLength={1}
