@@ -3,16 +3,12 @@ import SwContext from '../Context';
 
 const NameInput = () => {
   const { setUserInputName } = useContext(SwContext);
-  const setAlphaValue = (inputValue) => (
-    inputValue.match(/[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/)
-    && setUserInputName(inputValue)
-  );
   return (
     <div>
       <input
         type="text"
         data-testid="alpha-input-user-search"
-        onChange={(e) => setAlphaValue(e.target.value)}
+        onChange={(e) => setUserInputName(e.target.value)}
       />
     </div>
   );

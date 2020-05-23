@@ -4,7 +4,7 @@ import './App.css';
 import Title from './Components/Title';
 import Loading from './Loading';
 import Table from './Pages/Table';
-import NameInput from './Components/NameInput';
+import AllInputs from './Components/AllInputs';
 
 const App = () => {
   const { isFetching } = useContext(SwContext);
@@ -14,9 +14,7 @@ const App = () => {
       {!isFetching
         ? (
           <div>
-            <div>
-              <NameInput />
-            </div>
+            <AllInputs />
             <Table />
           </div>
         ) : <Loading />}

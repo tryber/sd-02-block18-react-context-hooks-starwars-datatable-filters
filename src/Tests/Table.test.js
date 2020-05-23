@@ -5,11 +5,13 @@ import App from '../App';
 
 describe('Table', () => {
   test('Table shows values', async () => {
+
     const { getByText, getByTestId } = render(
       <MyContext>
         <App />
       </MyContext>,
     );
+
     await waitForDomChange();
     const name = getByText(/name/i);
     expect(name).toBeInTheDocument();

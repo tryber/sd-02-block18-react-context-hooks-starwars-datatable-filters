@@ -3,6 +3,14 @@ import PropTypes from 'prop-types';
 import SwPlanetsRequest from '../Services';
 import SwContext from './index';
 
+const arrayColumns = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 const MyContext = ({ children }) => {
   const [isFetching, setIsFetching] = useState(true);
   const [planets, setPlanets] = useState([]);
@@ -12,6 +20,7 @@ const MyContext = ({ children }) => {
   const [filters, setFilters] = useState([]);
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
+  const [columns, setColumns] = useState(arrayColumns);
 
   const successPlanets = (data) => {
     setPlanets(data.results);
@@ -52,6 +61,8 @@ const MyContext = ({ children }) => {
     setColumn,
     comparison,
     setComparison,
+    columns,
+    setColumns,
   };
 
   return (
