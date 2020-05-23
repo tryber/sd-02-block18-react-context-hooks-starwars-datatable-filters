@@ -1,125 +1,95 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import propTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 
+const FiltersDropdown = () => {
+  const contextValues = useContext(StarWarsContext);
+  const arrayColunasJaSelecionadas = contextValues.filters
+    .slice(1)
+    .map((obj) => obj.numericValues.column);
 
-class FiltersDropdown extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      column: '',
-      comparison: '',
-      value: '',
-    };
-    this.adicionaFiltro = this.adicionaFiltro.bind(this);
-  }
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
 
-  adicionaFiltro() {
-    const { dispatch } = this.props;
-    dispatch({ type: 'ADICIONAR_FILTRO', valoresNumericos: this.state });
-    this.setState({
-      column: '',
-      comparison: '',
-      value: '',
-    });
-  }
+  const adicionaFiltro = () => {
+    contextValues.setNumericFilter({ column, comparison, value });
+    setColumn('');
+    setComparison('');
+    setValue('');
+  };
 
-  renderColumnDrowpdown(colunasRestantes, column) {
-    return (
-      <div>
-        <select
-          defaultValue=""
-          value={column}
-          onChange={(event) => this.setState({ column: event.target.value })}
-        >
-          <option value="" disabled>Selecione uma coluna</option>
-          {colunasRestantes.map((coluna) => <option value={coluna}>{coluna}</option>)}
-        </select>
-      </div>
-    );
-  }
-
-  renderComparisonDropdown(comparison) {
-    return (
-      <div>
-        <select
-          defaultValue=""
-          value={comparison}
-          onChange={(event) => this.setState({ comparison: event.target.value })}
-        >
-          <option value="" disabled>Selecione uma comparação</option>
-          <option value="Maior que">Maior que</option>
-          <option value="Menor que">Menor que</option>
-          <option value="Igual a">Igual a</option>
-        </select>
-      </div>
-    );
-  }
-
-  renderNumberComparison(value) {
-    return (
-      <div>
-        <input
-          type="number"
-          value={value}
-          placeholder="Digite um número"
-          onChange={(event) => this.setState({ value: event.target.value })}
-        />
-      </div>
-    );
-  }
-
-  renderComparButton(column, comparison, value) {
-    return (
-      <button
-        type="button"
-        className="filter-btn"
-        onClick={this.adicionaFiltro}
-        disabled={!(column && comparison && value)}
+  const renderColumnDrowpdown = (colunasRestantes, columnDrop) => (
+    <div>
+      <select
+        defaultValue=""
+        value={columnDrop}
+        onChange={(event) => setColumn(event.target.value)}
       >
+        <option value="" disabled>Selecione uma coluna</option>
+        {colunasRestantes.map((coluna) => <option value={coluna}>{coluna}</option>)}
+      </select>
+    </div>
+  );
+
+  const renderComparisonDropdown = (comparisonDrop) => (
+    <div>
+      <select
+        defaultValue=""
+        value={comparisonDrop}
+        onChange={(event) => setComparison(event.target.value)}
+      >
+        <option value="" disabled>Selecione uma comparação</option>
+        <option value="Maior que">Maior que</option>
+        <option value="Menor que">Menor que</option>
+        <option value="Igual a">Igual a</option>
+      </select>
+    </div>
+  );
+
+  const renderNumberComparison = (valueInput) => (
+    <div>
+      <input
+        type="number"
+        value={valueInput}
+        placeholder="Digite um número"
+        onChange={(event) => setValue(event.target.value)}
+      />
+    </div>
+  );
+
+  const renderComparButton = (columnDrop, comparisonDrop, valueInput) => (
+    <button
+      type="button"
+      className="filter-btn"
+      onClick={adicionaFiltro}
+      disabled={!(columnDrop && comparisonDrop && valueInput)}
+    >
         Filtrar
-      </button>
-    );
-  }
+    </button>
+  );
 
+  const todasAsColunas = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
 
-  render() {
-    const { arrayColunasJaSelecionadas } = this.props;
+  const colunasRestantes = todasAsColunas.filter((coluna) => (
+    !(arrayColunasJaSelecionadas.includes(coluna))
+    // (arrayColunasJaSelecionadas.includes(coluna)) ? false : true
+  ));
 
-    const todasAsColunas = [
-      'population',
-      'orbital_period',
-      'diameter',
-      'rotation_period',
-      'surface_water'];
-
-    const colunasRestantes = todasAsColunas.filter((coluna) => (
-      !(arrayColunasJaSelecionadas.includes(coluna))
-      // (arrayColunasJaSelecionadas.includes(coluna)) ? false : true
-    ));
-
-    const { column, comparison, value } = this.state;
-
-    return colunasRestantes.length !== 0 ? (
-      <article>
-        <section className="comparisons">
-          {this.renderColumnDrowpdown(colunasRestantes, column)}
-          {this.renderComparisonDropdown(comparison)}
-          {this.renderNumberComparison(value)}
-          {this.renderComparButton(column, comparison, value)}
-        </section>
-      </article>
-    ) : null;
-  }
-}
-
-const mapStateToProps = (state) => ({
-  arrayColunasJaSelecionadas: state.filters.slice(1).map((obj) => obj.numericValues.column),
-});
-
-FiltersDropdown.propTypes = {
-  dispatch: propTypes.func.isRequired,
-  arrayColunasJaSelecionadas: propTypes.instanceOf(Array).isRequired,
+  return colunasRestantes.length !== 0 ? (
+    <article>
+      <section className="comparisons">
+        {renderColumnDrowpdown(colunasRestantes, column)}
+        {renderComparisonDropdown(comparison)}
+        {renderNumberComparison(value)}
+        {renderComparButton(column, comparison, value)}
+      </section>
+    </article>
+  ) : null;
 };
 
-export default connect(mapStateToProps)(FiltersDropdown);
+export default FiltersDropdown;

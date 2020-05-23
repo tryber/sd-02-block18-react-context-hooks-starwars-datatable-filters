@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 import THead from './THead';
@@ -86,10 +85,9 @@ const Table = (props) => {
 
   const contextState = useContext(StarWarsContext);
   const arrayPlanetas = contextState.swData.arrPlanetas;
+  const arrayNumericFilters = contextState.filters.slice(1).map((obj) => obj.numericValues) || [];
 
-  const {
-    arrayNumericFilters, objOrdenacao,
-  } = props;
+  const { objOrdenacao } = props;
   const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, contextState.filters[0].name);
   const arrTodoFiltrado = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
   const arrayOrdenado = ordenarArray(arrTodoFiltrado, objOrdenacao);
@@ -106,13 +104,11 @@ const Table = (props) => {
 
 
 const mapStateToProps = (state) => ({
-  arrayNumericFilters: state.filters.slice(1).map((obj) => obj.numericValues) || [],
   objOrdenacao: state.sort,
 });
 
 Table.propTypes = {
-  arrayNumericFilters: propTypes.instanceOf(Array).isRequired,
   objOrdenacao: propTypes.instanceOf(Object).isRequired,
 };
 
-export default connect(mapStateToProps)(Table);
+export default Table;

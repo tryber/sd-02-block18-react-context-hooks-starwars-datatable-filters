@@ -20,10 +20,24 @@ const SWProvider = ({ children }) => {
     setFilters(newFilters);
   };
 
+  const setNumericFilter = (value) => {
+    const newFilters = [...filters, { numericValues: value }];
+    setFilters(newFilters);
+  };
+
+  const removeFilter = (coluna) => {
+    const newFilters = filters.filter((obj, index) => (
+      (index === 0) || (obj.numericValues.column !== coluna)
+    ));
+    setFilters(newFilters);
+  }
+
   const values = {
     swData,
     filters,
     setInputFilter,
+    setNumericFilter,
+    removeFilter,
   };
 
   useEffect(() => {
