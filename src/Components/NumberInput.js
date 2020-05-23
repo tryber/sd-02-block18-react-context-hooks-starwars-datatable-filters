@@ -15,8 +15,7 @@ const NumberInput = () => {
   const setAndRemove = (value) => {
     const copyColumns = [...columns];
     const i = copyColumns.indexOf(column);
-    const toSetColumns = copyColumns.slice(0, i)
-      .concat(copyColumns.slice(i + 1));
+    const toSetColumns = copyColumns.slice(0, i).concat(copyColumns.slice(i + 1));
     setFilters([...filters, {
       column,
       comparison,
@@ -27,8 +26,7 @@ const NumberInput = () => {
 
   const toFilterArray = (value) => (
     column !== '' && comparison !== '' && value > -1
-      ? setAndRemove(value)
-      : alert('Preencha todos os campos')
+      ? setAndRemove(value) : alert('Preencha todos os campos')
   );
 
   return (
