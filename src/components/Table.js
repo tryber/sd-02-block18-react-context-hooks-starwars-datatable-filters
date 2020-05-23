@@ -88,9 +88,9 @@ const Table = (props) => {
   const arrayPlanetas = contextState.swData.arrPlanetas;
 
   const {
-    texto, arrayNumericFilters, objOrdenacao,
+    arrayNumericFilters, objOrdenacao,
   } = props;
-  const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
+  const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, contextState.filters[0].name);
   const arrTodoFiltrado = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
   const arrayOrdenado = ordenarArray(arrTodoFiltrado, objOrdenacao);
 
@@ -107,13 +107,11 @@ const Table = (props) => {
 
 const mapStateToProps = (state) => ({
   arrayNumericFilters: state.filters.slice(1).map((obj) => obj.numericValues) || [],
-  texto: state.filters[0].name,
   objOrdenacao: state.sort,
 });
 
 Table.propTypes = {
   arrayNumericFilters: propTypes.instanceOf(Array).isRequired,
-  texto: propTypes.string.isRequired,
   objOrdenacao: propTypes.instanceOf(Object).isRequired,
 };
 

@@ -1,25 +1,19 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import propTypes from 'prop-types';
+import React, { useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 
-class InputFilter extends React.Component {
-  render() {
-    const { dispatch } = this.props;
-    return (
-      <div>
-        <input
-          type="text"
-          className="input-SW"
-          placeholder="Pesquise um planeta"
-          onChange={(event) => dispatch({ type: 'DIGITACAO', texto: event.target.value })}
-        />
-      </div>
-    );
-  }
-}
+const InputFilter = () => {
+  const contextValue = useContext(StarWarsContext);
 
-InputFilter.propTypes = {
-  dispatch: propTypes.func.isRequired,
+  return (
+    <div>
+      <input
+        type="text"
+        className="input-SW"
+        placeholder="Pesquise um planeta"
+        onChange={(event) => contextValue.setInputFilter(event.target.value)}
+      />
+    </div>
+  );
 };
 
-export default connect()(InputFilter);
+export default InputFilter;

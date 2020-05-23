@@ -11,8 +11,19 @@ const SWProvider = ({ children }) => {
     error: null,
   });
 
+  const [filters, setFilters] = useState([{ name: '' }]);
+
+  const setInputFilter = (value) => {
+    const newFilters = filters.map((filtro, index) => (
+      index !== 0 ? filtro : { name: value }
+    ));
+    setFilters(newFilters);
+  };
+
   const values = {
     swData,
+    filters,
+    setInputFilter,
   };
 
   useEffect(() => {
