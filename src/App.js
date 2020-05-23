@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import SWProvider from './context/SWProvider';
 import InputFilter from './components/InputFilter';
 import OrdenadorDeColunas from './components/OrdenadorDeColunas';
 import FiltersDropdown from './components/FiltersDropdown';
@@ -14,15 +15,17 @@ class App extends React.Component {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
     return (
-      <div className="App">
-        <header className="App-header">
-          <InputFilter />
-          <OrdenadorDeColunas />
-          <FiltersDropdown />
-          <ExibeDiv />
-          <Table />
-        </header>
-      </div>
+      <SWProvider>
+        <div className="App">
+          <header className="App-header">
+            <InputFilter />
+            <OrdenadorDeColunas />
+            <FiltersDropdown />
+            <ExibeDiv />
+            <Table />
+          </header>
+        </div>
+      </SWProvider>
     );
   }
 }

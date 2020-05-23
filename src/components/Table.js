@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import PlanetsList from './PlanetsList';
+import StarWarsContext from '../context/StarWarsContext';
 import THead from './THead';
 
 const filtrarPlanetasPorNome = (arrayPlanetas, texto) => (
@@ -61,60 +61,57 @@ function ordenarArray(arrTodoFiltrado, objOrdenacao) {
   return arrayOrdenado;
 }
 
-class Table extends React.Component {
-  static renderTBody(arrayOrdenado) {
-    return (
-      <tbody>
-        {arrayOrdenado.map((planet) => (
-          <tr key={planet.name}>
-            <td>{planet.name}</td>
-            <td>{planet.rotation_period}</td>
-            <td>{planet.orbital_period}</td>
-            <td>{planet.diameter}</td>
-            <td>{planet.climate}</td>
-            <td>{planet.gravity}</td>
-            <td>{planet.terrain}</td>
-            <td>{planet.surface_water}</td>
-            <td>{planet.population}</td>
-            <td>{planet.films}</td>
-            <td>{planet.created}</td>
-            <td>{planet.edited}</td>
-            <td>{planet.url}</td>
-          </tr>
-        ))}
-      </tbody>
-    );
-  }
+const Table = (props) => {
+  const renderTBody = (arrayOrdenado) => (
+    <tbody>
+      {arrayOrdenado.map((planet) => (
+        <tr key={planet.name}>
+          <td>{planet.name}</td>
+          <td>{planet.rotation_period}</td>
+          <td>{planet.orbital_period}</td>
+          <td>{planet.diameter}</td>
+          <td>{planet.climate}</td>
+          <td>{planet.gravity}</td>
+          <td>{planet.terrain}</td>
+          <td>{planet.surface_water}</td>
+          <td>{planet.population}</td>
+          <td>{planet.films}</td>
+          <td>{planet.created}</td>
+          <td>{planet.edited}</td>
+          <td>{planet.url}</td>
+        </tr>
+      ))}
+    </tbody>
+  );
 
-  render() {
-    const {
-      arrayPlanetas, texto, arrayNumericFilters, objOrdenacao,
-    } = this.props;
-    const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
-    const arrTodoFiltrado = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
-    const arrayOrdenado = ordenarArray(arrTodoFiltrado, objOrdenacao);
+  const contextState = useContext(StarWarsContext);
+  const arrayPlanetas = contextState.swData.arrPlanetas;
 
-    return (
-      <div>
-        <PlanetsList />
-        <table>
-          <THead />
-          {Table.renderTBody(arrayOrdenado)}
-        </table>
-      </div>
-    );
-  }
-}
+  const {
+    texto, arrayNumericFilters, objOrdenacao,
+  } = props;
+  const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, texto);
+  const arrTodoFiltrado = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
+  const arrayOrdenado = ordenarArray(arrTodoFiltrado, objOrdenacao);
+
+  return (
+    <div>
+      <table>
+        <THead />
+        {renderTBody(arrayOrdenado)}
+      </table>
+    </div>
+  );
+};
+
 
 const mapStateToProps = (state) => ({
   arrayNumericFilters: state.filters.slice(1).map((obj) => obj.numericValues) || [],
-  arrayPlanetas: state.data.arrPlanetas,
   texto: state.filters[0].name,
   objOrdenacao: state.sort,
 });
 
 Table.propTypes = {
-  arrayPlanetas: propTypes.instanceOf(Array).isRequired,
   arrayNumericFilters: propTypes.instanceOf(Array).isRequired,
   texto: propTypes.string.isRequired,
   objOrdenacao: propTypes.instanceOf(Object).isRequired,
