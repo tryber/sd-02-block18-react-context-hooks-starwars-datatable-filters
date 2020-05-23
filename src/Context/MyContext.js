@@ -21,6 +21,7 @@ const MyContext = ({ children }) => {
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [columns, setColumns] = useState(arrayColumns);
+  const [sortFilters, setSortFilters] = useState({ column: 'name', order: 'ASC' });
 
   const successPlanets = (data) => {
     setPlanets(data.results);
@@ -63,6 +64,8 @@ const MyContext = ({ children }) => {
     setComparison,
     columns,
     setColumns,
+    sortFilters,
+    setSortFilters,
   };
 
   return (

@@ -19,7 +19,6 @@ const NumberInput = () => {
       }])
       : alert('Preencha todos os campos')
   );
-  console.log(filters);
   return (
     <DebounceInput
       minLength={1}
