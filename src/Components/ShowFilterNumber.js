@@ -23,7 +23,6 @@ const ShowFilterNumber = () => {
           key={`show filter ${filter.column}`}
         >
           <p className="Return_Filter-text">{`${filter.column} | ${filter.comparison} | ${filter.value}`}</p>
-
           <button
             className="Return_Filter-button"
             type="button"
