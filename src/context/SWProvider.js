@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import propTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
 import getPlanets from '../services/SWAPI';
 
@@ -74,6 +75,10 @@ const SWProvider = ({ children }) => {
       {children}
     </Provider>
   );
+};
+
+SWProvider.propTypes = {
+  children: propTypes.node.isRequired,
 };
 
 export default SWProvider;
