@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import propTypes from 'prop-types';
 import StarWarsContext from '../context/StarWarsContext';
 import THead from './THead';
 
@@ -60,7 +59,7 @@ function ordenarArray(arrTodoFiltrado, objOrdenacao) {
   return arrayOrdenado;
 }
 
-const Table = (props) => {
+const Table = () => {
   const renderTBody = (arrayOrdenado) => (
     <tbody>
       {arrayOrdenado.map((planet) => (
@@ -86,9 +85,13 @@ const Table = (props) => {
   const contextState = useContext(StarWarsContext);
   const arrayPlanetas = contextState.swData.arrPlanetas;
   const arrayNumericFilters = contextState.filters.slice(1).map((obj) => obj.numericValues) || [];
+  const objOrdenacao = contextState.orderObj;
 
-  const { objOrdenacao } = props;
-  const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(arrayPlanetas, contextState.filters[0].name);
+
+  const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(
+    arrayPlanetas,
+    contextState.filters[0].name,
+  );
   const arrTodoFiltrado = filtrarTodasAsComparacoes(arrPlanetsComFilDeNome, arrayNumericFilters);
   const arrayOrdenado = ordenarArray(arrTodoFiltrado, objOrdenacao);
 
@@ -100,15 +103,6 @@ const Table = (props) => {
       </table>
     </div>
   );
-};
-
-
-const mapStateToProps = (state) => ({
-  objOrdenacao: state.sort,
-});
-
-Table.propTypes = {
-  objOrdenacao: propTypes.instanceOf(Object).isRequired,
 };
 
 export default Table;

@@ -30,7 +30,22 @@ const SWProvider = ({ children }) => {
       (index === 0) || (obj.numericValues.column !== coluna)
     ));
     setFilters(newFilters);
-  }
+  };
+
+  const [orderObj, setOrder] = useState({
+    column: 'name',
+    order: 'ASC',
+  });
+
+  const setColumnOrder = (coluna) => {
+    const newOrder = { ...orderObj, column: coluna };
+    setOrder(newOrder);
+  };
+
+  const setOrdenation = (ordem) => {
+    const newOrder = { ...orderObj, order: ordem };
+    setOrder(newOrder);
+  };
 
   const values = {
     swData,
@@ -38,6 +53,9 @@ const SWProvider = ({ children }) => {
     setInputFilter,
     setNumericFilter,
     removeFilter,
+    orderObj,
+    setColumnOrder,
+    setOrdenation,
   };
 
   useEffect(() => {

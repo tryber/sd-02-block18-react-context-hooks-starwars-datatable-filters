@@ -1,17 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import SWProvider from './context/SWProvider';
-import store from './store';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <SWProvider>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
   </SWProvider>,
   document.getElementById('root'),
 );
