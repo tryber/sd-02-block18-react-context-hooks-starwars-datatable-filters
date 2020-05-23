@@ -29,10 +29,7 @@ const ShowFilterNumber = () => {
   return (
     <div className="Return_Filters-father">
       {filters.map((filter) => (
-        <div
-          className="Return_Filters-data"
-          key={`show filter ${filter.column}`}
-        >
+        <div className="Return_Filters-data" key={`show filter ${filter.column}`}>
           <p
             data-testid={`${filter.column}-filter-show`}
             className="Return_Filter-text"
