@@ -1,6 +1,16 @@
 import React, { useContext } from 'react';
 import SwContext from '../Context';
 
+const removeButton = (filter, removeFilters) => (
+  <button
+    className="Return_Filter-button"
+    type="button"
+    onClick={() => removeFilters(filter)}
+  >
+    X
+  </button>
+);
+
 const ShowFilterNumber = () => {
   const {
     filters,
@@ -23,13 +33,7 @@ const ShowFilterNumber = () => {
           key={`show filter ${filter.column}`}
         >
           <p className="Return_Filter-text">{`${filter.column} | ${filter.comparison} | ${filter.value}`}</p>
-          <button
-            className="Return_Filter-button"
-            type="button"
-            onClick={() => removeFilters(filter)}
-          >
-            X
-          </button>
+          {removeButton(filter, removeFilters)}
         </div>
       ))}
     </div>
