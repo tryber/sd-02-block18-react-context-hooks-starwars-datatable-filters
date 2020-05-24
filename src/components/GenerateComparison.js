@@ -9,11 +9,12 @@ const GenerateComparison = () => {
   const comparison = ['more than', 'equal to', 'less than'];
   return (
     <div>
-      <select onChange={(e) => changeNewNumericValues('comparison', e)}>
+      <select data-testid="comparisonSelector" onChange={(e) => changeNewNumericValues('comparison', e)}>
         <option value="">Select Comparison</option>
         {comparison.map((option) => <option key={option} value={option}>{option}</option>)}
       </select>
       <input
+        data-testid="numberSelector"
         type="number"
         placeholder="type a number here!"
         onChange={(e) => changeNewNumericValues('value', e)}

@@ -16,6 +16,7 @@ const ShowFilters = () => {
           <p key={numericValues.value}>{numericValues.value}</p>
           <button
             type="button"
+            data-testid="deleteFilter"
             value={numericValues.column}
             onClick={() => eraseColumn(filters, numericValues.column)}
           >

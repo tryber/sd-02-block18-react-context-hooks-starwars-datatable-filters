@@ -11,7 +11,7 @@ const numericFilters = (firstFilter, { numericValues }) => {
     return firstFilter.filter((planet) => planet[column] < parseInt(value, 10));
   }
   if (comparison === 'equal to' && columnBool) {
-    return firstFilter.filter((planet) => planet[column] === parseInt(value, 10));
+    return firstFilter.filter((planet) => planet[column] === value);
   }
   return firstFilter;
 };
@@ -23,10 +23,10 @@ const generateBody = (data, text, filters) => {
     firstFilter
       .filter(({ name }) => name.toLowerCase().includes(text.toLowerCase()))
       .map((values) => (
-        <tbody key={values.name}>
+        <tbody key={values.name} data-testid="planetsBody">
           <tr>
             {Object.values(values).map((box, index) => (index !== 9
-              && <td className="tableData" data-testid={box} key={box}>{box}</td>
+              && <td className="tableData" data-testid="Planet" key={box}>{box}</td>
             ))}
           </tr>
         </tbody>
@@ -47,7 +47,7 @@ const GenerateTable = () => {
         <thead>
           <tr>
             {Object.keys(data[0]).map((item) => (item !== 'residents'
-              && <th className="tableHeader" key={item}>{item}</th>
+              && <th className="tableHeader" key={`planet_${item}`}>{item}</th>
             ))}
           </tr>
         </thead>

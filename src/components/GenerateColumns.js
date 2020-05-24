@@ -10,6 +10,7 @@ const GenerateColumns = () => {
   return (
     <div>
       <select
+        data-testid="columnSelector"
         onChange={(e) => changeNewNumericValues('column', e)}
       >
         <option value="" hidden>Select Column</option>

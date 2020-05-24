@@ -13,7 +13,7 @@ const Table = () => {
     <div>
       {data && (
         <div>
-          <input onChange={(e) => setText(e.target.value)} />
+          <input data-testid="inputPlanets" onChange={(e) => setText(e.target.value)} />
           <Dropdowns />
           <SortFilters />
           <h2>Filters:</h2>
