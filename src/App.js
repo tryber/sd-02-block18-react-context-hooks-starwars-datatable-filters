@@ -1,25 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
+import Table from './components/Table';
+import SWProvider from './context/SWProvider';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SWProvider>
+      <div className="App">
+        <h1 data-testid="welcome">Star Wars Data Table: a Context/Hooks Saga!</h1>
+        <Table />
+      </div>
+    </SWProvider>
   );
 }
 
