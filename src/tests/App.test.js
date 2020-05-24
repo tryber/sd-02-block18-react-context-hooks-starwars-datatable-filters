@@ -87,7 +87,7 @@ describe('functionality test', () => {
     const { queryByTestId, getByText, queryByText } = render(<App />);
 
     await wait();
-    const createFilter = queryByTestId('createFilter');
+    const createFilter = getByText('Filter!');
     const columnSelector = queryByTestId('columnSelector');
     const comparisonSelector = queryByTestId('comparisonSelector');
     const numberSelector = queryByTestId('numberSelector');
@@ -138,7 +138,7 @@ describe('functionality test', () => {
       }));
     const { getByText, queryByTestId } = render(<App />);
     await wait();
-    const createFilter = queryByTestId('createFilter');
+    const createFilter = getByText('Filter!');
     const columnSelector = queryByTestId('columnSelector');
     const comparisonSelector = queryByTestId('comparisonSelector');
     const numberSelector = queryByTestId('numberSelector');
@@ -180,7 +180,7 @@ describe('functionality test', () => {
       }));
     const { getByText, queryByText, queryByTestId } = render(<App />);
     await wait();
-    const createFilter = queryByTestId('createFilter');
+    const createFilter = getByText('Filter!');
     const columnSelector = queryByTestId('columnSelector');
     const comparisonSelector = queryByTestId('comparisonSelector');
     const numberSelector = queryByTestId('numberSelector');

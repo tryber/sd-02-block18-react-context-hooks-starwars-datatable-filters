@@ -25,7 +25,6 @@ const Dropdowns = () => {
       [<GenerateColumns />,
         <GenerateComparison />,
         <button
-          data-testid="createFilter"
           type="button"
           onClick={() => createFilter()}
         >
