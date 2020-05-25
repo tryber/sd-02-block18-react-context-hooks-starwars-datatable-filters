@@ -9,11 +9,12 @@ const ExibeDiv = () => {
     <div>
       {arrayNumericFilters.map((objetoDeFiltro) => (
         <div>
-          <span className="filtros-show">
+          <span className="filtros-show" data-testid="filtros-show">
             {`${objetoDeFiltro.column} | ${objetoDeFiltro.comparison} | ${objetoDeFiltro.value} `}
           </span>
           <button
             type="button"
+            data-testid="remover-filtro-btn"
             onClick={() => contextValues.removeFilter(objetoDeFiltro.column)}
           >
               X

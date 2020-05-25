@@ -64,7 +64,7 @@ const FiltersDropdown = () => {
     <button
       type="button"
       className="filter-btn"
-      data-testid="botao"
+      data-testid="botao-filtrar"
       onClick={adicionaFiltro}
       disabled={!(columnDrop && comparisonDrop && valueInput)}
     >

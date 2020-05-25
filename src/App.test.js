@@ -112,8 +112,8 @@ describe('Testa os filtros', () => {
 
     fireEvent.click(btnFiltrar);
     expect(endorPlanet).not.toBeInTheDocument();
-
   });
+
   it('Testa funcionamento de botão de remover filtro', async () => {
     const { getByTestId, getByText } = render(
       <SWProvider>
@@ -122,6 +122,22 @@ describe('Testa os filtros', () => {
     );
     await waitForDomChange();
 
+    const insertedColumn = getByTestId(/column-inserted/i);
+    const insertedComparison = getByTestId(/comparison-inserted/i);
+    const insertedValue = getByTestId(/value-inserted/i);
+    const btnFiltrar = getByTestId(/botao-filtrar/i);
+    fireEvent.change(insertedColumn, { target: { value: 'diameter' } });
+    fireEvent.change(insertedComparison, { target: { value: 'Maior que' } });
+    fireEvent.change(insertedValue, { target: { value: 8000 } });
+
+    fireEvent.click(btnFiltrar);
+    const filtroShow = getByTestId(/filtros-show/i);
+    const btnRemover = getByTestId(/remover-filtro-btn/i);
+    expect(filtroShow).toBeInTheDocument();
+    expect(btnRemover).toBeInTheDocument();
+
+    fireEvent.click(btnFiltrar);
+    expect(filtroShow).not.toBeInTheDocument();
   });
 });
 
