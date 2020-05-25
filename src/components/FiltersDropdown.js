@@ -8,6 +8,19 @@ const todasAsColunas = [
   'rotation_period',
   'surface_water'];
 
+
+  const renderComparButton = (columnDrop, comparisonDrop, valueInput, adicionaFiltro) => (
+    <button
+      type="button"
+      className="filter-btn"
+      data-testid="botao-filtrar"
+      onClick={adicionaFiltro}
+      disabled={!(columnDrop && comparisonDrop && valueInput)}
+    >
+        Filtrar
+    </button>
+  );
+
 const FiltersDropdown = () => {
   const contextValues = useContext(StarWarsContext);
   const arrayColunasJaSelecionadas = contextValues.filters
@@ -38,7 +51,6 @@ const FiltersDropdown = () => {
       </select>
     </div>
   );
-
   const renderComparisonDropdown = (comparisonDrop) => (
     <div>
       <select
@@ -54,7 +66,6 @@ const FiltersDropdown = () => {
       </select>
     </div>
   );
-
   const renderNumberComparison = (valueInput) => (
     <div>
       <input
@@ -66,32 +77,15 @@ const FiltersDropdown = () => {
       />
     </div>
   );
-
-  const renderComparButton = (columnDrop, comparisonDrop, valueInput) => (
-    <button
-      type="button"
-      className="filter-btn"
-      data-testid="botao-filtrar"
-      onClick={adicionaFiltro}
-      disabled={!(columnDrop && comparisonDrop && valueInput)}
-    >
-        Filtrar
-    </button>
-  );
-
-
   const colunasRestantes = todasAsColunas.filter((coluna) => (
     !(arrayColunasJaSelecionadas.includes(coluna))
   ));
-
   return colunasRestantes.length !== 0 ? (
     <article>
-      <section className="comparisons">
-        {renderColumnDrowpdown(colunasRestantes, column)}
-        {renderComparisonDropdown(comparison)}
-        {renderNumberComparison(value)}
-        {renderComparButton(column, comparison, value)}
-      </section>
+      {renderColumnDrowpdown(colunasRestantes, column)}
+      {renderComparisonDropdown(comparison)}
+      {renderNumberComparison(value)}
+      {renderComparButton(column, comparison, value, adicionaFiltro)}
     </article>
   ) : null;
 };
