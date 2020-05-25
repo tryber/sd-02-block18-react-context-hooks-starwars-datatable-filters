@@ -8,6 +8,7 @@ const FilterButton = () => {
     <input
       type="reset"
       value="Filtrar"
+      data-testid="filter-button"
       onClick={() => {
         setFilters([...filters, { numericValues: { column, comparison, value } }]);
       }}
