@@ -7,7 +7,6 @@ const OrdenadorDeColunas = () => {
   const contextValues = useContext(StarWarsContext);
   return (
     <div>
-      <label htmlFor="order">
         <span className="order-text">Ordene alguma coluna:</span>
         <select
           data-testid="column-sorting"
@@ -32,7 +31,6 @@ const OrdenadorDeColunas = () => {
           <option value="ASC">ASC</option>
           <option value="DESC">DESC</option>
         </select>
-      </label>
     </div>
   );
 };
