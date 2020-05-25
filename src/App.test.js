@@ -115,7 +115,7 @@ describe('Testa os filtros', () => {
   });
 
   it('Testa funcionamento de botão de remover filtro', async () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <SWProvider>
         <App />
       </SWProvider>,
@@ -136,7 +136,7 @@ describe('Testa os filtros', () => {
     expect(filtroShow).toBeInTheDocument();
     expect(btnRemover).toBeInTheDocument();
 
-    fireEvent.click(btnFiltrar);
+    fireEvent.click(btnRemover);
     expect(filtroShow).not.toBeInTheDocument();
   });
 });
