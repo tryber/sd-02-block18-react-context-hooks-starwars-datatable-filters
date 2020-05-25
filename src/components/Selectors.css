@@ -93,7 +93,7 @@ input:focus ~ .highlight {
 }
 
 form {
-  display: flex;
+  display: block;
 }
 
 .selector-label {
@@ -102,4 +102,12 @@ form {
 
 .number-selector {
   margin-top: 1.25rem;
+}
+
+.filter-button-disabled {
+  color: gray;
+}
+
+.numeric-section {
+  display: flex;
 }

@@ -8,12 +8,16 @@ import FiltersList from './FiltersList';
 
 const Selectors = () => (
   <div>
-    <form>
-      <ColumnSelector />
-      <ComparisonSelector />
-      <NumberSelector />
+    <form className="numericForm">
+      <section className="numeric-section">
+        <ColumnSelector />
+        <ComparisonSelector />
+        <NumberSelector />
+      </section>
+      <section>
+        <FilterButton />
+      </section>
     </form>
-    <FilterButton />
     <FiltersList />
   </div>
 );

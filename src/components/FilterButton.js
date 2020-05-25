@@ -8,6 +8,7 @@ const FilterButton = () => {
     <input
       type="reset"
       value="Filtrar"
+      className={!(column && comparison && value) && 'filter-button-disabled'}
       data-testid="filter-button"
       onClick={() => {
         setFilters([...filters, { numericValues: { column, comparison, value } }]);
