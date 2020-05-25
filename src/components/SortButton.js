@@ -8,6 +8,7 @@ const SortButton = ({ currentColumn }) => {
   return (
     <button
       type="button"
+      data-testid="sort-button"
       className="sort-button"
       onClick={() => {
         setSortColumns(

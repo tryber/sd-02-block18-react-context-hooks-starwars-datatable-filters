@@ -18,6 +18,7 @@ const FiltersList = () => {
           <p className="column-filter" name={column}>{`☉ ${column.replace('_', ' ')} ${comparison.toLowerCase()} ${value}`}</p>
           <button
             type="button"
+            data-testid="delete-button"
             name={column}
             onClick={() => {
               deleteFilter(column);

@@ -8,6 +8,7 @@ const ComparisonSelector = () => {
       <span className="selector-label">Choose a comparison:</span>
       <select
         name="comparison"
+        data-testid="comparison-selector"
         onChange={({
           target: { name, value },
         }) => setNumericFilter({ ...numericFilter, [name]: value })}
