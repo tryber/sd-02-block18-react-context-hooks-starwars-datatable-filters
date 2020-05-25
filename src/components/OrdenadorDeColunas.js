@@ -11,13 +11,15 @@ const OrdenadorDeColunas = () => {
       <label htmlFor="order">
         <span className="order-text">Ordene alguma coluna:</span>
         <select
+          data-testid="column-sorting"
           defaultValue="name"
           onChange={(event) => contextValues.setColumnOrder(event.target.value)}
         >
-          {arrayColunas.map((coluna) => <option value={coluna}>{coluna}</option>)}
+          {arrayColunas.map((coluna) => <option data-testid="coluna" key={coluna} value={coluna}>{coluna}</option>)}
         </select>
         <select
           defaultValue="ASC"
+          data-testid="order-sorting"
           onChange={(event) => contextValues.setOrdenation(event.target.value)}
         >
           <option value="ASC">ASC</option>

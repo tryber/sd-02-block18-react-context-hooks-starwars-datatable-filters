@@ -10,6 +10,7 @@ const InputFilter = () => {
         type="text"
         className="input-SW"
         placeholder="Pesquise um planeta"
+        data-testid="name-input-filter"
         onChange={(event) => contextValue.setInputFilter(event.target.value)}
       />
     </div>

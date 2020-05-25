@@ -19,14 +19,15 @@ const FiltersDropdown = () => {
   };
 
   const renderColumnDrowpdown = (colunasRestantes, columnDrop) => (
-    <div>
+    <div data-testid="filter">
       <select
         defaultValue=""
         value={columnDrop}
         onChange={(event) => setColumn(event.target.value)}
+        data-testid="column-inserted"
       >
         <option value="" disabled>Selecione uma coluna</option>
-        {colunasRestantes.map((coluna) => <option value={coluna}>{coluna}</option>)}
+        {colunasRestantes.map((coluna) => <option key={coluna} value={coluna}>{coluna}</option>)}
       </select>
     </div>
   );
@@ -37,6 +38,7 @@ const FiltersDropdown = () => {
         defaultValue=""
         value={comparisonDrop}
         onChange={(event) => setComparison(event.target.value)}
+        data-testid="comparison-inserted"
       >
         <option value="" disabled>Selecione uma comparação</option>
         <option value="Maior que">Maior que</option>
@@ -52,6 +54,7 @@ const FiltersDropdown = () => {
         type="number"
         value={valueInput}
         placeholder="Digite um número"
+        data-testid="value-inserted"
         onChange={(event) => setValue(event.target.value)}
       />
     </div>
@@ -61,6 +64,7 @@ const FiltersDropdown = () => {
     <button
       type="button"
       className="filter-btn"
+      data-testid="botao"
       onClick={adicionaFiltro}
       disabled={!(columnDrop && comparisonDrop && valueInput)}
     >

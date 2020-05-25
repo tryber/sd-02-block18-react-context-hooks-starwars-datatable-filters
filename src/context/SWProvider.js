@@ -60,13 +60,13 @@ const SWProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setSWData({ ...swData, isLoading: true });
+    setSWData((s) => ({ ...s, isLoading: true }));
     getPlanets()
       .then(
-        (data) => setSWData({ ...swData, arrPlanetas: data.results, isLoading: false }),
+        (data) => setSWData((s) => ({ ...s, arrPlanetas: data.results, isLoading: false })),
       )
       .catch(
-        (error) => setSWData({ ...swData, error: error.message, isLoading: false }),
+        (error) => setSWData((s) => ({ ...s, error: error.message, isLoading: false })),
       );
   }, []);
 
