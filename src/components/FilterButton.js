@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { StarWarsContext } from '../context/StarWarsContext';
 
 const FilterButton = () => {
-  const { filters, numericFilter, setFilters } = useContext(StarWarsContext);
+  const { filters, numericFilter, setNumericFilter, setFilters } = useContext(StarWarsContext);
   const { column, comparison, value } = numericFilter;
   return (
     <input
@@ -11,6 +11,7 @@ const FilterButton = () => {
       data-testid="filter-button"
       onClick={() => {
         setFilters([...filters, { numericValues: { column, comparison, value } }]);
+        setNumericFilter({ column: '', comparison: '', value: '' });
       }}
       disabled={!(column && comparison && value)}
     />
