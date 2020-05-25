@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
+const arrayColunas = ['name', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+
 const OrdenadorDeColunas = () => {
   const contextValues = useContext(StarWarsContext);
-  const arrayColunas = ['name', 'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   return (
     <div>
       <label htmlFor="order">
