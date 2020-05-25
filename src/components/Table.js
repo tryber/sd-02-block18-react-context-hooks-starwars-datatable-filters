@@ -44,7 +44,6 @@ function renderTableBody(planets) {
 const Table = () => {
   const { filteredData, filters, data, setData } = useContext(StarWarsContext);
   const [isFetching, setIsFetching] = useState(true);
-  const [fetchError, setFetchError] = useState('');
   const planets = (filters[0].name || filters[1]) ? filteredData : data;
 
   useEffect(() => {
