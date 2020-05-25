@@ -15,7 +15,15 @@ const OrdenadorDeColunas = () => {
           defaultValue="name"
           onChange={(event) => contextValues.setColumnOrder(event.target.value)}
         >
-          {arrayColunas.map((coluna) => <option data-testid="coluna" key={coluna} value={coluna}>{coluna}</option>)}
+          {arrayColunas.map((coluna) => (
+            <option
+              data-testid="coluna"
+              key={coluna}
+              value={coluna}
+            >
+              {coluna}
+            </option>
+          ))}
         </select>
         <select
           defaultValue="ASC"

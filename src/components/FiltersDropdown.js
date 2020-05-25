@@ -1,6 +1,13 @@
 import React, { useState, useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
+const todasAsColunas = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water'];
+
 const FiltersDropdown = () => {
   const contextValues = useContext(StarWarsContext);
   const arrayColunasJaSelecionadas = contextValues.filters
@@ -72,16 +79,9 @@ const FiltersDropdown = () => {
     </button>
   );
 
-  const todasAsColunas = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water'];
 
   const colunasRestantes = todasAsColunas.filter((coluna) => (
     !(arrayColunasJaSelecionadas.includes(coluna))
-    // (arrayColunasJaSelecionadas.includes(coluna)) ? false : true
   ));
 
   return colunasRestantes.length !== 0 ? (

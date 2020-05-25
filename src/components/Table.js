@@ -39,7 +39,6 @@ const callbackParaSortNumeros = (objPlanet1, objPlanet2, column) => (
 
 function ordenarArray(arrTodoFiltrado, objOrdenacao) {
   const { column, order } = objOrdenacao;
-
   const arrayOrdenado = arrTodoFiltrado;
 
   if (column === 'name') {
@@ -51,42 +50,39 @@ function ordenarArray(arrTodoFiltrado, objOrdenacao) {
       (obj1, obj2) => callbackParaSortNumeros(obj1, obj2, column),
     );
   }
-
   if (order === 'DESC') {
     arrayOrdenado.reverse();
   }
-
   return arrayOrdenado;
 }
 
-const Table = () => {
-  const renderTBody = (arrayOrdenado) => (
-    <tbody>
-      {arrayOrdenado.map((planet) => (
-        <tr key={planet.name}>
-          <td data-testid="planets">{planet.name}</td>
-          <td>{planet.rotation_period}</td>
-          <td>{planet.orbital_period}</td>
-          <td>{planet.diameter}</td>
-          <td>{planet.climate}</td>
-          <td>{planet.gravity}</td>
-          <td>{planet.terrain}</td>
-          <td>{planet.surface_water}</td>
-          <td>{planet.population}</td>
-          <td>{planet.films}</td>
-          <td>{planet.created}</td>
-          <td>{planet.edited}</td>
-          <td>{planet.url}</td>
-        </tr>
-      ))}
-    </tbody>
-  );
+const renderTBody = (arrayOrdenado) => (
+  <tbody>
+    {arrayOrdenado.map((planet) => (
+      <tr key={planet.name}>
+        <td data-testid="planets">{planet.name}</td>
+        <td>{planet.rotation_period}</td>
+        <td>{planet.orbital_period}</td>
+        <td>{planet.diameter}</td>
+        <td>{planet.climate}</td>
+        <td>{planet.gravity}</td>
+        <td>{planet.terrain}</td>
+        <td>{planet.surface_water}</td>
+        <td>{planet.population}</td>
+        <td>{planet.films}</td>
+        <td>{planet.created}</td>
+        <td>{planet.edited}</td>
+        <td>{planet.url}</td>
+      </tr>
+    ))}
+  </tbody>
+);
 
+const Table = () => {
   const contextState = useContext(StarWarsContext);
   const arrayPlanetas = contextState.swData.arrPlanetas;
   const arrayNumericFilters = contextState.filters.slice(1).map((obj) => obj.numericValues) || [];
   const objOrdenacao = contextState.orderObj;
-
 
   const arrPlanetsComFilDeNome = filtrarPlanetasPorNome(
     arrayPlanetas,
