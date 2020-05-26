@@ -14,7 +14,7 @@ const ComparisonSelector = () => {
         }) => setNumericFilter({ ...numericFilter, [name]: value })}
         required
       >
-        <option value="" label=" " selected />
+        <option value="" label=" " />
         <option value="Maior que">Maior que</option>
         <option value="Menor que">Menor que</option>
         <option value="Igual a">Igual a</option>

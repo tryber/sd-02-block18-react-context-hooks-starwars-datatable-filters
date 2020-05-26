@@ -22,6 +22,10 @@ input , select {
   width: 300px;
 }
 
+option {
+  background-color: black;
+}
+
 label {
   color: rgb(170, 0, 71);
   font-weight: 400;
