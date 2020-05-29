@@ -8,7 +8,7 @@ const FilterButton = () => {
     <input
       type="submit"
       value="Filtrar"
-      className={!(column && comparison && value) && 'filter-button-disabled'}
+      className={!(column && comparison && value) ? 'filter-button-disabled' : undefined}
       data-testid="filter-button"
       disabled={!(column && comparison && value)}
     />
