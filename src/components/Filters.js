@@ -23,9 +23,7 @@ function Filters() {
     numericFilterObj: { column, comparison, value },
     setFilterObj, setNumericFilters, numericFilters,
   } = useContext(StarWarsContext);
-  if (numericFilters.length === 5) {
-    return emptyFilters;
-  }
+  if (numericFilters.length === 5) { return emptyFilters; }
   return (
     <div>
       <ActiveFilters />
@@ -41,8 +39,7 @@ function Filters() {
           <button
             type="button"
             onClick={() => {
-              setNumericFilters({ column, comparison, value });
-              setFilterObj({ column: '', comparison, value });
+              setNumericFilters({ column, comparison, value }); setFilterObj({ column: '', comparison, value });
             }}
           >
             Adicionar Filtro
