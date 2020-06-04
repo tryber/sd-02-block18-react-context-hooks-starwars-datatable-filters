@@ -6,23 +6,25 @@ import ColumnFilterSelect from './ColumnFilterSelect';
 import ComparisonFilterSelect from './ComparisonFilterSelect';
 import ValueFilterInput from './ValueFilterInput';
 
+const emptyFilters = (
+  <div>
+    <ActiveFilters />
+    <div className="filters">
+      <NameFilterInput />
+      <div className="filter-planets">
+        All filters are being used
+      </div>
+    </div>
+  </div>
+);
+
 function Filters() {
   const {
     numericFilterObj: { column, comparison, value },
     setFilterObj, setNumericFilters, numericFilters,
   } = useContext(StarWarsContext);
   if (numericFilters.length === 5) {
-    return (
-      <div>
-        <ActiveFilters />
-        <div className="filters">
-          <NameFilterInput />
-          <div className="filter-planets">
-            All filters are being used
-          </div>
-        </div>
-      </div>
-    );
+    return emptyFilters;
   }
   return (
     <div>
